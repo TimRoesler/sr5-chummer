@@ -1,0 +1,100 @@
+<div class="cvtt-app cvtt-advancement">
+
+<div class="cvtt-statusbar">
+    <div class="cvtt-chip"><i class="fas fa-star"></i>
+        <span class="cvtt-chip-label">{{localize "CHUMMER.Advance.Karma"}}</span>
+        <span class="cvtt-chip-value">{{karma}}</span></div>
+</div>
+
+<section class="cvtt-advance-body">
+
+<div class="cvtt-panel">
+    <h3><i class="fas fa-dumbbell"></i> {{localize "CHUMMER.Advance.Attribute"}}</h3>
+    <div class="cvtt-list cols-advance">
+        {{#each attrs}}
+        <div class="cvtt-row">
+            <strong>{{label}}</strong>
+            <span class="cvtt-num"><b>{{value}}</b> <span class="cvtt-muted">→ {{next}}</span></span>
+            <span></span>
+            <button type="button" class="cvtt-check accent" data-action="raiseAttr" data-key="{{key}}">
+                <i class="fas fa-plus"></i> {{cost}} K
+            </button>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+<div class="cvtt-panel">
+    <h3><i class="fas fa-graduation-cap"></i> {{localize "CHUMMER.Advance.Skill"}}</h3>
+    <div class="cvtt-list cols-advance">
+        {{#each skills}}
+        <div class="cvtt-row">
+            <strong>{{name}}{{#if specs}} <span class="cvtt-muted">({{specs}})</span>{{/if}}</strong>
+            <span class="cvtt-num"><b>{{rating}}</b> <span class="cvtt-muted">→ {{next}}</span></span>
+            <span class="cvtt-specfield">
+                <input type="text" placeholder="{{localize 'CHUMMER.Advance.Spec'}}">
+                <button type="button" class="cvtt-check" data-action="addSpec" data-id="{{id}}"
+                        data-tooltip="{{localize 'CHUMMER.Advance.Spec'}}"><i class="fas fa-star"></i> 7 K</button>
+            </span>
+            <button type="button" class="cvtt-check accent" data-action="raiseSkill" data-id="{{id}}">
+                <i class="fas fa-plus"></i> {{cost}} K
+            </button>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+<div class="cvtt-panel">
+    <h3><i class="fas fa-plus-circle"></i> {{localize "CHUMMER.LearnNew"}}</h3>
+    <div class="cvtt-newrow">
+        <label>{{localize "CHUMMER.Advance.NewSkill"}}</label>
+        <select data-pick="skill">
+            {{#each newSkills}}<option value="{{name}}">{{label}}</option>{{/each}}
+        </select>
+        <button type="button" class="cvtt-check accent" data-action="newSkill"><i class="fas fa-plus"></i> 2 K</button>
+    </div>
+    {{#if newSpells.length}}
+    <div class="cvtt-newrow">
+        <label>{{localize "CHUMMER.Advance.NewSpell"}}</label>
+        <select data-pick="spell">
+            {{#each newSpells}}<option value="{{name}}">{{label}}</option>{{/each}}
+        </select>
+        <button type="button" class="cvtt-check accent" data-action="newSpell"><i class="fas fa-plus"></i> 5 K</button>
+    </div>
+    {{/if}}
+    {{#if newCFs.length}}
+    <div class="cvtt-newrow">
+        <label>{{localize "CHUMMER.Advance.NewComplexForm"}}</label>
+        <select data-pick="cf">
+            {{#each newCFs}}<option value="{{name}}">{{label}}</option>{{/each}}
+        </select>
+        <button type="button" class="cvtt-check accent" data-action="newCF"><i class="fas fa-plus"></i> 4 K</button>
+    </div>
+    {{/if}}
+    <div class="cvtt-newrow">
+        <label>{{localize "CHUMMER.Advance.Quality"}}</label>
+        <select data-pick="quality">
+            {{#each qualities}}<option value="{{name}}">{{label}} ({{cost}} K)</option>{{/each}}
+        </select>
+        <button type="button" class="cvtt-check accent" data-action="buyQuality"><i class="fas fa-plus"></i></button>
+    </div>
+</div>
+
+{{#if log.length}}
+<div class="cvtt-panel">
+    <h3><i class="fas fa-clock-rotate-left"></i> {{localize "CHUMMER.Advance.Log"}}</h3>
+    <div class="cvtt-list cols-log">
+        {{#each log}}
+        <div class="cvtt-row">
+            <span class="cvtt-muted">{{dateDisplay}}</span>
+            <span>{{note}}</span>
+            <span class="cvtt-num {{#if positive}}cvtt-pos{{else}}cvtt-neg{{/if}}">{{karmaDisplay}}</span>
+        </div>
+        {{/each}}
+    </div>
+</div>
+{{/if}}
+
+</section>
+
+</div>

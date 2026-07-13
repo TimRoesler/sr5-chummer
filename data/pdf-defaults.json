@@ -1,0 +1,16 @@
+{
+  "SR5":  { "file": "pdfs/Shadowrun_5D_-_Grundregelwerk.pdf", "offset": 2 },
+  "RG":   { "file": "pdfs/Shadowrun_5D_-_Kreuzfeuer.pdf", "offset": 1 },
+  "SG":   { "file": "pdfs/Shadowrun_5D_-_Strassengrimoire.pdf", "offset": 2 },
+  "SS":   { "file": "pdfs/Shadowrun_5D_-_Gestohlene_Seelen.pdf", "offset": 2 },
+  "GH3":  { "file": "pdfs/Shadowrun_5D_-_Feuer_und_Stahl.pdf", "offset": 0 },
+  "AP":   { "file": "pdfs/Shadowrun_5D_-_Assassinen-Handbuch.pdf", "offset": 0 },
+  "BB":   { "file": "pdfs/Shadowrun_5D_-_Kugeln_und_Bandagen.pdf", "offset": 0 },
+  "SSP":  { "file": "pdfs/Shadowrun_5D_-_Schattenzauber.pdf", "offset": 0 },
+  "AET":  { "file": "pdfs/Shadowrun_5D_-_Aetherologie.pdf", "offset": 0 },
+  "2050": { "file": "pdfs/Shadowrun_5D_-_2050.pdf", "offset": 1 },
+  "PZG":  { "file": "pdfs/Shadowrun_5D_-_Parazoologie_2075.pdf", "offset": 0 },
+  "DT":   { "file": "pdfs/Shadowrun_5E_Data_Trails.pdf", "offset": 0 },
+  "R5":   { "file": "pdfs/Shadowrun_5E_Rigger_5.0.pdf", "offset": 1 },
+  "RF":   { "file": "pdfs/Shadowrun_5E_Run_Faster.pdf", "offset": 2 }
+}

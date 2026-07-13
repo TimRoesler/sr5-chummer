@@ -1,0 +1,30 @@
+<div class="cvtt-app cvtt-pdf-config">
+
+<p class="cvtt-hint"><i class="fas fa-circle-info"></i> {{hint}}</p>
+
+<div class="cvtt-list cols-pdf cvtt-pdf-list">
+    <div class="cvtt-row cvtt-listhead">
+        <span>{{localize "CHUMMER.BookCode"}}</span><span>{{localize "CHUMMER.Sourcebook"}}</span><span>{{localize "CHUMMER.PdfFile"}}</span><span></span><span>{{localize "CHUMMER.PageOffset"}}</span>
+    </div>
+    {{#each books}}
+    <div class="cvtt-row {{#if file}}selected{{/if}}">
+        <strong class="cvtt-pdf-code">{{code}}</strong>
+        <span class="cvtt-muted">{{name}}</span>
+        <input type="text" name="book.{{code}}.file" value="{{file}}" placeholder="{{localize 'CHUMMER.PdfFile'}}">
+        <button type="button" class="cvtt-check" data-action="pickFile" title="{{localize 'CHUMMER.PdfFile'}}">
+            <i class="fas fa-folder-open"></i>
+        </button>
+        <input type="number" name="book.{{code}}.offset" value="{{offset}}"
+               title="{{localize 'CHUMMER.PageOffset'}}" step="1">
+    </div>
+    {{/each}}
+</div>
+
+<footer class="cvtt-nav">
+    <span class="cvtt-hint"><i class="fas fa-file-pdf"></i> {{localize "CHUMMER.OffsetHint"}}</span>
+    {{#each buttons}}
+    <button type="{{type}}" class="accent"><i class="{{icon}}"></i> {{localize label}}</button>
+    {{/each}}
+</footer>
+
+</div>

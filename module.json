@@ -1,0 +1,29 @@
+{
+  "id": "sr5-chummer",
+  "title": "SR5 Chummer",
+  "description": "Charaktererschaffung (Prioritätensystem), Karma-Aufstieg, Ausrüstungs-Shop und PDF-Quellenverweise auf Basis der Chummer5a-Daten – direkt in FoundryVTT.",
+  "version": "0.6.0",
+  "url": "https://github.com/TimRoesler/sr5-chummer",
+  "manifest": "https://raw.githubusercontent.com/TimRoesler/sr5-chummer/main/module.json",
+  "download": "https://github.com/TimRoesler/sr5-chummer/releases/latest/download/sr5-chummer.zip",
+  "authors": [{ "name": "TRO" }],
+  "compatibility": {
+    "minimum": "13",
+    "verified": "14.364"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "shadowrun5e",
+        "type": "system",
+        "compatibility": { "minimum": "0.36.0" }
+      }
+    ]
+  },
+  "esmodules": ["scripts/main.mjs"],
+  "styles": ["styles/sr5-chummer.css"],
+  "languages": [
+    { "lang": "de", "name": "Deutsch", "path": "lang/de.json" },
+    { "lang": "en", "name": "English", "path": "lang/en.json" }
+  ]
+}

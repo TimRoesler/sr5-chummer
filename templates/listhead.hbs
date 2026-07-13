@@ -1,0 +1,12 @@
+<div class="cvtt-row cvtt-listhead">
+    {{#each headers}}
+    {{#if key}}
+    <button type="button" class="cvtt-sort {{cls}} {{#if active}}active{{/if}}" data-action="sortBy"
+            data-list="{{list}}" data-key="{{key}}" data-tooltip="{{localize 'CHUMMER.SortBy'}}">
+        {{label}} <i class="fas {{icon}}"></i>
+    </button>
+    {{else}}
+    <span class="{{cls}}">{{label}}</span>
+    {{/if}}
+    {{/each}}
+</div>

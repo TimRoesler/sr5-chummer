@@ -1,0 +1,601 @@
+<div class="cvtt-app cvtt-chargen">
+
+<nav class="cvtt-steps">
+    {{#each steps}}
+    <button type="button" class="cvtt-step {{#if active}}active{{/if}} {{#if done}}done{{/if}}"
+            data-action="gotoStep" data-step="{{index}}">
+        <span class="cvtt-step-num">{{#if done}}<i class="fas fa-check"></i>{{else}}{{number}}{{/if}}</span>
+        <span class="cvtt-step-label">{{label}}</span>
+    </button>
+    {{/each}}
+</nav>
+
+<div class="cvtt-statusbar">
+    {{#each chips}}
+    <div class="cvtt-chip {{state}}" data-tooltip="{{label}}">
+        <i class="fas {{icon}}"></i>
+        <span class="cvtt-chip-label">{{label}}</span>
+        <span class="cvtt-chip-value">{{value}}</span>
+    </div>
+    {{/each}}
+</div>
+
+{{#if errors.length}}
+<div class="cvtt-errors">
+    <i class="fas fa-triangle-exclamation"></i>
+    {{#each errors}}
+    <button type="button" class="cvtt-error-link" data-action="gotoStep" data-step="{{step}}"
+            data-tooltip="{{localize 'CHUMMER.GotoStep'}}">{{msg}}</button>
+    {{/each}}
+</div>
+{{/if}}
+
+<div class="cvtt-stepintro">
+    <i class="fas {{intro.icon}}"></i>
+    <div>
+        <span class="cvtt-stepintro-title">{{intro.title}}
+            <span class="cvtt-stepintro-count">{{intro.number}} / {{intro.total}}</span></span>
+        <p>{{intro.text}}</p>
+    </div>
+</div>
+
+<section class="cvtt-step-body">
+
+{{!-- ============================================================ Prioritäten --}}
+{{#if priorities}}
+    <div class="cvtt-namerow">
+        <label for="cvtt-charname">{{localize "CHUMMER.CharacterName"}}</label>
+        <input id="cvtt-charname" type="text" data-field="name" value="{{state.name}}"
+               placeholder="{{localize 'CHUMMER.CharacterName'}}">
+    </div>
+
+    <div class="cvtt-type-cards">
+        {{#each priorities.types}}
+        <label class="cvtt-card cvtt-type-card {{#if selected}}selected{{/if}}">
+            <input type="radio" name="actorType" data-field="actorType" value="{{id}}" {{#if selected}}checked{{/if}}>
+            <div class="cvtt-card-head"><i class="fas {{icon}}"></i><strong>{{label}}</strong></div>
+            <div class="cvtt-card-note">{{desc}}</div>
+        </label>
+        {{/each}}
+    </div>
+
+    <table class="cvtt-prio-table">
+        <thead><tr><th></th>
+            <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>
+        </tr></thead>
+        <tbody>
+        {{#each priorities.cats}}
+        <tr>
+            <th class="cvtt-prio-cat" data-tooltip="{{desc}}">
+                <i class="fas {{icon}}"></i> {{label}}
+            </th>
+            {{#each letters}}
+            <td>
+                <label class="cvtt-prio {{#if selected}}selected{{/if}} {{#if taken}}taken{{/if}}">
+                    <input type="radio" name="prio-{{../cat}}" data-field="prio" data-cat="{{../cat}}"
+                           value="{{letter}}" {{#if selected}}checked{{/if}}>
+                    <span class="cvtt-prio-info">{{info}}</span>
+                </label>
+            </td>
+            {{/each}}
+        </tr>
+        {{/each}}
+        </tbody>
+    </table>
+    <p class="cvtt-hint"><i class="fas fa-circle-info"></i> {{localize "CHUMMER.PriorityDuplicate"}}</p>
+{{/if}}
+
+{{!-- ============================================================ Metatyp --}}
+{{#if metatype}}
+    {{#if metatype.noPrio}}
+    <div class="cvtt-empty">
+        <i class="fas fa-circle-exclamation"></i>
+        <p>{{localize "CHUMMER.NoHeritagePrio"}}</p>
+        <button type="button" class="accent" data-action="gotoStep" data-step="0">
+            <i class="fas fa-list-ol"></i> {{localize "CHUMMER.Step.Priorities"}}
+        </button>
+    </div>
+    {{else}}
+    <div class="cvtt-meta-grid">
+        {{#each metatype.metas}}
+        <label class="cvtt-card {{#if selected}}selected{{/if}}">
+            <input type="radio" name="metatype" data-field="metatype" value="{{name}}" {{#if selected}}checked{{/if}}>
+            <div class="cvtt-card-head">
+                <strong>{{label}}</strong>
+                <span class="cvtt-badge accent" data-tooltip="{{localize 'CHUMMER.SpecialPoints'}}">✦ {{specialPoints}}</span>
+                {{#if karma}}<span class="cvtt-badge warn" data-tooltip="Karma">{{karma}} K</span>{{/if}}
+                <span class="cvtt-src">{{{sourceLink}}}</span>
+            </div>
+            {{#if ranges.length}}
+            <div class="cvtt-ranges">
+                {{#each ranges}}
+                <span class="{{#if boosted}}up{{/if}}{{#if reduced}}down{{/if}}"><b>{{label}}</b> {{range}}</span>
+                {{/each}}
+            </div>
+            {{/if}}
+            {{#if qualities}}<div class="cvtt-card-note">{{qualities}}</div>{{/if}}
+        </label>
+        {{#each variants}}
+        <label class="cvtt-card cvtt-variant {{#if selected}}selected{{/if}}">
+            <input type="radio" name="metatype" data-field="metatype" value="{{../name}}||{{name}}" {{#if selected}}checked{{/if}}>
+            <div class="cvtt-card-head">
+                <strong>{{label}}</strong>
+                <span class="cvtt-muted">{{../label}}</span>
+                <span class="cvtt-badge accent">✦ {{specialPoints}}</span>
+                {{#if karma}}<span class="cvtt-badge warn">{{karma}} K</span>{{/if}}
+            </div>
+            {{#if ranges.length}}
+            <div class="cvtt-ranges">
+                {{#each ranges}}
+                <span class="{{#if boosted}}up{{/if}}{{#if reduced}}down{{/if}}"><b>{{label}}</b> {{range}}</span>
+                {{/each}}
+            </div>
+            {{/if}}
+        </label>
+        {{/each}}
+        {{/each}}
+    </div>
+    <p class="cvtt-hint"><i class="fas fa-circle-info"></i> {{localize "CHUMMER.MetatypeHint"}}</p>
+    {{/if}}
+{{/if}}
+
+{{!-- ============================================================ Attribute --}}
+{{#if attributes}}
+    {{#if attributes.noMeta}}
+    <div class="cvtt-empty">
+        <i class="fas fa-circle-exclamation"></i>
+        <p>{{localize "CHUMMER.NoMetatype"}}</p>
+        <button type="button" class="accent" data-action="gotoStep" data-step="1">
+            <i class="fas fa-dna"></i> {{localize "CHUMMER.Step.Metatype"}}
+        </button>
+    </div>
+    {{else}}
+    <div class="cvtt-columns">
+        <div class="cvtt-panel">
+            <h3><i class="fas fa-dumbbell"></i> {{localize "CHUMMER.AttributePoints"}}
+                <span class="cvtt-badge {{#if (eq b.attrSpent b.attrPoints)}}ok{{/if}}">{{b.attrSpent}} / {{b.attrPoints}}</span></h3>
+            <table class="cvtt-table cvtt-attr-table">
+                <thead><tr><th></th><th>{{localize "CHUMMER.Min"}}</th><th>{{localize "CHUMMER.Max"}}</th><th class="cvtt-col-input">{{localize "CHUMMER.Value"}}</th></tr></thead>
+                <tbody>
+                {{#each attributes.rows}}
+                <tr>
+                    <th>{{label}}</th>
+                    <td class="cvtt-muted">{{min}}</td>
+                    <td class="cvtt-muted {{#if maxed}}cvtt-pos{{/if}}">{{max}}</td>
+                    <td>
+                        <span class="cvtt-stepper">
+                            <button type="button" data-action="adjust" data-delta="-1" tabindex="-1"><i class="fas fa-minus"></i></button>
+                            <input type="number" data-field="attr" data-key="{{key}}" value="{{value}}" min="{{min}}" max="{{max}}">
+                            <button type="button" data-action="adjust" data-delta="1" tabindex="-1"><i class="fas fa-plus"></i></button>
+                        </span>
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="cvtt-panel">
+            <h3><i class="fas fa-bolt"></i> {{localize "CHUMMER.SpecialPoints"}}
+                <span class="cvtt-badge {{#if (eq b.specialSpent b.specialPoints)}}ok{{/if}}">{{b.specialSpent}} / {{b.specialPoints}}</span></h3>
+            <table class="cvtt-table">
+                <tbody>
+                {{#each attributes.specials}}
+                <tr>
+                    <th>{{label}}</th>
+                    <td class="cvtt-muted">{{localize "CHUMMER.Base"}} {{base}}</td>
+                    <td>+
+                        <span class="cvtt-stepper">
+                            <button type="button" data-action="adjust" data-delta="-1" tabindex="-1"><i class="fas fa-minus"></i></button>
+                            <input type="number" data-field="special" data-key="{{key}}" value="{{extra}}" min="0" max="{{max}}">
+                            <button type="button" data-action="adjust" data-delta="1" tabindex="-1"><i class="fas fa-plus"></i></button>
+                        </span>
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+            <p class="cvtt-hint"><i class="fas fa-circle-info"></i> {{localize "CHUMMER.SpecialHint"}}</p>
+        </div>
+    </div>
+    {{/if}}
+{{/if}}
+
+{{!-- ============================================================ Qualities --}}
+{{#if qualities}}
+    <div class="cvtt-toolbar">
+        <select data-field="qualityType">
+            {{#each qualities.types}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+        </select>
+        <input type="search" data-filter="quality" value="{{qualities.filter}}" placeholder="{{localize 'CHUMMER.Search'}}">
+        <span class="cvtt-count"><i class="fas fa-list"></i> {{qualities.count}}</span>
+        {{#if qualities.totalPages}}{{#unless (eq qualities.totalPages 1)}}
+        <span class="cvtt-pager">
+            <button type="button" data-action="qualityPage" data-dir="-1" {{#unless qualities.hasPrev}}disabled{{/unless}}>
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <span class="cvtt-muted">{{localize "CHUMMER.PageOf" page=qualities.page total=qualities.totalPages}}</span>
+            <button type="button" data-action="qualityPage" data-dir="1" {{#unless qualities.hasNext}}disabled{{/unless}}>
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </span>
+        {{/unless}}{{/if}}
+        <span class="cvtt-toolbar-info">+{{b.posKarma}} / −{{b.negKarma}} <span class="cvtt-muted">{{localize "CHUMMER.QualityMax" max=25}}</span></span>
+    </div>
+    {{#if qualities.chosen.length}}
+    <div class="cvtt-chosen">
+        {{#each qualities.chosen}}
+        <button type="button" class="cvtt-tag {{#if positive}}pos{{else}}neg{{/if}}"
+                data-action="toggleQuality" data-name="{{name}}">{{label}} <b>{{karma}}</b> <i class="fas fa-xmark"></i></button>
+        {{/each}}
+    </div>
+    {{/if}}
+    <div class="cvtt-list cols-quality">
+        {{> cvtt-listhead headers=qualities.headers}}
+        {{#each qualities.list}}
+        <div class="cvtt-row {{#if selected}}selected{{/if}}">
+            <button type="button" class="cvtt-check" data-action="toggleQuality" data-name="{{name}}">
+                <i class="{{#if selected}}fas fa-square-check{{else}}far fa-square{{/if}}"></i>
+            </button>
+            <strong class="{{#if positive}}cvtt-pos{{else}}cvtt-neg{{/if}}">{{label}}</strong>
+            <span class="cvtt-badge {{#if positive}}ok{{else}}neg{{/if}}">{{karma}}</span>
+            <span class="cvtt-src">{{{sourceLink}}}</span>
+        </div>
+        {{/each}}
+    </div>
+{{/if}}
+
+{{!-- ============================================================ Skills --}}
+{{#if skills}}
+    <div class="cvtt-toolbar">
+        <select data-field="skillAttr">
+            <option value="">{{localize "CHUMMER.AllAttributes"}}</option>
+            {{#each skills.attrs}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+        </select>
+        <input type="search" data-filter="skill" value="{{skills.filter}}" placeholder="{{localize 'CHUMMER.Search'}}">
+    </div>
+    <div class="cvtt-columns skills">
+        <div class="cvtt-panel">
+            <h3><i class="fas fa-layer-group"></i> {{localize "CHUMMER.GroupPoints"}}
+                <span class="cvtt-badge {{#if (eq b.groupSpent b.groupPoints)}}ok{{/if}}">{{b.groupSpent}} / {{b.groupPoints}}</span></h3>
+            <p class="cvtt-hint"><i class="fas fa-circle-info"></i> {{localize "CHUMMER.GroupHint"}}</p>
+            <div class="cvtt-list cols-group">
+                {{#each skills.groups}}
+                <div class="cvtt-row {{#if rating}}selected{{/if}}">
+                    <strong>{{label}}</strong>
+                    <span class="cvtt-stepper">
+                        <button type="button" data-action="adjust" data-delta="-1" tabindex="-1"><i class="fas fa-minus"></i></button>
+                        <input type="number" data-field="group" data-name="{{name}}" value="{{rating}}" min="0" max="6">
+                        <button type="button" data-action="adjust" data-delta="1" tabindex="-1"><i class="fas fa-plus"></i></button>
+                    </span>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        <div class="cvtt-panel">
+            <h3><i class="fas fa-graduation-cap"></i> {{localize "CHUMMER.SkillPoints"}}
+                <span class="cvtt-badge {{#if (eq b.skillSpent b.skillPoints)}}ok{{/if}}">{{b.skillSpent}} / {{b.skillPoints}}</span></h3>
+            <div class="cvtt-list cols-skill">
+                {{> cvtt-listhead headers=skills.headers}}
+                {{#each skills.skills}}
+                <div class="cvtt-row {{#if rating}}selected{{/if}}">
+                    <strong>{{label}}</strong>
+                    <span class="cvtt-muted">{{attribute}}</span>
+                    <span class="cvtt-muted">{{group}}{{#if groupRating}} <b class="cvtt-pos">({{groupRating}})</b>{{/if}}</span>
+                    <span class="cvtt-stepper">
+                        <button type="button" data-action="adjust" data-delta="-1" tabindex="-1"><i class="fas fa-minus"></i></button>
+                        <input type="number" data-field="skill" data-name="{{name}}" value="{{rating}}" min="0" max="6">
+                        <button type="button" data-action="adjust" data-delta="1" tabindex="-1"><i class="fas fa-plus"></i></button>
+                    </span>
+                    <span class="cvtt-src">{{{sourceLink}}}</span>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+{{/if}}
+
+{{!-- ============================================================ Talent --}}
+{{#if talent}}
+    {{#if talent.noPrio}}
+    <div class="cvtt-empty">
+        <i class="fas fa-circle-exclamation"></i>
+        <p>{{localize "CHUMMER.NoTalentPrio"}}</p>
+        <button type="button" class="accent" data-action="gotoStep" data-step="0">
+            <i class="fas fa-list-ol"></i> {{localize "CHUMMER.Step.Priorities"}}
+        </button>
+    </div>
+    {{else}}
+    <div class="cvtt-meta-grid talents">
+        {{#each talent.talents}}
+        <label class="cvtt-card {{#if selected}}selected{{/if}}">
+            <input type="radio" name="talent" data-field="talent" value="{{value}}" {{#if selected}}checked{{/if}}>
+            <div class="cvtt-card-head"><strong>{{name}}</strong></div>
+            <div class="cvtt-talent-badges">
+                {{#each badges}}<span class="cvtt-badge">{{this}}</span>{{/each}}
+            </div>
+        </label>
+        {{/each}}
+    </div>
+
+    {{#if talent.nothingToPick}}
+    <div class="cvtt-empty subtle">
+        <i class="fas fa-mug-hot"></i>
+        <p>{{localize "CHUMMER.MundaneNote"}}</p>
+        <button type="button" class="accent" data-action="next">
+            {{localize "CHUMMER.Next"}} <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+    {{/if}}
+
+    {{#if talent.freeSkills}}
+    <h3 class="cvtt-section"><i class="fas fa-gift"></i> {{localize "CHUMMER.FreeSkillsTitle"}}
+        <span class="cvtt-badge {{#if (eq talent.freeSkills.chosen talent.freeSkills.qty)}}ok{{/if}}">{{talent.freeSkills.chosen}} / {{talent.freeSkills.qty}}</span></h3>
+    <div class="cvtt-panel cvtt-freeskills">
+        <p class="cvtt-hint"><i class="fas fa-circle-info"></i> {{talent.freeSkills.label}} – {{localize "CHUMMER.FreeSkillHint"}}</p>
+        <div class="cvtt-freeskill-picks">
+            {{#each talent.freeSkills.picks}}
+            <label class="cvtt-flabel">{{localize "CHUMMER.Skill"}} {{localize "CHUMMER.Rating"}} {{../talent.freeSkills.val}}
+                <select data-field="freeSkill" data-index="{{index}}">
+                    <option value="">—</option>
+                    {{#each options}}
+                    <option value="{{name}}" {{#if selected}}selected{{/if}} {{#if taken}}disabled{{/if}}>{{label}}</option>
+                    {{/each}}
+                </select>
+            </label>
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if talent.spells}}
+    <h3 class="cvtt-section"><i class="fas fa-wand-sparkles"></i> {{localize "CHUMMER.Spells"}}
+        <span class="cvtt-badge {{#if (eq state.spells.length b.spellsMax)}}ok{{/if}}">{{state.spells.length}} / {{b.spellsMax}}</span></h3>
+    <div class="cvtt-toolbar">
+        <select data-field="spellCat">
+            <option value="">{{localize "CHUMMER.AllCategories"}}</option>
+            {{#each talent.spellCats}}<option value="{{name}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+        </select>
+        <input type="search" data-filter="spell" value="{{talent.spellFilter}}" placeholder="{{localize 'CHUMMER.Search'}}">
+        <span class="cvtt-count"><i class="fas fa-list"></i> {{talent.spellCount}}</span>
+    </div>
+    <div class="cvtt-list cols-spell">
+        {{> cvtt-listhead headers=talent.spellHeaders}}
+        {{#each talent.spells}}
+        <div class="cvtt-row {{#if selected}}selected{{/if}}">
+            <button type="button" class="cvtt-check" data-action="toggleSpell" data-name="{{name}}">
+                <i class="{{#if selected}}fas fa-square-check{{else}}far fa-square{{/if}}"></i>
+            </button>
+            <strong>{{label}}</strong>
+            <span class="cvtt-muted">{{category}}</span>
+            <span class="cvtt-muted">{{type}}</span>
+            <span class="cvtt-muted">{{range}}</span>
+            <span class="cvtt-muted">{{duration}}</span>
+            <span>{{dv}}</span>
+            <span class="cvtt-src">{{{sourceLink}}}</span>
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
+
+    {{#if talent.complexforms}}
+    <h3 class="cvtt-section"><i class="fas fa-network-wired"></i> {{localize "CHUMMER.ComplexForms"}}
+        <span class="cvtt-badge {{#if (eq state.complexforms.length b.cfpMax)}}ok{{/if}}">{{state.complexforms.length}} / {{b.cfpMax}}</span></h3>
+    <div class="cvtt-list cols-cf">
+        <div class="cvtt-row cvtt-listhead">
+            <span></span><span>{{localize "CHUMMER.ComplexForm"}}</span><span>{{localize "CHUMMER.Target"}}</span><span>{{localize "CHUMMER.Duration"}}</span><span>{{localize "CHUMMER.Fade"}}</span><span class="cvtt-src">{{localize "CHUMMER.Source"}}</span>
+        </div>
+        {{#each talent.complexforms}}
+        <div class="cvtt-row {{#if selected}}selected{{/if}}">
+            <button type="button" class="cvtt-check" data-action="toggleCF" data-name="{{name}}">
+                <i class="{{#if selected}}fas fa-square-check{{else}}far fa-square{{/if}}"></i>
+            </button>
+            <strong>{{label}}</strong>
+            <span class="cvtt-muted">{{target}}</span>
+            <span class="cvtt-muted">{{duration}}</span>
+            <span>{{fv}}</span>
+            <span class="cvtt-src">{{{sourceLink}}}</span>
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
+
+    {{#if talent.powers}}
+    <h3 class="cvtt-section"><i class="fas fa-hand-sparkles"></i> {{localize "CHUMMER.AdeptPowers"}}
+        <span class="cvtt-badge {{#if (eq b.ppSpent b.ppTotal)}}ok{{/if}}">{{b.ppSpent}} / {{b.ppTotal}} PP</span></h3>
+    {{#if talent.isMystic}}
+    <div class="cvtt-toolbar">
+        <label>{{localize "CHUMMER.MysticPPLabel"}}</label>
+        <span class="cvtt-stepper">
+            <button type="button" data-action="adjust" data-delta="-1" tabindex="-1"><i class="fas fa-minus"></i></button>
+            <input type="number" data-field="mysticPP" value="{{talent.mysticPP}}" min="0" max="{{talent.mysticPPMax}}">
+            <button type="button" data-action="adjust" data-delta="1" tabindex="-1"><i class="fas fa-plus"></i></button>
+        </span>
+    </div>
+    {{/if}}
+    <div class="cvtt-toolbar">
+        <input type="search" data-filter="power" value="{{talent.powerFilter}}" placeholder="{{localize 'CHUMMER.Search'}}">
+    </div>
+    <div class="cvtt-list cols-power">
+        <div class="cvtt-row cvtt-listhead">
+            <span></span><span>{{localize "CHUMMER.Power"}}</span><span>{{localize "CHUMMER.PP"}}</span><span>{{localize "CHUMMER.Rating"}}</span><span class="cvtt-src">{{localize "CHUMMER.Source"}}</span>
+        </div>
+        {{#each talent.powers}}
+        <div class="cvtt-row {{#if selected}}selected{{/if}}">
+            <button type="button" class="cvtt-check" data-action="togglePower" data-name="{{name}}">
+                <i class="{{#if selected}}fas fa-square-check{{else}}far fa-square{{/if}}"></i>
+            </button>
+            <strong>{{label}}</strong>
+            <span>{{points}}{{#if levels}} <span class="cvtt-muted">{{localize "CHUMMER.PerLevel"}}</span>{{/if}}</span>
+            <span>{{#if levels}}{{#if selected}}
+                <input type="number" data-field="powerLevel" data-name="{{name}}" value="{{level}}" min="1" max="6">
+            {{/if}}{{/if}}</span>
+            <span class="cvtt-src">{{{sourceLink}}}</span>
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
+    {{/if}}
+{{/if}}
+
+{{!-- ============================================================ Ausrüstung --}}
+{{#if gear}}
+    <div class="cvtt-toolbar">
+        <select data-field="gearKind">
+            {{#each gear.kinds}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+        </select>
+        <select data-field="gearCat">
+            <option value="">{{localize "CHUMMER.AllCategories"}}</option>
+            {{#each gear.cats}}<option value="{{name}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+        </select>
+        <input type="search" data-filter="gear" value="{{gear.filter}}" placeholder="{{localize 'CHUMMER.Search'}}">
+        <span class="cvtt-toolbar-info" data-tooltip="{{localize 'CHUMMER.KarmaToNuyen' max=gear.maxKarmaNuyen}}">
+            <i class="fas fa-right-left"></i> Karma→¥
+            <span class="cvtt-stepper">
+                <button type="button" data-action="adjust" data-delta="-1" tabindex="-1"><i class="fas fa-minus"></i></button>
+                <input type="number" data-field="karmaNuyen" value="{{gear.karmaNuyen}}" min="0" max="{{gear.maxKarmaNuyen}}">
+                <button type="button" data-action="adjust" data-delta="1" tabindex="-1"><i class="fas fa-plus"></i></button>
+            </span>
+        </span>
+    </div>
+    <div class="cvtt-toolbar">
+        <label class="cvtt-flabel">{{localize "CHUMMER.Legality"}}
+            <select data-field="gearLegality">
+                {{#each gear.legalities}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+            </select>
+        </label>
+        <label class="cvtt-flabel">{{localize "CHUMMER.MaxAvail"}}
+            <input type="number" data-field="gearMaxAvail" value="{{gear.maxAvail}}" min="0" placeholder="–">
+        </label>
+        <span class="cvtt-count"><i class="fas fa-list"></i> {{gear.count}}</span>
+    </div>
+
+    {{#if gear.cart.length}}
+    <div class="cvtt-cart">
+        <div class="cvtt-cart-head"><i class="fas fa-cart-shopping"></i> {{localize "CHUMMER.Cart"}}
+            <span class="cvtt-badge accent">{{gear.b.cartCost}}¥</span></div>
+        {{#each gear.cart}}
+        <div class="cvtt-row">
+            <strong>{{label}}</strong>
+            <span>{{#if rating}}{{localize "CHUMMER.Rating"}} {{rating}}{{/if}}</span>
+            <span class="cvtt-num">{{costDisplay}}</span>
+            <button type="button" class="cvtt-check" data-action="removeCart" data-index="{{index}}"><i class="fas fa-trash"></i></button>
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
+
+    <div class="cvtt-list cols-gear">
+        {{> cvtt-listhead headers=gear.headers}}
+        {{#each gear.list}}
+        <div class="cvtt-row">
+            <strong>{{label}}</strong>
+            <span class="cvtt-muted">{{category}}</span>
+            <span class="cvtt-num">{{cost}}</span>
+            <span class="cvtt-num {{#if availTooHigh}}cvtt-warn{{else if legality}}avail-{{legality}}{{/if}}"
+                  {{#if availTooHigh}}data-tooltip="{{localize 'CHUMMER.AvailWarning' limit=../gear.availLimit}}"{{/if}}>{{avail}}</span>
+            <span>{{#if maxRating}}
+                <input type="number" data-rating value="{{minRating}}" min="{{minRating}}" max="{{maxRating}}" title="{{localize 'CHUMMER.Rating'}}">
+            {{/if}}</span>
+            <span class="cvtt-src">{{{sourceLink}}}</span>
+            <button type="button" class="cvtt-check accent" data-action="addCart" data-name="{{name}}" title="{{localize 'CHUMMER.AddToCart'}}">
+                <i class="fas fa-cart-plus"></i>
+            </button>
+        </div>
+        {{/each}}
+    </div>
+{{/if}}
+
+{{!-- ============================================================ Zusammenfassung --}}
+{{#if summary}}
+    <div class="cvtt-summary-head">
+        <h2>{{#if summary.name}}{{summary.name}}{{else}}—{{/if}}</h2>
+        <span class="cvtt-badge accent"><i class="fas {{summary.typeIcon}}"></i> {{summary.typeLabel}}</span>
+        <span class="cvtt-badge">{{summary.metatype}}</span>
+        <span class="cvtt-badge">{{summary.talent}}</span>
+    </div>
+
+    {{#if summary.openPoints.length}}
+    <div class="cvtt-panel cvtt-openpoints">
+        <h3><i class="fas fa-list-check"></i> {{localize "CHUMMER.OpenPoints"}}</h3>
+        {{#each summary.openPoints}}
+        <button type="button" class="cvtt-openpoint" data-action="gotoStep" data-step="{{step}}">
+            <i class="fas fa-circle-exclamation"></i>
+            <span>{{msg}}</span>
+            <span class="cvtt-openpoint-step">{{stepLabel}} <i class="fas fa-arrow-right"></i></span>
+        </button>
+        {{/each}}
+    </div>
+    {{else}}
+    <p class="cvtt-hint cvtt-alldone"><i class="fas fa-circle-check"></i> {{localize "CHUMMER.AllDone"}}</p>
+    {{/if}}
+
+    <div class="cvtt-columns">
+        <div class="cvtt-panel">
+            <h3><i class="fas fa-dumbbell"></i> {{localize "CHUMMER.Step.Attributes"}}</h3>
+            <div class="cvtt-attr-summary">
+                {{#each summary.attrs}}
+                <div class="cvtt-stat"><span>{{label}}</span><b>{{value}}</b></div>
+                {{/each}}
+                <div class="cvtt-stat"><span>{{summary.edgeLabel}}</span><b>{{summary.edge}}</b></div>
+                {{#if summary.magic}}<div class="cvtt-stat accent"><span>{{summary.magicLabel}}</span><b>{{summary.magic}}</b></div>{{/if}}
+                {{#if summary.resonance}}<div class="cvtt-stat accent"><span>{{summary.resonanceLabel}}</span><b>{{summary.resonance}}</b></div>{{/if}}
+            </div>
+            <h3 class="cvtt-gap"><i class="fas fa-star"></i> {{localize "CHUMMER.Step.Qualities"}}</h3>
+            {{#if summary.qualities.length}}
+            <div class="cvtt-chosen">
+                {{#each summary.qualities}}
+                <span class="cvtt-tag {{#if positive}}pos{{else}}neg{{/if}}">{{label}} <b>{{karma}}</b></span>
+                {{/each}}
+            </div>
+            {{else}}<p class="cvtt-muted">—</p>{{/if}}
+            {{#if summary.magicList.length}}
+            <h3 class="cvtt-gap"><i class="fas fa-wand-sparkles"></i> {{localize "CHUMMER.Step.Talent"}}</h3>
+            <ul class="cvtt-summary-list">
+                {{#each summary.magicList}}
+                <li><i class="fas {{icon}}"></i> {{label}}</li>
+                {{/each}}
+            </ul>
+            {{/if}}
+        </div>
+        <div class="cvtt-panel">
+            <h3><i class="fas fa-graduation-cap"></i> {{localize "CHUMMER.Step.Skills"}}</h3>
+            {{#if summary.skills.length}}
+            <div class="cvtt-skill-summary">
+                {{#each summary.skills}}
+                <span class="cvtt-skilltag">{{label}} <b>{{rating}}</b></span>
+                {{/each}}
+            </div>
+            {{else}}<p class="cvtt-muted">—</p>{{/if}}
+            <h3 class="cvtt-gap"><i class="fas fa-cart-shopping"></i> {{localize "CHUMMER.Cart"}}</h3>
+            {{#if summary.cart.length}}
+            <ul class="cvtt-summary-list">
+                {{#each summary.cart}}
+                <li>{{label}}{{#if rating}} ({{localize "CHUMMER.Rating"}} {{rating}}){{/if}} <span class="cvtt-num">{{costDisplay}}</span></li>
+                {{/each}}
+            </ul>
+            {{else}}<p class="cvtt-muted">—</p>{{/if}}
+            <table class="cvtt-table cvtt-gap">
+                <tbody>
+                <tr><th><i class="fas fa-star"></i> {{localize "CHUMMER.KarmaBudget"}} ({{localize "CHUMMER.Remaining"}})</th><td class="cvtt-num">{{summary.b.karmaLeft}}</td></tr>
+                <tr><th><i class="fas fa-coins"></i> {{localize "CHUMMER.Nuyen"}} ({{localize "CHUMMER.Remaining"}})</th><td class="cvtt-num">{{summary.nuyenLeftDisplay}}¥</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <button type="button" class="cvtt-create" data-action="create" {{#unless summary.canCreate}}disabled{{/unless}}>
+        <i class="fas fa-user-plus"></i> {{localize "CHUMMER.CreateCharacter"}} – {{summary.typeLabel}}
+    </button>
+{{/if}}
+
+</section>
+
+<footer class="cvtt-nav">
+    <button type="button" data-action="back" {{#if isFirst}}disabled{{/if}}>
+        <i class="fas fa-chevron-left"></i> {{localize "CHUMMER.Back"}}
+    </button>
+    <button type="button" class="accent" data-action="next" {{#if isLast}}disabled{{/if}}>
+        {{localize "CHUMMER.Next"}} <i class="fas fa-chevron-right"></i>
+    </button>
+</footer>
+
+</div>

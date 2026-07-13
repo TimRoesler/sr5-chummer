@@ -1,0 +1,407 @@
+{
+    "_comment": "Beispiel-Schergen aus dem Grundregelwerk (Helfer und Hemmnisse, S. 381-385). Attribute sind Effektivwerte inklusive Bodytech; skills referenzieren skills.json über den en-Namen, skillGroups über groupEn.",
+    "folders": [
+        { "id": "ps0", "name": "PS 0 – Schläger" },
+        { "id": "ps1", "name": "PS 1 – Ganger" },
+        { "id": "ps2", "name": "PS 2 – Konzernsicherheit" },
+        { "id": "ps3", "name": "PS 3 – Streifenpolizei" },
+        { "id": "ps4", "name": "PS 4 – Kriminelle Organisation" },
+        { "id": "ps5", "name": "PS 5 – Elite-Konzernsicherheit" },
+        { "id": "ps6", "name": "PS 6 – Elite-Spezialeinheit" }
+    ],
+    "grunts": [
+        {
+            "name": "Schläger",
+            "folder": "ps0",
+            "pr": 0,
+            "leader": false,
+            "page": "381",
+            "attributes": { "body": 3, "agility": 3, "reaction": 3, "strength": 3, "willpower": 3, "logic": 2, "intuition": 3, "charisma": 2 },
+            "edge": 0,
+            "skills": [
+                { "en": "Intimidation", "rating": 3 },
+                { "en": "Blades", "rating": 3 },
+                { "en": "Clubs", "rating": 3 },
+                { "en": "Unarmed Combat", "rating": 3 }
+            ],
+            "weapons": [ "Knüppel", "Messer" ],
+            "gear": [ { "name": "Meta Link" } ],
+            "description": "Muskelbepackte Straßenschläger, wie sie von Policlubs angeheuert werden oder sich spontan zu einem wütenden Mob zusammenrotten. Sie können Passanten einschüchtern, sind aber keine Gegner für erfahrene Kämpfer und fliehen bei ernsthaftem Widerstand."
+        },
+        {
+            "name": "Schläger-Anführer",
+            "folder": "ps0",
+            "pr": 0,
+            "leader": true,
+            "page": "381",
+            "attributes": { "body": 3, "agility": 4, "reaction": 3, "strength": 4, "willpower": 3, "logic": 3, "intuition": 3, "charisma": 3 },
+            "edge": 0,
+            "skills": [
+                { "en": "Intimidation", "rating": 5 },
+                { "en": "Blades", "rating": 3 },
+                { "en": "Clubs", "rating": 4 },
+                { "en": "Pistols", "rating": 3 },
+                { "en": "Unarmed Combat", "rating": 4 }
+            ],
+            "knowledge": [
+                { "name": "Straßenwissen (gruppentypisch)", "type": "street", "attribute": "intuition", "rating": 3 }
+            ],
+            "weapons": [ "Knüppel", "Colt America L36", "Messer" ],
+            "gear": [ { "name": "Meta Link" } ],
+            "description": "Ein erfahrener Schläger, der die Führung eines Trupps übernimmt und meist ein Stück Altmetall im Gürtel stecken hat. Trotzdem nur ein kleines Licht – selbst für unerfahrene Shadowrunner kein echter Gegner."
+        },
+        {
+            "name": "Ganger",
+            "folder": "ps1",
+            "pr": 1,
+            "leader": false,
+            "page": "382",
+            "attributes": { "body": 4, "agility": 4, "reaction": 3, "strength": 4, "willpower": 3, "logic": 2, "intuition": 3, "charisma": 3 },
+            "edge": 1,
+            "skills": [
+                { "en": "Intimidation", "rating": 4 },
+                { "en": "Etiquette", "rating": 3, "specs": [ "Straße" ] },
+                { "en": "Blades", "rating": 4 },
+                { "en": "Clubs", "rating": 3 },
+                { "en": "Pistols", "rating": 4 },
+                { "en": "Unarmed Combat", "rating": 3 }
+            ],
+            "qualities": [ "Zähigkeit" ],
+            "armor": [ "Panzerweste" ],
+            "weapons": [ "Browning Ultra-Power", "Messer" ],
+            "gear": [ { "name": "Meta Link" }, { "name": "Cram" } ],
+            "description": "Mitglieder von Straßengangs wie den Halloweeners oder Ancients. Hart wie Stahl und dumm wie Brot – aber sie nehmen ihr Territorium sehr ernst und vergessen keine Beleidigung. Statt Cram kann auch 1 Dosis Jazz getragen werden."
+        },
+        {
+            "name": "Ganger-Anführer",
+            "folder": "ps1",
+            "pr": 1,
+            "leader": true,
+            "page": "382",
+            "attributes": { "body": 4, "agility": 4, "reaction": 4, "strength": 4, "willpower": 4, "logic": 3, "intuition": 4, "charisma": 4 },
+            "edge": 1,
+            "skills": [
+                { "en": "Intimidation", "rating": 4 },
+                { "en": "Leadership", "rating": 1 },
+                { "en": "Etiquette", "rating": 4, "specs": [ "Straße" ] },
+                { "en": "Blades", "rating": 3 },
+                { "en": "Pistols", "rating": 3, "specs": [ "Halbautomatik" ] },
+                { "en": "Unarmed Combat", "rating": 3, "specs": [ "Cyberimplantatwaffen" ] },
+                { "en": "Throwing Weapons", "rating": 2 }
+            ],
+            "qualities": [ "Zähigkeit" ],
+            "ware": [ { "kind": "cyberware", "name": "Sporn, einziehbar" } ],
+            "armor": [ "Panzerjacke" ],
+            "weapons": [ "Browning Ultra-Power", "Messer" ],
+            "gear": [ { "name": "Sony Emperor" }, { "name": "Cram" } ],
+            "description": "Aufgestiegene Ganger, zu denen die Neulinge der Gang mit erschreckender Ergebenheit aufschauen. Essenz 5,7 (einziehbarer Sporn: Cyberimplantatwaffe, Schaden 7K, DK -2). Statt Cram kann auch 1 Dosis Jazz getragen werden."
+        },
+        {
+            "name": "Konzernsicherheit",
+            "folder": "ps2",
+            "pr": 2,
+            "leader": false,
+            "page": "382",
+            "attributes": { "body": 4, "agility": 4, "reaction": 4, "strength": 3, "willpower": 3, "logic": 2, "intuition": 3, "charisma": 3 },
+            "edge": 2,
+            "skills": [
+                { "en": "Etiquette", "rating": 3 },
+                { "en": "Running", "rating": 4 },
+                { "en": "Pistols", "rating": 4 },
+                { "en": "Automatics", "rating": 3 },
+                { "en": "Unarmed Combat", "rating": 3 },
+                { "en": "Perception", "rating": 2 }
+            ],
+            "armor": [ "Panzerjacke" ],
+            "weapons": [ "Colt Cobra TZ-120", "Fichetti Security 600", "Betäubungsschlagstock" ],
+            "gear": [ { "name": "Renraku Sensei" } ],
+            "description": "Sicherheitsgardisten, wie sie fast jede Konzerneinrichtung schützen. Gut genug ausgebildet, um Straßengewalt in Schach zu halten und in Deckung auf Verstärkung zu warten – aber nicht bis an die Zähne bewaffnet."
+        },
+        {
+            "name": "Sicherheitsmagier (Anführer)",
+            "folder": "ps2",
+            "pr": 2,
+            "leader": true,
+            "page": "383",
+            "special": "magic",
+            "attributes": { "body": 3, "agility": 4, "reaction": 4, "strength": 3, "willpower": 4, "logic": 4, "intuition": 4, "charisma": 3 },
+            "magic": 3,
+            "edge": 2,
+            "skills": [
+                { "en": "Counterspelling", "rating": 4 },
+                { "en": "Assensing", "rating": 4 },
+                { "en": "Astral Combat", "rating": 3 },
+                { "en": "Leadership", "rating": 3 },
+                { "en": "Pistols", "rating": 2 },
+                { "en": "Spellcasting", "rating": 4 }
+            ],
+            "skillGroups": [ { "en": "Conjuring", "rating": 3 } ],
+            "spells": [ "Betäubungsball", "Energieblitz", "Leben Entdecken", "Licht", "Physische Barriere", "Stille" ],
+            "armor": [ "Panzerjacke" ],
+            "weapons": [ "Fichetti Security 600" ],
+            "gear": [
+                { "name": "Renraku Sensei" },
+                { "name": "Mage-Sight-Brille" },
+                { "name": "Zauberspruchfokus, Kampf", "rating": 2 }
+            ],
+            "description": "Ein Lohnmagier, der die magische Sicherheit wichtigerer Konzerneinrichtungen meist neben seinem normalen Job übernimmt. Astrale Initiative 8 + 2W6."
+        },
+        {
+            "name": "Streifenpolizist",
+            "folder": "ps3",
+            "pr": 3,
+            "leader": false,
+            "page": "383",
+            "attributes": { "body": 4, "agility": 3, "reaction": 4, "strength": 3, "willpower": 3, "logic": 2, "intuition": 3, "charisma": 3 },
+            "edge": 3,
+            "skills": [
+                { "en": "Clubs", "rating": 3 },
+                { "en": "Running", "rating": 3 },
+                { "en": "Pistols", "rating": 4 },
+                { "en": "Unarmed Combat", "rating": 4 },
+                { "en": "Perception", "rating": 3 }
+            ],
+            "knowledge": [
+                { "name": "Örtliche Verbrecherszene", "type": "street", "attribute": "intuition", "rating": 3 },
+                { "name": "Polizei", "type": "professional", "attribute": "logic", "rating": 4 }
+            ],
+            "armor": [ "Panzerjacke" ],
+            "weapons": [ "Ares Predator V", "Defiance EX Shocker", "Betäubungsschlagstock" ],
+            "gear": [
+                { "name": "Renraku Sensei" },
+                { "name": "Jazz", "qty": 2 },
+                { "name": "Brille" }
+            ],
+            "description": "Streifenpolizisten von Knight Errant, Lone Star oder dem Sternschutz – relativ gut ausgebildet und einer der häufigsten Gegner von Shadowrunnern. Sonnenbrille mit Bildverbindung und Smartlink."
+        },
+        {
+            "name": "Polizei-Veteran (Anführer)",
+            "folder": "ps3",
+            "pr": 3,
+            "leader": true,
+            "page": "383",
+            "attributes": { "body": 4, "agility": 4, "reaction": 6, "strength": 3, "willpower": 4, "logic": 3, "intuition": 5, "charisma": 4 },
+            "edge": 3,
+            "skills": [
+                { "en": "Intimidation", "rating": 4 },
+                { "en": "Leadership", "rating": 5 },
+                { "en": "Pistols", "rating": 6 },
+                { "en": "Sneaking", "rating": 3 },
+                { "en": "Automatics", "rating": 4 },
+                { "en": "Perception", "rating": 5 }
+            ],
+            "skillGroups": [ { "en": "Close Combat", "rating": 6 } ],
+            "knowledge": [
+                { "name": "Polizei", "type": "professional", "attribute": "logic", "rating": 6 }
+            ],
+            "ware": [
+                { "kind": "cyberware", "name": "Cyberaugen", "rating": 2 },
+                { "kind": "cyberware", "name": "Reaktionsverbesserung", "rating": 2 }
+            ],
+            "armor": [ "Panzerjacke" ],
+            "weapons": [ "Ares Predator V", "Defiance EX Shocker", "Betäubungsschlagstock" ],
+            "gear": [ { "name": "Erika Elite" }, { "name": "Jazz", "qty": 2 } ],
+            "description": "Veteranen der Konzernpolizei, die auf der Straße schon alles gesehen haben. Reaktion 4 (6) – Werte inklusive Reaktionsverbesserung 2. Essenz 5,1. Cyberaugen (Stufe 2) mit Bildverbindung, Blitzkompensation, Infrarotsicht, Restlichtverstärkung und Smartlink."
+        },
+        {
+            "name": "Syndikatssoldat",
+            "folder": "ps4",
+            "pr": 4,
+            "leader": false,
+            "page": "383",
+            "attributes": { "body": 4, "agility": 5, "reaction": 4, "strength": 4, "willpower": 4, "logic": 3, "intuition": 4, "charisma": 3 },
+            "edge": 4,
+            "skills": [
+                { "en": "Intimidation", "rating": 6 },
+                { "en": "Blades", "rating": 5 },
+                { "en": "Pistols", "rating": 4 },
+                { "en": "Automatics", "rating": 5 },
+                { "en": "Unarmed Combat", "rating": 6 },
+                { "en": "Perception", "rating": 2 }
+            ],
+            "qualities": [ "Zähigkeit" ],
+            "armor": [ "Gefütterter Mantel" ],
+            "weapons": [ "Ceska Black Scorpion", "Messer", "Schwert" ],
+            "gear": [ { "name": "Renraku Sensei" } ],
+            "description": "Soldaten von Mafia, Yakuza, Triaden oder Vory. Ihr Ruf als Knochenbrecher ist wohlverdient; für ihren Sinn für Humor sind sie nicht bekannt. Bewaffnet mit Messer oder Schwert."
+        },
+        {
+            "name": "Syndikats-Technomancer (Anführer)",
+            "folder": "ps4",
+            "pr": 4,
+            "leader": true,
+            "page": "383",
+            "special": "resonance",
+            "attributes": { "body": 3, "agility": 3, "reaction": 4, "strength": 3, "willpower": 5, "logic": 5, "intuition": 5, "charisma": 4 },
+            "resonance": 5,
+            "edge": 4,
+            "skills": [
+                { "en": "Computer", "rating": 5 },
+                { "en": "Decompiling", "rating": 6 },
+                { "en": "Leadership", "rating": 4 },
+                { "en": "Compiling", "rating": 7 },
+                { "en": "Cybercombat", "rating": 6 },
+                { "en": "Pistols", "rating": 3 },
+                { "en": "Registering", "rating": 7 },
+                { "en": "Software", "rating": 6 },
+                { "en": "Perception", "rating": 5 }
+            ],
+            "qualities": [ "Natürliche Härte" ],
+            "complexforms": [
+                { "name": "Angriffssteigerung", "base": "[Matrix Attribut]-Steigerung" },
+                { "name": "Datenverarbeitungssenkung", "base": "[Matrix Attribut]-Senkung" },
+                { "name": "Datenverarbeitungssteigerung", "base": "[Matrix Attribut]-Steigerung" },
+                { "name": "Editor" },
+                { "name": "Firewallsenkung", "base": "[Matrix Attribut]-Senkung" },
+                { "name": "Metagitter" },
+                { "name": "Petze" },
+                { "name": "Reiniger" },
+                { "name": "Resonanzspike" }
+            ],
+            "armor": [ "Gefütterter Mantel" ],
+            "weapons": [ "Beretta 201T" ],
+            "gear": [ { "name": "Erika Elite" } ],
+            "description": "Technomancer, die ihre außergewöhnliche Gabe in den Dienst der Syndikate stellen – misstrauisch beäugt, aber zu wertvoll, um sie abzulehnen. Matrixinitiative (Heißes Sim) 10 + 4W6."
+        },
+        {
+            "name": "Elite-Konzernsicherheit",
+            "folder": "ps5",
+            "pr": 5,
+            "leader": false,
+            "page": "384",
+            "attributes": { "body": 6, "agility": 7, "reaction": 7, "strength": 6, "willpower": 4, "logic": 4, "intuition": 5, "charisma": 3 },
+            "edge": 5,
+            "initiativeDice": 3,
+            "skills": [
+                { "en": "Etiquette", "rating": 6, "specs": [ "Konzern" ] },
+                { "en": "Sneaking", "rating": 6 },
+                { "en": "Perception", "rating": 6 }
+            ],
+            "skillGroups": [
+                { "en": "Athletics", "rating": 6 },
+                { "en": "Firearms", "rating": 9 },
+                { "en": "Close Combat", "rating": 7 }
+            ],
+            "ware": [
+                { "kind": "cyberware", "name": "Cyberaugen", "rating": 2 },
+                { "kind": "cyberware", "name": "Reflexbooster", "rating": 2 },
+                { "kind": "bioware", "name": "Muskelstraffung", "rating": 2 },
+                { "kind": "bioware", "name": "Muskelverstärkung", "rating": 2 }
+            ],
+            "armor": [ "Ganzkörperpanzerung", "Helm" ],
+            "weapons": [ "Ares Alpha", "Ares Predator V" ],
+            "description": "Paramilitärische Einheiten der Megakonzerne wie Seraphim oder Rote Samurai. Attribute sind Effektivwerte: GES 5 (7), REA 5 (7), STR 4 (6) inklusive Reflexbooster 2, Muskelstraffung 2 und Muskelverstärkung 2. Essenz 1,9. Ganzkörperpanzerung mit Vollhelm (Chemische Versiegelung). Cyberaugen (Stufe 2) mit Bildverbindung, Blitzkompensation, Infrarotsicht, Restlichtverstärkung und Smartlink."
+        },
+        {
+            "name": "Elite-Troubleshooter (Anführer)",
+            "folder": "ps5",
+            "pr": 5,
+            "leader": true,
+            "page": "384",
+            "attributes": { "body": 5, "agility": 9, "reaction": 7, "strength": 7, "willpower": 5, "logic": 5, "intuition": 5, "charisma": 4 },
+            "edge": 5,
+            "initiativeDice": 3,
+            "skills": [
+                { "en": "Leadership", "rating": 6 },
+                { "en": "Etiquette", "rating": 4, "specs": [ "Konzern" ] },
+                { "en": "Sneaking", "rating": 6 },
+                { "en": "Demolitions", "rating": 5 },
+                { "en": "Perception", "rating": 6 }
+            ],
+            "skillGroups": [
+                { "en": "Athletics", "rating": 6 },
+                { "en": "Cracking", "rating": 7 },
+                { "en": "Electronics", "rating": 6 },
+                { "en": "Firearms", "rating": 8 },
+                { "en": "Close Combat", "rating": 7 }
+            ],
+            "ware": [
+                { "kind": "cyberware", "name": "Cyberaugen", "rating": 3 },
+                { "kind": "cyberware", "name": "Datenbuchse" },
+                { "kind": "cyberware", "name": "Reflexbooster", "rating": 2 },
+                { "kind": "bioware", "name": "Muskelstraffung", "rating": 3 },
+                { "kind": "bioware", "name": "Muskelverstärkung", "rating": 3 }
+            ],
+            "armor": [ "Ganzkörperpanzerung", "Helm" ],
+            "weapons": [ "Ares Alpha", "Ares Predator V" ],
+            "gear": [ { "name": "Shiawase Cyber-5" } ],
+            "description": "Kampferprobte Elitesoldaten mit einer Extraportion Konzerntreue – und ein Matrixmonster dazu. Attribute sind Effektivwerte: GES 6 (9), REA 5 (7), STR 4 (7). Essenz 1,3. Cyberdeck Shiawase Cyber-5 (Gerätestufe 5, Attributsanordnung 8 7 6 5) mit Programmen: Biofeedback, Entschlüsselung, Fessel, Gabel, Hammer, Konfigurator, Panzerung, Verschlüsselung. Cyberaugen (Stufe 3) mit Bildverbindung, Blitzkompensation, Infrarotsicht, Restlichtverstärkung, Sichtvergrößerung und Smartlink."
+        },
+        {
+            "name": "Elite-Spezialeinheit",
+            "folder": "ps6",
+            "pr": 6,
+            "leader": false,
+            "page": "384",
+            "attributes": { "body": 6, "agility": 9, "reaction": 8, "strength": 8, "willpower": 5, "logic": 4, "intuition": 6, "charisma": 4 },
+            "edge": 6,
+            "initiativeDice": 4,
+            "skills": [
+                { "en": "Demolitions", "rating": 7 },
+                { "en": "Perception", "rating": 7 }
+            ],
+            "skillGroups": [
+                { "en": "Athletics", "rating": 7 },
+                { "en": "Firearms", "rating": 9 },
+                { "en": "Stealth", "rating": 6 },
+                { "en": "Close Combat", "rating": 8 }
+            ],
+            "ware": [
+                { "kind": "cyberware", "name": "Cyberaugen", "rating": 4 },
+                { "kind": "bioware", "name": "Muskelstraffung", "rating": 3 },
+                { "kind": "bioware", "name": "Muskelverstärkung", "rating": 3 },
+                { "kind": "bioware", "name": "Synapsenbeschleuniger", "rating": 3 },
+                { "kind": "bioware", "name": "Synthacardium", "rating": 3 }
+            ],
+            "armor": [ "Ganzkörperpanzerung", "Helm" ],
+            "weapons": [
+                "HK 227",
+                { "name": "Granate: Rauch", "qty": 2 },
+                { "name": "Granate: IR-Rauch", "qty": 2 }
+            ],
+            "gear": [ { "name": "Enterhakenkanone" }, { "name": "Hermes Ikon" } ],
+            "description": "SEAL-Team 6, Tír Ghosts, Sioux Wildcats: für Infiltration und Sabotage hinter feindlichen Linien ausgebildet – schlicht die Besten. Attribute sind Effektivwerte: GES 6 (9), REA 5 (8), STR 5 (8) inklusive Synapsenbeschleuniger 3 und Muskel-Bioware. Athletik effektiv 7 (10) dank Synthacardium 3. Essenz 2,3. HK-227 mit APDS-Munition. Cyberaugen (Stufe 4) mit Bildverbindung, Blitzkompensation, Infrarotsicht, Restlichtverstärkung, Sichtverbesserung 2, Sichtvergrößerung und Smartlink; implantiertes Kommlink Hermes Ikon."
+        },
+        {
+            "name": "Spezialeinheit-Adept (Anführer)",
+            "folder": "ps6",
+            "pr": 6,
+            "leader": true,
+            "page": "385",
+            "special": "magic",
+            "attributes": { "body": 6, "agility": 9, "reaction": 9, "strength": 7, "willpower": 5, "logic": 5, "intuition": 6, "charisma": 5 },
+            "magic": 8,
+            "initiateGrade": 2,
+            "edge": 6,
+            "initiativeDice": 4,
+            "skills": [
+                { "en": "Demolitions", "rating": 7 },
+                { "en": "Perception", "rating": 7 }
+            ],
+            "skillGroups": [
+                { "en": "Athletics", "rating": 7 },
+                { "en": "Firearms", "rating": 9 },
+                { "en": "Stealth", "rating": 6 },
+                { "en": "Close Combat", "rating": 8 }
+            ],
+            "powers": [
+                { "name": "Gesteigerte Geschicklichkeit", "base": "Gesteigertes Körperliches Attribut", "level": 3 },
+                { "name": "Gesteigerte Reflexe", "level": 3 },
+                { "name": "Verbesserte Fertigkeit (Schnellfeuerwaffen)", "base": "Verbesserte Fertigkeit (Fertigkeit)", "level": 3 }
+            ],
+            "armor": [ "Ganzkörperpanzerung", "Helm" ],
+            "weapons": [
+                "HK 227",
+                "Schwert",
+                { "name": "Granate: Rauch", "qty": 2 },
+                { "name": "Granate: IR-Rauch", "qty": 2 }
+            ],
+            "gear": [
+                { "name": "Enterhakenkanone" },
+                { "name": "Hermes Ikon" },
+                { "name": "Qi-Fokus", "rating": 8 }
+            ],
+            "description": "Adepten, die neben ihren vercyberten Waffenbrüdern kämpfen – genauso schnell und tödlich. Initiatengrad 2. Attribute sind Effektivwerte: GES 6 (9), REA 6 (9), STR 5 (7) inklusive Adeptenkräfte. Qi-Fokus (Kraft 8, Gesteigerte Stärke 2); das Schwert ist ein Waffenfokus (Kraft 2, Schaden 11K). HK-227 mit APDS-Munition."
+        }
+    ]
+}

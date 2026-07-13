@@ -1,0 +1,210 @@
+<div class="cvtt-app cvtt-quicknpc">
+
+{{!-- ======================================================= Vorlagenwahl --}}
+{{#if pick}}
+<div class="cvtt-stepintro">
+    <i class="fas fa-bolt"></i>
+    <div>
+        <span class="cvtt-stepintro-title">{{localize "CHUMMER.QuickNpc.Title"}}</span>
+        <p>{{localize "CHUMMER.QuickNpc.Intro"}}</p>
+    </div>
+</div>
+
+<div class="cvtt-toolbar">
+    <input type="search" data-filter="tpl" value="{{filter}}" placeholder="{{localize 'CHUMMER.Search'}}">
+</div>
+
+<div class="cvtt-quicknpc-list">
+    <div class="cvtt-meta-grid quicknpc">
+        {{#each cards}}
+        <button type="button" class="cvtt-card cvtt-tplcard" data-action="pick" data-name="{{name}}">
+            <div class="cvtt-card-head">
+                <strong>{{name}}</strong>
+                {{#if leader}}<i class="fas fa-star cvtt-leader" data-tooltip="{{localize 'CHUMMER.QuickNpc.Leader'}}"></i>{{/if}}
+                {{#if magic}}<i class="fas fa-wand-sparkles cvtt-leader" data-tooltip="{{localize 'CHUMMER.Step.Talent'}}"></i>{{/if}}
+                {{#if matrix}}<i class="fas fa-network-wired cvtt-leader" data-tooltip="{{localize 'CHUMMER.ComplexForms'}}"></i>{{/if}}
+                <span class="cvtt-badge accent">{{localize "CHUMMER.QuickNpc.PR" pr=pr}}</span>
+            </div>
+            <div class="cvtt-card-note">{{group}}</div>
+            <div class="cvtt-ranges">
+                {{#each attrs}}<span><b>{{label}}</b> {{value}}</span>{{/each}}
+            </div>
+            {{#if loadout}}<div class="cvtt-card-note">{{loadout}}</div>{{/if}}
+            <div class="cvtt-tplcard-cta"><i class="fas fa-pen-to-square"></i> {{localize "CHUMMER.QuickNpc.Customize"}}</div>
+        </button>
+        {{/each}}
+    </div>
+</div>
+{{/if}}
+
+{{!-- ============================================================= Editor --}}
+{{#if edit}}
+<div class="cvtt-edithead">
+    <button type="button" data-action="back"><i class="fas fa-chevron-left"></i> {{localize "CHUMMER.QuickNpc.Templates"}}</button>
+    <h2>{{templateName}}</h2>
+    <span class="cvtt-badge accent">{{localize "CHUMMER.QuickNpc.PR" pr=pr}}</span>
+    <span class="cvtt-hint"><i class="fas fa-circle-info"></i> {{localize "CHUMMER.QuickNpc.EditHint"}}</span>
+</div>
+
+<div class="cvtt-quicknpc-body">
+    <div class="cvtt-columns">
+        <div class="cvtt-panel">
+            <h3><i class="fas fa-dumbbell"></i> {{localize "CHUMMER.Step.Attributes"}}</h3>
+            <table class="cvtt-table">
+                <tbody>
+                {{#each attrs}}
+                <tr>
+                    <th>{{label}}</th>
+                    <td>
+                        <span class="cvtt-stepper">
+                            <button type="button" data-action="adjust" data-delta="-1" tabindex="-1"><i class="fas fa-minus"></i></button>
+                            <input type="number" data-field="npcAttr" data-key="{{key}}" value="{{value}}" min="0" max="30">
+                            <button type="button" data-action="adjust" data-delta="1" tabindex="-1"><i class="fas fa-plus"></i></button>
+                        </span>
+                    </td>
+                </tr>
+                {{/each}}
+                {{#each specials}}
+                <tr>
+                    <th class="cvtt-pos">{{label}}</th>
+                    <td>
+                        <span class="cvtt-stepper">
+                            <button type="button" data-action="adjust" data-delta="-1" tabindex="-1"><i class="fas fa-minus"></i></button>
+                            <input type="number" data-field="npcSpecial" data-key="{{key}}" value="{{value}}" min="0" max="30">
+                            <button type="button" data-action="adjust" data-delta="1" tabindex="-1"><i class="fas fa-plus"></i></button>
+                        </span>
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="cvtt-panel">
+            <h3><i class="fas fa-graduation-cap"></i> {{localize "CHUMMER.Step.Skills"}}</h3>
+            <div class="cvtt-list cols-npcskill">
+                {{#each skills}}
+                <div class="cvtt-row">
+                    <strong>{{label}}{{#if specs}} <span class="cvtt-muted">({{specs}})</span>{{/if}}</strong>
+                    <span class="cvtt-stepper">
+                        <button type="button" data-action="adjust" data-delta="-1" tabindex="-1"><i class="fas fa-minus"></i></button>
+                        <input type="number" data-field="skillRating" data-index="{{index}}" value="{{rating}}" min="1" max="13">
+                        <button type="button" data-action="adjust" data-delta="1" tabindex="-1"><i class="fas fa-plus"></i></button>
+                    </span>
+                    <button type="button" class="cvtt-check" data-action="removeEntry" data-list="skills" data-index="{{index}}"><i class="fas fa-trash"></i></button>
+                </div>
+                {{/each}}
+            </div>
+            <label class="cvtt-flabel cvtt-addrow">{{localize "CHUMMER.QuickNpc.Add"}}
+                <select data-field="addSkill">
+                    <option value=""></option>
+                    {{#each skillOptions}}<option value="{{value}}">{{label}}</option>{{/each}}
+                </select>
+            </label>
+        </div>
+    </div>
+
+    {{#if magic.show}}
+    <div class="cvtt-panel">
+        <h3><i class="fas fa-wand-sparkles"></i> {{localize "CHUMMER.Step.Talent"}} &amp; {{localize "CHUMMER.Step.Qualities"}}</h3>
+        <div class="cvtt-editchips">
+            {{#each magic.qualities}}
+            <button type="button" class="cvtt-tag pos" data-action="removeEntry" data-list="qualities" data-index="{{index}}"><i class="fas fa-star"></i> {{label}} <i class="fas fa-xmark"></i></button>
+            {{/each}}
+            {{#each magic.spells}}
+            <button type="button" class="cvtt-tag" data-action="removeEntry" data-list="spells" data-index="{{index}}"><i class="fas fa-wand-sparkles"></i> {{label}} <i class="fas fa-xmark"></i></button>
+            {{/each}}
+            {{#each magic.powers}}
+            <button type="button" class="cvtt-tag" data-action="removeEntry" data-list="powers" data-index="{{index}}"><i class="fas fa-hand-sparkles"></i> {{label}} <i class="fas fa-xmark"></i></button>
+            {{/each}}
+            {{#each magic.complexforms}}
+            <button type="button" class="cvtt-tag" data-action="removeEntry" data-list="complexforms" data-index="{{index}}"><i class="fas fa-network-wired"></i> {{label}} <i class="fas fa-xmark"></i></button>
+            {{/each}}
+        </div>
+        <div class="cvtt-toolbar cvtt-addrow">
+            <label class="cvtt-flabel">{{localize "CHUMMER.Step.Qualities"}}
+                <select data-field="addQuality"><option value=""></option>
+                    {{#each magic.qualityOptions}}<option value="{{value}}">{{label}}</option>{{/each}}
+                </select>
+            </label>
+            {{#if magic.magicUser}}
+            <label class="cvtt-flabel">{{localize "CHUMMER.Spells"}}
+                <select data-field="addSpell"><option value=""></option>
+                    {{#each magic.spellOptions}}<option value="{{value}}">{{label}}</option>{{/each}}
+                </select>
+            </label>
+            <label class="cvtt-flabel">{{localize "CHUMMER.AdeptPowers"}}
+                <select data-field="addPower"><option value=""></option>
+                    {{#each magic.powerOptions}}<option value="{{value}}">{{label}}</option>{{/each}}
+                </select>
+            </label>
+            {{/if}}
+            {{#if magic.resonanceUser}}
+            <label class="cvtt-flabel">{{localize "CHUMMER.ComplexForms"}}
+                <select data-field="addCF"><option value=""></option>
+                    {{#each magic.cfOptions}}<option value="{{value}}">{{label}}</option>{{/each}}
+                </select>
+            </label>
+            {{/if}}
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="cvtt-panel">
+        <h3><i class="fas fa-cart-shopping"></i> {{localize "CHUMMER.Step.Gear"}}</h3>
+        <div class="cvtt-editchips">
+            {{#each gearItems}}
+            <button type="button" class="cvtt-tag" data-action="removeEntry" data-list="{{list}}" data-index="{{index}}"><i class="fas {{icon}}"></i> {{label}} <i class="fas fa-xmark"></i></button>
+            {{/each}}
+        </div>
+        <div class="cvtt-toolbar cvtt-addrow">
+            <select data-field="gearKind">
+                {{#each gearKinds}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+            </select>
+            <input type="search" data-filter="gear" value="{{gearSearch}}" placeholder="{{localize 'CHUMMER.QuickNpc.GearSearch'}}">
+        </div>
+        {{#if gearSuggestions.length}}
+        <div class="cvtt-list cols-suggest">
+            {{#each gearSuggestions}}
+            <div class="cvtt-row">
+                <strong>{{label}}</strong>
+                <span class="cvtt-muted">{{category}}</span>
+                <span class="cvtt-num">{{cost}}¥</span>
+                <span class="cvtt-num">{{avail}}</span>
+                <button type="button" class="cvtt-check accent" data-action="addGear" data-name="{{name}}" title="{{localize 'CHUMMER.QuickNpc.Add'}}">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+            {{/each}}
+        </div>
+        {{/if}}
+    </div>
+</div>
+
+<footer class="cvtt-quicknpc-foot">
+    <label class="cvtt-flabel grow">{{localize "CHUMMER.CharacterName"}}
+        <input type="text" data-field="name" value="{{nameValue}}" placeholder="{{namePlaceholder}}">
+    </label>
+    <label class="cvtt-flabel">{{localize "CHUMMER.QuickNpc.Count"}}
+        <span class="cvtt-stepper">
+            <button type="button" data-action="adjust" data-delta="-1" tabindex="-1"><i class="fas fa-minus"></i></button>
+            <input type="number" data-field="count" value="{{state.count}}" min="1" max="20">
+            <button type="button" data-action="adjust" data-delta="1" tabindex="-1"><i class="fas fa-plus"></i></button>
+        </span>
+    </label>
+    <label class="cvtt-flabel">{{localize "CHUMMER.QuickNpc.Disposition"}}
+        <select data-field="disposition">
+            {{#each dispositions}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+        </select>
+    </label>
+    <label class="cvtt-flabel cvtt-checkbox" data-tooltip="{{localize 'CHUMMER.QuickNpc.GruntToggle'}}">
+        <input type="checkbox" data-field="grunt" {{#if state.grunt}}checked{{/if}}>
+        {{localize "CHUMMER.ActorType.grunt"}}
+    </label>
+    <button type="button" class="accent cvtt-quicknpc-create" data-action="create">
+        <i class="fas fa-floppy-disk"></i> {{localize "CHUMMER.QuickNpc.Save"}}
+    </button>
+</footer>
+{{/if}}
+
+</div>

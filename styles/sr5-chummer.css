@@ -1,0 +1,1132 @@
+/* ==========================================================================
+   Chummer für Shadowrun 5e – Neon-HUD-Design (dunkel, Cyan-Akzent)
+   Matrix-Optik: dezentes Raster, Chevron-Schritte, Eckklammern auf Auswahl.
+   ========================================================================== */
+
+#cvtt-chargen .window-content,
+#cvtt-quicknpc .window-content,
+[id^="cvtt-shop"] .window-content,
+[id^="cvtt-advance"] .window-content,
+#cvtt-pdf-config .window-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.cvtt-app {
+    --c-bg: #0b0e15;
+    --c-panel: #131824;
+    --c-panel-2: #1a2131;
+    --c-line: #28324a;
+    --c-line-soft: rgba(64, 84, 128, 0.25);
+    --c-text: #c9d4e4;
+    --c-muted: #74819c;
+    --c-accent: #29d8e6;
+    --c-accent-dim: rgba(41, 216, 230, 0.13);
+    --c-accent-glow: rgba(41, 216, 230, 0.35);
+    --c-pos: #4ad97c;
+    --c-pos-dim: rgba(74, 217, 124, 0.13);
+    --c-neg: #ff5d84;
+    --c-neg-dim: rgba(255, 93, 132, 0.13);
+    --c-warn: #f0a848;
+    --font-mono: "Roboto Mono", "Cascadia Mono", Consolas, "DejaVu Sans Mono", monospace;
+
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    background:
+        linear-gradient(165deg, rgba(41, 216, 230, 0.07), transparent 260px),
+        linear-gradient(0deg, rgba(255, 93, 132, 0.025), transparent 180px),
+        repeating-linear-gradient(0deg, transparent 0 27px, rgba(90, 120, 180, 0.045) 27px 28px),
+        repeating-linear-gradient(90deg, transparent 0 27px, rgba(90, 120, 180, 0.045) 27px 28px),
+        var(--c-bg);
+    color: var(--c-text);
+    font-size: var(--font-size-13, 13px);
+}
+
+.cvtt-app ::selection { background: var(--c-accent-glow); color: #fff; }
+.cvtt-app ::placeholder { color: var(--c-muted); }
+
+/* Schmale Neon-Scrollbalken in allen Scrollbereichen */
+.cvtt-app * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--c-line) transparent;
+}
+
+/* --------------------------------------------------------------- Eingaben */
+.cvtt-app input,
+.cvtt-app select {
+    background: rgba(4, 8, 14, 0.55);
+    color: var(--c-text);
+    border: 1px solid var(--c-line);
+    border-radius: 2px;
+    padding: 2px 6px;
+    min-height: 24px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.cvtt-app select option { background: var(--c-panel-2); }
+.cvtt-app input:focus,
+.cvtt-app select:focus {
+    outline: none;
+    border-color: var(--c-accent);
+    box-shadow: 0 0 6px var(--c-accent-glow), inset 0 0 4px rgba(41, 216, 230, 0.12);
+}
+.cvtt-app input[type="number"] {
+    width: 54px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+}
+.cvtt-app input[type="checkbox"] {
+    /* Foundry zeichnet Checkboxen als FontAwesome-Glyphen – Feldrahmen weg */
+    accent-color: var(--c-accent);
+    min-height: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    --checkbox-background-color: var(--c-line);
+    --checkbox-checked-color: var(--c-accent);
+    --checkbox-disabled-color: var(--c-muted);
+}
+
+/* ------------------------------------------------------ Stepper (−/+) */
+.cvtt-stepper {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    white-space: nowrap;
+}
+.cvtt-stepper button {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 10px;
+    color: var(--c-muted);
+}
+.cvtt-stepper button:hover {
+    color: var(--c-accent);
+    border-color: var(--c-accent);
+    background: var(--c-accent-dim);
+}
+.cvtt-stepper input[type="number"] {
+    width: 40px;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+.cvtt-stepper input[type="number"]::-webkit-outer-spin-button,
+.cvtt-stepper input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* ---------------------------------------------------------------- Buttons */
+.cvtt-app button {
+    background: var(--c-panel-2);
+    color: var(--c-text);
+    border: 1px solid var(--c-line);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s, color 0.15s;
+}
+.cvtt-app button:hover {
+    border-color: var(--c-accent);
+    color: #fff;
+    box-shadow: 0 0 6px var(--c-accent-glow);
+}
+.cvtt-app button:disabled { opacity: 0.35; cursor: default; box-shadow: none; }
+.cvtt-app button.accent {
+    background: var(--c-accent-dim);
+    border-color: var(--c-accent);
+    color: var(--c-accent);
+}
+.cvtt-app button.accent:hover:not(:disabled) {
+    background: var(--c-accent);
+    color: #06181c;
+    text-shadow: none;
+}
+
+/* --------------------------------------------- Schritte (Chevron-Leiste) */
+.cvtt-steps {
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+}
+.cvtt-step {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 12px 6px 16px;
+    font-size: var(--font-size-12, 12px);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    color: var(--c-muted);
+    background: linear-gradient(180deg, var(--c-panel-2), var(--c-panel));
+    border: none !important;
+    border-radius: 0;
+    clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 50%, calc(100% - 9px) 100%, 0 100%, 9px 50%);
+}
+.cvtt-step:first-child {
+    clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 50%, calc(100% - 9px) 100%, 0 100%);
+    padding-left: 12px;
+}
+.cvtt-step:hover { color: #fff; box-shadow: none; background: var(--c-panel-2); }
+.cvtt-step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px; height: 18px;
+    flex: 0 0 18px;
+    border-radius: 1px;
+    background: rgba(4, 8, 14, 0.5);
+    border: 1px solid var(--c-line);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: bold;
+}
+.cvtt-step.active {
+    background: linear-gradient(180deg, rgba(41, 216, 230, 0.22), rgba(41, 216, 230, 0.08));
+    color: #fff;
+    text-shadow: 0 0 8px var(--c-accent-glow);
+}
+.cvtt-step.active .cvtt-step-num {
+    background: var(--c-accent);
+    color: #06181c;
+    border-color: var(--c-accent);
+}
+.cvtt-step.done { color: var(--c-pos); }
+.cvtt-step.done .cvtt-step-num { border-color: var(--c-pos); color: var(--c-pos); }
+@container (max-width: 820px) { .cvtt-step-label { display: none; } }
+
+/* ---------------------------------------------------------- Statusleiste */
+.cvtt-statusbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.cvtt-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 12px 3px 10px;
+    background: var(--c-panel);
+    border: 1px solid var(--c-line);
+    border-left: 2px solid var(--c-accent);
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 100%, 0 100%);
+    font-size: var(--font-size-12, 12px);
+}
+.cvtt-chip i { color: var(--c-muted); font-size: 11px; }
+.cvtt-chip-label {
+    color: var(--c-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 10px;
+}
+.cvtt-chip-value {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+}
+.cvtt-chip.full { border-left-color: var(--c-pos); }
+.cvtt-chip.full .cvtt-chip-value, .cvtt-chip.full i { color: var(--c-pos); }
+.cvtt-chip.over {
+    border-color: var(--c-neg);
+    border-left-color: var(--c-neg);
+    background: var(--c-neg-dim);
+}
+.cvtt-chip.over .cvtt-chip-value, .cvtt-chip.over i { color: var(--c-neg); }
+
+/* --------------------------------------------------------------- Fehler */
+.cvtt-errors {
+    background: var(--c-neg-dim);
+    border: 1px solid var(--c-neg);
+    border-left-width: 3px;
+    border-radius: 2px;
+    padding: 4px 10px;
+    font-size: var(--font-size-12, 12px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 8px;
+    align-items: center;
+}
+.cvtt-errors > i { color: var(--c-neg); }
+/* Klickbare offene Punkte: springen in den passenden Schritt */
+.cvtt-error-link {
+    background: transparent;
+    border: none !important;
+    padding: 1px 4px;
+    color: var(--c-text);
+    font-size: var(--font-size-12, 12px);
+    text-decoration: underline dotted var(--c-neg);
+    text-underline-offset: 3px;
+}
+.cvtt-error-link:hover { color: #fff; box-shadow: none; text-decoration-style: solid; }
+
+/* ---------------------------------------------- Schritt-Erklärung (Intro) */
+.cvtt-stepintro {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 7px 10px;
+    background: linear-gradient(165deg, rgba(41, 216, 230, 0.08), transparent 70%), var(--c-panel);
+    border: 1px solid var(--c-line);
+    border-left: 3px solid var(--c-accent);
+    border-radius: 2px;
+}
+.cvtt-stepintro > i {
+    margin-top: 2px;
+    font-size: 15px;
+    color: var(--c-accent);
+    text-shadow: 0 0 8px var(--c-accent-glow);
+}
+.cvtt-stepintro-title {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-size: var(--font-size-12, 12px);
+    font-weight: bold;
+    color: #fff;
+}
+.cvtt-stepintro-count {
+    margin-left: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: normal;
+    color: var(--c-muted);
+}
+.cvtt-stepintro p {
+    margin: 2px 0 0 0;
+    font-size: var(--font-size-12, 12px);
+    color: var(--c-text);
+    line-height: 1.45;
+}
+
+/* ------------------------------------------- Leerzustand ("erst X wählen") */
+.cvtt-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 28px 16px;
+    border: 1px dashed var(--c-line);
+    border-radius: 2px;
+    background: rgba(4, 8, 14, 0.3);
+    text-align: center;
+}
+.cvtt-empty > i { font-size: 26px; color: var(--c-warn); }
+.cvtt-empty.subtle > i { color: var(--c-accent); }
+.cvtt-empty p { margin: 0; color: var(--c-text); max-width: 46em; }
+.cvtt-empty button { width: auto; padding: 4px 16px; }
+
+/* ----------------------------------------------------------- Grundlayout */
+.cvtt-step-body,
+.cvtt-advance-body {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 4px;
+}
+
+.cvtt-panel {
+    background: var(--c-panel);
+    border: 1px solid var(--c-line);
+    border-radius: 2px;
+    padding: 8px 10px;
+}
+.cvtt-panel > h3, .cvtt-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 6px 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(90deg, var(--c-accent), var(--c-line-soft) 40%, transparent) 1;
+    font-size: var(--font-size-13, 13px);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #fff;
+}
+.cvtt-panel > h3 i, .cvtt-section i {
+    color: var(--c-accent);
+    text-shadow: 0 0 8px var(--c-accent-glow);
+}
+
+.cvtt-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    align-items: start;
+}
+.cvtt-columns.skills { grid-template-columns: minmax(220px, 1fr) 2fr; }
+
+.cvtt-hint {
+    margin: 0;
+    color: var(--c-muted);
+    font-size: var(--font-size-12, 12px);
+}
+.cvtt-hint i { color: var(--c-accent); }
+.cvtt-muted { color: var(--c-muted); }
+.cvtt-num {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------- Badges */
+.cvtt-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 1px 8px;
+    border: 1px solid var(--c-line);
+    background: rgba(4, 8, 14, 0.4);
+    clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0;
+    text-transform: none;
+}
+.cvtt-badge.accent { border-color: var(--c-accent); color: var(--c-accent); background: var(--c-accent-dim); }
+.cvtt-badge.ok { border-color: var(--c-pos); color: var(--c-pos); background: var(--c-pos-dim); }
+.cvtt-badge.neg { border-color: var(--c-neg); color: var(--c-neg); background: var(--c-neg-dim); }
+.cvtt-badge.warn { border-color: var(--c-warn); color: var(--c-warn); }
+
+.cvtt-pos { color: var(--c-pos); }
+.cvtt-neg { color: var(--c-neg); }
+.cvtt-warn { color: var(--c-warn); font-weight: bold; }
+.avail-R { color: var(--c-warn); }
+.avail-F { color: var(--c-neg); }
+
+/* ------------------------------------------------------------ Name-Zeile */
+.cvtt-namerow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.cvtt-namerow label {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: var(--font-size-11, 11px);
+    color: var(--c-muted);
+}
+.cvtt-namerow input { flex: 1; font-size: 15px; padding: 4px 8px; }
+
+/* ----------------------------------------------- Charaktertyp (PC / NSC) */
+.cvtt-type-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 6px;
+}
+.cvtt-type-card .cvtt-card-head i {
+    width: 26px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--c-line);
+    border-radius: 2px;
+    background: rgba(4, 8, 14, 0.5);
+    color: var(--c-muted);
+    font-size: 12px;
+}
+.cvtt-type-card.selected .cvtt-card-head i {
+    color: var(--c-accent);
+    border-color: var(--c-accent);
+    text-shadow: 0 0 8px var(--c-accent-glow);
+}
+.cvtt-type-card .cvtt-card-note { font-style: normal; line-height: 1.4; }
+
+/* ---------------------------------------------------- Prioritätentabelle */
+.cvtt-prio-table {
+    border-collapse: separate;
+    border-spacing: 4px;
+    width: 100%;
+    margin: 0;
+}
+.cvtt-prio-table thead th {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: bold;
+    color: var(--c-accent);
+    text-shadow: 0 0 10px var(--c-accent-glow);
+    padding: 0;
+}
+.cvtt-prio-cat {
+    text-align: right;
+    padding-right: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: var(--font-size-11, 11px);
+    color: var(--c-muted);
+    white-space: nowrap;
+    width: 1%;
+    cursor: help;
+}
+.cvtt-prio-cat i {
+    margin-right: 4px;
+    color: var(--c-accent);
+    opacity: 0.75;
+    font-size: 11px;
+}
+.cvtt-prio {
+    display: block;
+    min-height: 46px;
+    padding: 5px 7px;
+    border: 1px solid var(--c-line);
+    border-radius: 2px;
+    background: var(--c-panel);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+.cvtt-prio:hover { border-color: var(--c-accent); box-shadow: 0 0 6px var(--c-accent-glow); }
+.cvtt-prio.selected {
+    border-color: var(--c-accent);
+    background: var(--c-accent-dim);
+    box-shadow: inset 0 0 0 1px var(--c-accent), 0 0 8px var(--c-accent-glow);
+}
+.cvtt-prio.taken { opacity: 0.3; }
+.cvtt-prio input { display: none; }
+.cvtt-prio-info { font-size: var(--font-size-11, 11px); color: var(--c-text); display: block; line-height: 1.35; }
+.cvtt-prio.selected .cvtt-prio-info { color: #fff; }
+
+/* --------------------------------------- Karten (Metatyp, Talent) + HUD */
+.cvtt-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 6px;
+}
+.cvtt-meta-grid.talents { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
+.cvtt-card {
+    position: relative;
+    display: block;
+    padding: 7px 9px;
+    border: 1px solid var(--c-line);
+    border-radius: 2px;
+    background: var(--c-panel);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+.cvtt-card:hover { border-color: var(--c-accent); box-shadow: 0 0 8px var(--c-accent-glow); }
+.cvtt-card.selected {
+    border-color: var(--c-accent);
+    background:
+        linear-gradient(165deg, rgba(41, 216, 230, 0.16), rgba(41, 216, 230, 0.04)),
+        var(--c-panel);
+    box-shadow: 0 0 10px var(--c-accent-glow);
+}
+/* HUD-Eckklammern auf der gewählten Karte */
+.cvtt-card.selected::before,
+.cvtt-card.selected::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    pointer-events: none;
+}
+.cvtt-card.selected::before {
+    top: 2px; left: 2px;
+    border-top: 2px solid var(--c-accent);
+    border-left: 2px solid var(--c-accent);
+}
+.cvtt-card.selected::after {
+    bottom: 2px; right: 2px;
+    border-bottom: 2px solid var(--c-accent);
+    border-right: 2px solid var(--c-accent);
+}
+.cvtt-card input { display: none; }
+.cvtt-card.cvtt-variant { border-style: dashed; }
+.cvtt-card-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.cvtt-card-head strong { font-size: 14px; color: #fff; margin-right: auto; }
+.cvtt-card-note {
+    margin-top: 4px;
+    font-size: var(--font-size-11, 11px);
+    color: var(--c-muted);
+    font-style: italic;
+}
+.cvtt-ranges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 8px;
+    margin-top: 5px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    color: var(--c-text);
+}
+.cvtt-ranges b { color: var(--c-muted); font-weight: normal; margin-right: 1px; }
+.cvtt-ranges .up { color: var(--c-pos); }
+.cvtt-ranges .up b { color: var(--c-pos); opacity: 0.7; }
+.cvtt-ranges .down { color: var(--c-neg); }
+.cvtt-ranges .down b { color: var(--c-neg); opacity: 0.7; }
+
+/* -------------------------------------------------------------- Tabellen */
+.cvtt-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0;
+}
+.cvtt-table th { text-align: left; padding: 3px 6px; font-weight: normal; }
+.cvtt-table td { padding: 3px 6px; }
+.cvtt-table thead th {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: var(--font-size-11, 11px);
+    color: var(--c-muted);
+    border-bottom: 1px solid var(--c-line);
+}
+.cvtt-table tbody tr:nth-child(even) { background: rgba(120, 150, 200, 0.03); }
+.cvtt-attr-table input { font-weight: bold; }
+
+/* ------------------------------------------------------- Listen als Grid */
+.cvtt-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+.cvtt-row {
+    display: grid;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 8px;
+    border-radius: 0;
+    grid-template-columns: 1fr auto;
+}
+.cvtt-row:nth-child(even):not(.cvtt-listhead) { background: rgba(120, 150, 200, 0.035); }
+.cvtt-row:hover:not(.cvtt-listhead) {
+    background: rgba(41, 216, 230, 0.07);
+    box-shadow: inset 2px 0 0 var(--c-line);
+}
+.cvtt-row.selected {
+    background: var(--c-accent-dim);
+    box-shadow: inset 2px 0 0 var(--c-accent);
+}
+.cvtt-row strong { color: #fff; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cvtt-row > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--font-size-12, 12px); }
+
+.cvtt-listhead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: var(--c-panel-2) !important;
+    border-bottom: 1px solid var(--c-line);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: var(--font-size-11, 11px) !important;
+    color: var(--c-muted);
+}
+.cvtt-listhead > span { font-size: inherit !important; }
+
+/* Sortierbare Spaltenköpfe */
+.cvtt-sort {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+    padding: 1px 2px;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0;
+    color: var(--c-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: var(--font-size-11, 11px);
+    white-space: nowrap;
+    overflow: hidden;
+}
+.cvtt-sort:hover { color: var(--c-accent); box-shadow: none !important; }
+.cvtt-sort i { font-size: 9px; opacity: 0.5; }
+.cvtt-sort.active { color: var(--c-accent); }
+.cvtt-sort.active i { opacity: 1; text-shadow: 0 0 6px var(--c-accent-glow); }
+.cvtt-sort.cvtt-num { justify-content: flex-end; font-family: inherit; }
+
+/* Spaltenraster je Listentyp */
+.cols-quality  .cvtt-row { grid-template-columns: 26px minmax(140px, 1fr) 64px 70px; }
+.cols-skill    .cvtt-row { grid-template-columns: minmax(130px, 1fr) 46px minmax(70px, 0.6fr) 92px 64px; }
+.cols-group    .cvtt-row { grid-template-columns: 1fr 92px; }
+.cols-spell    .cvtt-row { grid-template-columns: 26px minmax(130px, 1fr) 90px 34px 62px 46px 52px 64px; }
+.cols-cf       .cvtt-row { grid-template-columns: 26px minmax(130px, 1fr) 80px 60px 60px 64px; }
+.cols-power    .cvtt-row { grid-template-columns: 26px minmax(140px, 1fr) 80px 70px 64px; }
+.cols-gear     .cvtt-row { grid-template-columns: minmax(150px, 1.4fr) minmax(90px, 1fr) 80px 56px 60px 64px 34px; }
+.cols-advance  .cvtt-row { grid-template-columns: minmax(140px, 1fr) 90px minmax(150px, 1fr) 90px; }
+.cols-log      .cvtt-row { grid-template-columns: 80px 1fr 60px; }
+.cols-pdf      .cvtt-row { grid-template-columns: 52px minmax(150px, 0.8fr) minmax(160px, 1.4fr) 30px 66px; }
+
+.cvtt-check {
+    width: 26px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    background: transparent;
+    border-color: transparent;
+    font-size: 14px;
+    white-space: nowrap;
+}
+.cvtt-check:hover { border-color: var(--c-accent); background: var(--c-accent-dim); box-shadow: none; }
+.cvtt-check.accent { color: var(--c-accent); width: auto; background: transparent; border-color: transparent; }
+.cvtt-check.accent:hover:not(:disabled) { background: var(--c-accent-dim); border-color: var(--c-accent); color: var(--c-accent); }
+.cvtt-row .fa-square-check { color: var(--c-accent); text-shadow: 0 0 6px var(--c-accent-glow); }
+.cvtt-row .fa-trash { color: var(--c-neg); }
+
+/* Buttons mit Kosten-Label (Aufstieg) */
+.cols-advance .cvtt-check.accent,
+.cvtt-newrow .cvtt-check.accent,
+.cvtt-specfield .cvtt-check {
+    width: auto;
+    padding: 2px 8px;
+    font-size: var(--font-size-12, 12px);
+    font-family: var(--font-mono);
+}
+.cvtt-specfield { display: flex; gap: 4px; align-items: center; }
+.cvtt-specfield input { flex: 1; min-width: 80px; }
+.cvtt-newrow {
+    display: grid;
+    grid-template-columns: minmax(160px, 0.7fr) 1fr auto;
+    gap: 8px;
+    align-items: center;
+    padding: 3px 0;
+}
+.cvtt-newrow label { color: var(--c-muted); font-size: var(--font-size-12, 12px); }
+
+/* ------------------------------------------------------------- Toolbar */
+.cvtt-toolbar {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.cvtt-toolbar select { min-width: 130px; }
+.cvtt-toolbar input[type="search"] { flex: 1; min-width: 140px; }
+.cvtt-toolbar-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-12, 12px);
+    white-space: nowrap;
+    margin-left: auto;
+}
+
+/* Filter mit Beschriftung (Legalität, Max. Verf., Checkboxen) */
+.cvtt-flabel {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--c-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 10px;
+    white-space: nowrap;
+}
+.cvtt-flabel select { min-width: 110px; }
+.cvtt-flabel input[type="number"] { width: 56px; }
+.cvtt-flabel.cvtt-checkbox { cursor: pointer; }
+.cvtt-flabel.cvtt-checkbox:hover { color: var(--c-text); }
+
+/* Treffer-Zähler ("12 von 480") */
+.cvtt-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--c-muted);
+    white-space: nowrap;
+}
+.cvtt-count i { font-size: 9px; color: var(--c-accent); opacity: 0.7; }
+.cvtt-count + .cvtt-toolbar-info { margin-left: 0; }
+
+/* Seitennavigation für lange Listen (z. B. Gaben & Handicaps) */
+.cvtt-pager {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    white-space: nowrap;
+}
+.cvtt-pager button {
+    width: 20px;
+    height: 20px;
+    line-height: 1;
+    padding: 0;
+    flex: none;
+}
+.cvtt-pager button:disabled { opacity: 0.35; cursor: default; }
+
+/* ------------------------------------------------------------ Auswahl-Tags */
+.cvtt-chosen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.cvtt-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    width: auto;
+    font-size: var(--font-size-11, 11px);
+    padding: 2px 9px;
+    clip-path: polygon(5px 0, 100% 0, calc(100% - 5px) 100%, 0 100%);
+    border-radius: 0;
+}
+.cvtt-tag.pos { border-color: var(--c-pos); color: var(--c-pos); background: var(--c-pos-dim); }
+.cvtt-tag.neg { border-color: var(--c-neg); color: var(--c-neg); background: var(--c-neg-dim); }
+.cvtt-tag i { opacity: 0.7; }
+.cvtt-tag:hover i { opacity: 1; }
+
+/* ------------------------------------------------------------- Warenkorb */
+.cvtt-cart {
+    border: 1px solid var(--c-accent);
+    border-left-width: 3px;
+    border-radius: 2px;
+    background:
+        linear-gradient(165deg, rgba(41, 216, 230, 0.14), rgba(41, 216, 230, 0.04)),
+        var(--c-panel);
+    box-shadow: 0 0 10px rgba(41, 216, 230, 0.15);
+    padding: 6px 8px;
+}
+.cvtt-cart-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: var(--font-size-12, 12px);
+    margin-bottom: 4px;
+}
+.cvtt-cart-head i { color: var(--c-accent); text-shadow: 0 0 8px var(--c-accent-glow); }
+.cvtt-cart .cvtt-row { grid-template-columns: minmax(140px, 1fr) 100px 90px 30px; }
+.cvtt-buy { margin-left: auto; padding: 2px 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* ------------------------------------------------- Talent-Karten-Badges */
+.cvtt-talent-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+/* ------------------------------------------------- Freie Fertigkeiten */
+.cvtt-freeskill-picks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-top: 6px;
+}
+.cvtt-freeskill-picks select { min-width: 190px; }
+
+/* ------------------------------------------------------- Zusammenfassung */
+.cvtt-summary-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.cvtt-summary-head h2 {
+    margin: 0;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-shadow: 0 0 12px var(--c-accent-glow);
+}
+.cvtt-attr-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 4px;
+}
+.cvtt-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px 4px;
+    background: rgba(4, 8, 14, 0.4);
+    border: 1px solid var(--c-line);
+    border-radius: 2px;
+    clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+.cvtt-stat span {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--c-muted);
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.cvtt-stat b {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    color: #fff;
+}
+.cvtt-stat.accent { border-color: var(--c-accent); background: var(--c-accent-dim); }
+.cvtt-stat.accent b { color: var(--c-accent); text-shadow: 0 0 8px var(--c-accent-glow); }
+
+/* Offene Punkte in der Zusammenfassung (klickbar → Schritt) */
+.cvtt-openpoints { border-color: var(--c-warn); border-left-width: 3px; }
+.cvtt-openpoints > h3 { border-image: linear-gradient(90deg, var(--c-warn), var(--c-line-soft) 40%, transparent) 1; }
+.cvtt-openpoints > h3 i { color: var(--c-warn); text-shadow: none; }
+.cvtt-openpoint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 3px;
+    padding: 4px 8px;
+    text-align: left;
+    background: rgba(4, 8, 14, 0.35);
+    border-color: var(--c-line);
+}
+.cvtt-openpoint > i { color: var(--c-warn); }
+.cvtt-openpoint > span:first-of-type { flex: 1; }
+.cvtt-openpoint-step {
+    color: var(--c-accent);
+    font-size: var(--font-size-11, 11px);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+.cvtt-openpoint:hover { border-color: var(--c-warn); box-shadow: 0 0 6px rgba(240, 168, 72, 0.35); }
+.cvtt-alldone { color: var(--c-pos); }
+.cvtt-alldone i { color: var(--c-pos) !important; }
+
+/* Fertigkeiten-/Listen-Zusammenfassung */
+.cvtt-skill-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+}
+.cvtt-skilltag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 1px 8px;
+    background: rgba(4, 8, 14, 0.4);
+    border: 1px solid var(--c-line);
+    font-size: var(--font-size-11, 11px);
+    white-space: nowrap;
+}
+.cvtt-skilltag b {
+    font-family: var(--font-mono);
+    color: var(--c-accent);
+}
+.cvtt-summary-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--font-size-12, 12px);
+}
+.cvtt-summary-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 2px 4px;
+}
+.cvtt-summary-list li:nth-child(even) { background: rgba(120, 150, 200, 0.035); }
+.cvtt-summary-list li i { color: var(--c-accent); opacity: 0.75; font-size: 10px; }
+.cvtt-summary-list li .cvtt-num { margin-left: auto; }
+.cvtt-gap { margin-top: 12px !important; }
+
+.cvtt-create {
+    padding: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: var(--c-accent-dim);
+    border: 1px solid var(--c-accent);
+    color: var(--c-accent);
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+.cvtt-create:hover:not(:disabled) {
+    background: var(--c-accent);
+    color: #06181c;
+    box-shadow: 0 0 14px var(--c-accent-glow);
+}
+
+/* ------------------------------------------------------------ Navigation */
+.cvtt-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+.cvtt-nav button {
+    width: auto;
+    padding: 4px 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: var(--font-size-12, 12px);
+}
+
+/* -------------------------------------------------------- Quellenverweise */
+a.cvtt-source {
+    color: var(--c-accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--c-accent);
+    white-space: nowrap;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    opacity: 0.85;
+}
+a.cvtt-source:hover { opacity: 1; text-shadow: 0 0 6px var(--c-accent-glow); }
+.cvtt-src { text-align: right; }
+
+/* ---------------------------------------------------------- Sidebar-Button */
+.cvtt-chargen-button,
+.cvtt-quicknpc-button,
+.cvtt-grunts-button { margin: 4px; }
+
+/* ------------------------------------------------------------ Schnell-NSC */
+.cvtt-quicknpc-list,
+.cvtt-quicknpc-body {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+.cvtt-quicknpc-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 4px;
+}
+.cvtt-meta-grid.quicknpc { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+.cvtt-leader { color: var(--c-warn); font-size: 12px; }
+.cvtt-tplcard {
+    text-align: left;
+    width: 100%;
+    /* Foundry-Core erzwingt für <button> height: var(--button-size) —
+       die Vorlagenkarten sind mehrzeilig und clippen sonst ineinander */
+    height: auto;
+    min-height: 0;
+}
+.cvtt-tplcard-cta {
+    margin-top: 6px;
+    font-size: var(--font-size-11, 11px);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--c-accent);
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+.cvtt-tplcard:hover .cvtt-tplcard-cta { opacity: 1; }
+
+/* Editor-Kopfzeile (Zurück, Vorlagenname) */
+.cvtt-edithead {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.cvtt-edithead button { width: auto; padding: 3px 12px; }
+.cvtt-edithead h2 {
+    margin: 0;
+    border: none;
+    color: #fff;
+    font-size: 17px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-shadow: 0 0 12px var(--c-accent-glow);
+}
+
+/* Editierbare Fertigkeiten-/Vorschlagslisten */
+.cols-npcskill .cvtt-row { grid-template-columns: 1fr 92px 26px; }
+.cols-suggest  .cvtt-row { grid-template-columns: minmax(150px, 1.4fr) minmax(90px, 1fr) 80px 56px 30px; }
+
+/* Chip-Listen im Editor (entfernen per Klick) */
+.cvtt-editchips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+.cvtt-editchips:empty { display: none; }
+.cvtt-editchips .cvtt-tag i:first-child { color: var(--c-accent); opacity: 0.8; }
+
+.cvtt-addrow { margin-top: 4px; }
+.cvtt-addrow select { min-width: 160px; max-width: 220px; }
+.cvtt-quicknpc-foot {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-top: 6px;
+    border-top: 1px solid var(--c-line);
+}
+.cvtt-quicknpc-foot .cvtt-flabel {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+}
+.cvtt-quicknpc-foot .cvtt-flabel.grow { flex: 1; min-width: 180px; }
+.cvtt-quicknpc-foot .cvtt-flabel.grow input { width: 100%; }
+.cvtt-quicknpc-foot .cvtt-flabel.cvtt-checkbox {
+    flex-direction: row;
+    align-items: center;
+    min-height: 24px;
+}
+.cvtt-quicknpc-create {
+    padding: 4px 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+
+/* ---------------------------------------------------- Aktive Regelwerke */
+.cvtt-book-list {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+.cols-books .cvtt-row {
+    grid-template-columns: 22px 56px 1fr 70px;
+    cursor: pointer;
+}
+.cols-books .cvtt-row input[type="checkbox"] { margin: 0; justify-self: center; }
+.cols-books .cvtt-row:has(input:disabled) { cursor: default; }
+
+/* ------------------------------------------------------- PDF-Konfiguration */
+.cvtt-pdf-list {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+.cvtt-pdf-code {
+    color: var(--c-accent) !important;
+    font-family: var(--font-mono);
+}
+
+/* Shop: Liste scrollt selbst */
+.cvtt-shop-list {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}

@@ -1,0 +1,77 @@
+<div class="cvtt-app cvtt-shop">
+
+<div class="cvtt-statusbar">
+    <div class="cvtt-chip"><i class="fas fa-coins"></i>
+        <span class="cvtt-chip-label">{{localize "CHUMMER.Nuyen"}}</span>
+        <span class="cvtt-chip-value">{{nuyen}}¥</span></div>
+    <div class="cvtt-chip {{#unless canBuy}}{{#if cart.length}}over{{/if}}{{/unless}}"><i class="fas fa-cart-shopping"></i>
+        <span class="cvtt-chip-label">{{localize "CHUMMER.Cart"}}</span>
+        <span class="cvtt-chip-value">{{cartTotal}}¥</span></div>
+</div>
+
+<div class="cvtt-toolbar">
+    <select data-field="kind">
+        {{#each kinds}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+    </select>
+    <select data-field="cat">
+        <option value="">{{localize "CHUMMER.AllCategories"}}</option>
+        {{#each cats}}<option value="{{name}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+    </select>
+    <input type="search" value="{{filter}}" placeholder="{{localize 'CHUMMER.Search'}}">
+</div>
+
+<div class="cvtt-toolbar">
+    <label class="cvtt-flabel">{{localize "CHUMMER.Legality"}}
+        <select data-field="legality">
+            {{#each legalities}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+        </select>
+    </label>
+    <label class="cvtt-flabel">{{localize "CHUMMER.MaxAvail"}}
+        <input type="number" data-field="maxAvail" value="{{maxAvail}}" min="0" placeholder="–">
+    </label>
+    <label class="cvtt-flabel cvtt-checkbox">
+        <input type="checkbox" data-field="affordable" {{#if affordable}}checked{{/if}}>
+        {{localize "CHUMMER.Affordable"}}
+    </label>
+    <span class="cvtt-count"><i class="fas fa-list"></i> {{count}}</span>
+</div>
+
+{{#if cart.length}}
+<div class="cvtt-cart">
+    <div class="cvtt-cart-head"><i class="fas fa-cart-shopping"></i> {{localize "CHUMMER.Cart"}}
+        <span class="cvtt-badge accent">{{cartTotal}}¥</span>
+        <button type="button" class="cvtt-buy accent" data-action="buy" {{#unless canBuy}}disabled{{/unless}}>
+            <i class="fas fa-cash-register"></i> {{localize "CHUMMER.Buy"}}
+        </button>
+    </div>
+    {{#each cart}}
+    <div class="cvtt-row">
+        <strong>{{label}}</strong>
+        <span>{{#if rating}}{{localize "CHUMMER.Rating"}} {{rating}}{{/if}}</span>
+        <span class="cvtt-num">{{costDisplay}}</span>
+        <button type="button" class="cvtt-check" data-action="removeCart" data-index="{{index}}"><i class="fas fa-trash"></i></button>
+    </div>
+    {{/each}}
+</div>
+{{/if}}
+
+<div class="cvtt-list cols-gear cvtt-shop-list">
+    {{> cvtt-listhead headers=headers}}
+    {{#each list}}
+    <div class="cvtt-row">
+        <strong>{{label}}</strong>
+        <span class="cvtt-muted">{{category}}</span>
+        <span class="cvtt-num">{{cost}}</span>
+        <span class="cvtt-num {{#if legality}}avail-{{legality}}{{/if}}">{{avail}}</span>
+        <span>{{#if maxRating}}
+            <input type="number" data-rating value="{{minRating}}" min="{{minRating}}" max="{{maxRating}}" title="{{localize 'CHUMMER.Rating'}}">
+        {{/if}}</span>
+        <span class="cvtt-src">{{{sourceLink}}}</span>
+        <button type="button" class="cvtt-check accent" data-action="addCart" data-name="{{name}}" title="{{localize 'CHUMMER.AddToCart'}}">
+            <i class="fas fa-cart-plus"></i>
+        </button>
+    </div>
+    {{/each}}
+</div>
+
+</div>

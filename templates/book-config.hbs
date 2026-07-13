@@ -1,0 +1,31 @@
+<div class="cvtt-app cvtt-book-config">
+
+<p class="cvtt-hint"><i class="fas fa-circle-info"></i> {{hint}}</p>
+
+<div class="cvtt-toolbar">
+    <button type="button" data-action="enableAll"><i class="fas fa-check-double"></i> {{localize "CHUMMER.BookEnableAll"}}</button>
+    <button type="button" data-action="coreOnly"><i class="fas fa-book"></i> {{localize "CHUMMER.BookCoreOnly"}}</button>
+</div>
+
+<div class="cvtt-list cols-books cvtt-book-list">
+    <div class="cvtt-row cvtt-listhead">
+        <span></span><span>{{localize "CHUMMER.BookCode"}}</span><span>{{localize "CHUMMER.Sourcebook"}}</span><span class="cvtt-num">{{localize "CHUMMER.BookEntries"}}</span>
+    </div>
+    {{#each books}}
+    <label class="cvtt-row {{#if active}}selected{{/if}}">
+        <input type="checkbox" name="book.{{code}}" {{#if active}}checked{{/if}} {{#if core}}disabled{{/if}}>
+        <strong class="cvtt-pdf-code">{{code}}</strong>
+        <span class="cvtt-muted">{{name}}{{#if core}} — {{localize "CHUMMER.BookCoreNote"}}{{/if}}</span>
+        <span class="cvtt-num">{{count}}</span>
+    </label>
+    {{/each}}
+</div>
+
+<footer class="cvtt-nav">
+    <span class="cvtt-hint"><i class="fas fa-book-open"></i> {{localize "CHUMMER.BookConfigFoot"}}</span>
+    {{#each buttons}}
+    <button type="{{type}}" class="accent"><i class="{{icon}}"></i> {{localize label}}</button>
+    {{/each}}
+</footer>
+
+</div>
