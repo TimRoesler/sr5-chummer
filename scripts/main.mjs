@@ -11,6 +11,7 @@ import { PackTranslator } from './packs.mjs';
 import { GruntImporter } from './grunts.mjs';
 import { QuickNpcApp } from './quicknpc.mjs';
 import { retrofitWorldItems, registerAutoEnrichment, EnrichMenu } from './enrich.mjs';
+import { repairEffectTints } from './repair.mjs';
 
 Hooks.once('init', () => {
     // Sicherheitsnetz: Modul nur im shadowrun5e-System initialisieren
@@ -125,6 +126,10 @@ Hooks.once('ready', async () => {
 
     // GRW-Anreicherung: automatisch bei Item-/Charakterimporten.
     registerAutoEnrichment();
+
+    // Datenreparatur: ungültige Effekt-tints ("" bricht die v14-Validierung,
+    // in verschachtelten Items sogar die Actor-Vorbereitung beim Weltstart).
+    if (game.user.isGM) await repairEffectTints();
 
     if (game.user.isGM) {
         // PDF-Quellen beim ersten Start automatisch vorbelegen.

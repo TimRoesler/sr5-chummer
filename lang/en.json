@@ -269,6 +269,9 @@
       "Menu": "Core-book enrichment",
       "MenuLabel": "Enrich now",
       "MenuHint": "Adds core-book descriptions and effects to all existing world and character items (details in the console log, F12)."
+    },
+    "Repair": {
+      "Summary": "Data repair: fixed {count} invalid effect tint values (details in console)."
     }
   }
 }

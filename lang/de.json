@@ -269,6 +269,9 @@
       "Menu": "GRW-Anreicherung",
       "MenuLabel": "Jetzt nachrüsten",
       "MenuHint": "Rüstet alle bestehenden Welt- und Charakter-Items mit GRW-Beschreibungen und -Effekten nach (Details im Konsolen-Log, F12)."
+    },
+    "Repair": {
+      "Summary": "Datenreparatur: {count} ungültige Effekt-Farbwerte korrigiert (Details in der Konsole)."
     }
   }
 }

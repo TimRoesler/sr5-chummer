@@ -10,6 +10,7 @@
  * Alle Vorgänge loggen ausführlich in die Browser-Konsole (Filter: "sr5-chummer").
  */
 import { ChummerData, MODULE_ID } from './data.mjs';
+import { repairEffectTints } from './repair.mjs';
 
 const ENRICHMENT_FILES = ['enrichment-gear', 'enrichment-weapons', 'enrichment-armor', 'enrichment-qualities'];
 /** Item-Typen, bei denen ein fehlender Katalogtreffer auffällig geloggt wird. */
@@ -37,6 +38,7 @@ export async function enrichmentData() {
 function effectCreateData(fx, entryId) {
     const data = foundry.utils.deepClone(fx);
     data._id ??= foundry.utils.randomID();
+    if (!data.tint) data.tint = '#ffffff';
     data.flags = foundry.utils.mergeObject(data.flags ?? {}, { [MODULE_ID]: { enriched: entryId } });
     return data;
 }
@@ -209,6 +211,7 @@ export async function retrofitCompendiums() {
                 await pack.configure({ locked: false });
             }
             const documents = await pack.getDocuments();
+            await repairEffectTints(documents);
             const summary = await enrichBatch(documents, {
                 titel: `Kompendium "${pack.metadata.label}" nachrüsten`,
                 quelle: `Kompendium ${pack.collection}`,
