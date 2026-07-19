@@ -353,6 +353,7 @@
       "hermetic": "Hermetisch",
       "shamanic": "Schamanistisch"
     },
-    "DrainLabel": "Entzug"
+    "DrainLabel": "Entzug",
+    "VehiclesCreated": "{count} Fahrzeug-Actor(s) angelegt (Fahrer verknüpft)."
   }
 }

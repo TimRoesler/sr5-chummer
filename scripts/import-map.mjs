@@ -330,6 +330,47 @@ export async function applySkillPlan(actor, skillPlan, report) {
     return { updated: updates.length, created: creates.length, deduped: deletes.length };
 }
 
+/**
+ * Fahrzeug-Actor-Daten direkt aus einem Katalogeintrag (data/vehicles.json),
+ * z. B. für den Shop-Kauf. driver/folder setzt der Aufrufer.
+ */
+export function vehicleActorFromCatalog(entry) {
+    const split = value => {
+        const [base, offRoad] = String(value ?? '0').split('/').map(x => parseInt(x) || 0);
+        return { base, offRoad: offRoad ?? base };
+    };
+    const handling = split(entry.handling);
+    const speed = split(entry.speed);
+    const accel = split(entry.accel);
+    const isDrone = /drone/i.test(entry.category ?? '');
+    return {
+        name: ChummerData.nameOf(entry),
+        type: 'vehicle',
+        system: {
+            isDrone,
+            ...(isDrone ? { category: (entry.category ?? '').replace(/Drones:\s*/i, '').toLowerCase() } : {}),
+            vehicle_stats: {
+                pilot: { base: parseInt(entry.pilot) || 0 },
+                handling: { base: handling.base },
+                off_road_handling: { base: handling.offRoad },
+                speed: { base: speed.base },
+                off_road_speed: { base: speed.offRoad },
+                acceleration: { base: accel.base },
+                off_road_acceleration: { base: accel.offRoad },
+                sensor: { base: parseInt(entry.sensor) || 0 },
+                seats: { base: parseInt(entry.seats) || 0 },
+            },
+            attributes: { body: { base: parseInt(entry.body) || 0 } },
+            armor: { rating: { base: parseInt(entry.armor) || 0 } },
+            cost: ChummerData.evalCost(entry.cost) ?? 0,
+            availability: String(entry.avail ?? ''),
+            description: { source: entry.page ? `${entry.source} ${entry.page}` : (entry.source ?? '') },
+        },
+        prototypeToken: { disposition: CONST.TOKEN_DISPOSITIONS.FRIENDLY },
+        flags: { [MODULE_ID]: { ...(entry.id ? { sourceId: entry.id.toLowerCase() } : {}) } },
+    };
+}
+
 /** Fahrzeug-Actor-Daten (system.driver setzt der Aufrufer nach Erzeugung). */
 async function buildVehicle(v, report) {
     const split = value => {

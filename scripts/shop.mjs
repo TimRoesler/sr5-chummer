@@ -3,6 +3,7 @@
  */
 import { ChummerData, MODULE_ID } from './data.mjs';
 import { purchasedItemData } from './items.mjs';
+import { vehicleActorFromCatalog } from './import-map.mjs';
 import {
     CATALOG_KINDS, catalogContext, fmt, gearHeaders, legalityOptions, resultCount, toggleSort,
 } from './catalog.mjs';
@@ -156,12 +157,26 @@ export class ShopApp extends HandlebarsApplicationMixin(ApplicationV2) {
 
         const kindMap = Object.fromEntries(CATALOG_KINDS.map(([id, kind]) => [id, kind]));
         const items = [];
+        let vehicles = 0;
         for (const c of this.cart) {
+            // Fahrzeuge werden als eigene vehicle-Actors mit Fahrer-Verknüpfung
+            // angelegt statt als Ausrüstungs-Item (seit v0.11.0).
+            if (c.kind === 'vehicles' && actor.type === 'character') {
+                const catalog = await ChummerData.catalog('vehicles');
+                const entry = catalog.find(e => e.name === c.name) ?? c;
+                const data = vehicleActorFromCatalog(entry);
+                data.system.driver = actor.id;
+                data.folder = actor.folder?.id ?? null;
+                await Actor.create(data);
+                vehicles++;
+                continue;
+            }
             items.push(await purchasedItemData(kindMap[c.kind] ?? 'gear', c, c.rating));
         }
 
-        await actor.createEmbeddedDocuments('Item', items);
+        if (items.length) await actor.createEmbeddedDocuments('Item', items);
         await actor.update({ 'system.nuyen': nuyen - total });
+        if (vehicles) ui.notifications.info(game.i18n.format('CHUMMER.VehiclesCreated', { count: vehicles }));
 
         // Kauf-Log
         const log = actor.getFlag(MODULE_ID, 'purchaseLog') ?? [];

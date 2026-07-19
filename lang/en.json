@@ -353,6 +353,7 @@
       "hermetic": "Hermetic",
       "shamanic": "Shamanic"
     },
-    "DrainLabel": "Drain"
+    "DrainLabel": "Drain",
+    "VehiclesCreated": "Created {count} vehicle actor(s) (driver linked)."
   }
 }
