@@ -85,7 +85,13 @@ export async function buildImport(norm, options = {}) {
     const items = [];
 
     // -------------------------------------------------------------- Skills
+    // Aktive Fertigkeiten landen NICHT in items[]: das System injiziert bei
+    // der Actor-Erzeugung automatisch sein Standard-Skillset (alle Skills als
+    // Items mit Stufe 0, SR5Actor._preCreate). Stattdessen liefert der Plan
+    // die Ratings, die der Importer nach der Erzeugung auf die vorhandenen
+    // Skill-Items schreibt (fehlende, z. B. exotische, werden neu angelegt).
     const skillData = await ChummerData.skills();
+    const skillPlan = [];
     for (const sk of norm.skills) {
         const def = skillData.skills.find(x => x.id?.toLowerCase() === sk.sourceId)
             ?? skillData.skills.find(x => x.en === sk.nameEn || x.name === sk.name);
@@ -94,8 +100,15 @@ export async function buildImport(norm, options = {}) {
             continue;
         }
         const data = await skillItemData(def, sk.rating, sk.specs);
-        report.add(tagSource(data, { sourceId: def.id?.toLowerCase() }), def);
-        items.push(data);
+        tagSource(data, { sourceId: def.id?.toLowerCase() });
+        skillPlan.push({
+            names: [...new Set([def.name, def.en, sk.name, sk.nameEn].filter(Boolean))]
+                .map(n => n.toLowerCase()),
+            rating: sk.rating,
+            specs: sk.specs,
+            sourceId: def.id?.toLowerCase() ?? null,
+            itemData: data,
+        });
     }
     for (const ks of norm.knowledgeSkills) {
         const data = {
@@ -289,7 +302,50 @@ export async function buildImport(norm, options = {}) {
         report.vehicles = vehicles.length;
     }
 
-    return { actorData, vehicles, report };
+    return { actorData, vehicles, skillPlan, report };
+}
+
+/**
+ * Skill-Ratings auf die vorhandenen aktiven Skill-Items des Actors schreiben
+ * (die das System-Skillset injiziert hat). Fehlende Skills werden angelegt,
+ * gleichnamige Duplikate mit unserem sourceId-Flag entfernt (Altbestand aus
+ * v0.9.0-Importen). Wissens-/Sprachskills laufen weiterhin über items[].
+ */
+export async function applySkillPlan(actor, skillPlan, report) {
+    const updates = [];
+    const creates = [];
+    const deletes = [];
+    const activeSkills = actor.items.filter(i =>
+        i.type === 'skill' && (i.system?.skill?.category ?? 'active') === 'active');
+
+    for (const plan of skillPlan) {
+        const candidates = activeSkills.filter(i => plan.names.includes(i.name.toLowerCase()));
+        // Bevorzugt das vom System injizierte Item (ohne unser Flag) behalten,
+        // überzählige eigene Duplikate abräumen.
+        const keeper = candidates.find(i => !i.getFlag(MODULE_ID, 'sourceId')) ?? candidates[0];
+        for (const dup of candidates) {
+            if (dup !== keeper && dup.getFlag(MODULE_ID, 'sourceId')) deletes.push(dup.id);
+        }
+        if (!keeper) {
+            creates.push(plan.itemData);
+            continue;
+        }
+        const patch = { _id: keeper.id };
+        if (keeper.system?.skill?.rating !== plan.rating) patch['system.skill.rating'] = plan.rating;
+        if (plan.specs.length && (keeper.system?.skill?.specializations?.length ?? 0) !== plan.specs.length) {
+            patch['system.skill.specializations'] = plan.specs.map(name => ({ name }));
+        }
+        if (plan.sourceId && keeper.getFlag(MODULE_ID, 'sourceId') !== plan.sourceId) {
+            patch[`flags.${MODULE_ID}.sourceId`] = plan.sourceId;
+        }
+        if (Object.keys(patch).length > 1) updates.push(patch);
+    }
+
+    if (deletes.length) await actor.deleteEmbeddedDocuments('Item', deletes);
+    if (updates.length) await actor.updateEmbeddedDocuments('Item', updates);
+    if (creates.length) await actor.createEmbeddedDocuments('Item', creates);
+    if (report) report.skills = { updated: updates.length, created: creates.length, deduped: deletes.length };
+    return { updated: updates.length, created: creates.length, deduped: deletes.length };
 }
 
 /** Fahrzeug-Actor-Daten (system.driver setzt der Aufrufer nach Erzeugung). */

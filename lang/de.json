@@ -309,7 +309,8 @@
       "ParseError": "Chummer-Datei konnte nicht gelesen werden: {error}",
       "Error": "Import fehlgeschlagen: {error}",
       "DoneCreate": "Charakter „{name}“ wurde importiert.",
-      "DoneSync": "Charakter „{name}“ wurde synchronisiert."
+      "DoneSync": "Charakter „{name}“ wurde synchronisiert.",
+      "ResultSkills": "Fertigkeiten: {updated} Stufen gesetzt, {created} neu angelegt, {deduped} Duplikate entfernt."
     }
   }
 }

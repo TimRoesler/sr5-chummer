@@ -309,7 +309,8 @@
       "ParseError": "Could not read Chummer file: {error}",
       "Error": "Import failed: {error}",
       "DoneCreate": "Character “{name}” imported.",
-      "DoneSync": "Character “{name}” synced."
+      "DoneSync": "Character “{name}” synced.",
+      "ResultSkills": "Skills: {updated} ratings set, {created} created, {deduped} duplicates removed."
     }
   }
 }

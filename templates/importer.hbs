@@ -94,6 +94,9 @@
     <div class="cvtt-panel cvtt-import-result">
         <h3><i class="fas fa-circle-check"></i> {{localize "CHUMMER.Import.Result"}}</h3>
         <p>{{localize "CHUMMER.Import.ResultItems" name=actorName items=items catalog=catalog fallback=fallback}}</p>
+        {{#if skills}}
+        <p>{{localize "CHUMMER.Import.ResultSkills" updated=skills.updated created=skills.created deduped=skills.deduped}}</p>
+        {{/if}}
         {{#if synced}}
         <p>{{localize "CHUMMER.Import.ResultSync" created=synced.created updated=synced.updated deleted=synced.deleted}}</p>
         {{/if}}

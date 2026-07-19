@@ -12,7 +12,7 @@
  */
 import { MODULE_ID } from './data.mjs';
 import { parseChummerFile } from './chummer-parse.mjs';
-import { buildImport } from './import-map.mjs';
+import { buildImport, applySkillPlan } from './import-map.mjs';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -171,7 +171,7 @@ export class ChummerImportApp extends HandlebarsApplicationMixin(ApplicationV2) 
         this.render();
         try {
             const existing = s.target !== 'new' ? game.actors.get(s.target) : null;
-            const { actorData, vehicles, report } = await buildImport(norm, { vehicles: s.options.vehicles });
+            const { actorData, vehicles, skillPlan, report } = await buildImport(norm, { vehicles: s.options.vehicles });
 
             let actor;
             let mode;
@@ -183,6 +183,10 @@ export class ChummerImportApp extends HandlebarsApplicationMixin(ApplicationV2) 
                 mode = 'create';
                 actor = await Actor.create(actorData);
             }
+
+            // Aktive Skill-Ratings auf die vom System-Skillset injizierten
+            // Skill-Items schreiben (räumt auch Duplikate früherer Importe ab).
+            await applySkillPlan(actor, skillPlan, report);
 
             // Portrait aus dem Export übernehmen.
             if (s.options.mugshot && norm.mugshots.main) {
@@ -209,6 +213,7 @@ export class ChummerImportApp extends HandlebarsApplicationMixin(ApplicationV2) 
                 vehicles: createdVehicles,
                 skipped: report.skipped,
                 synced: report.synced ?? null,
+                skills: report.skills ?? null,
             };
             log('Import abgeschlossen:', this.#result);
             ui.notifications.info(game.i18n.format(
