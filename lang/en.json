@@ -34,7 +34,8 @@
       "Skills": "Skills",
       "Talent": "Magic / Resonance",
       "Gear": "Gear",
-      "Summary": "Summary"
+      "Summary": "Summary",
+      "Background": "Background"
     },
     "Priority": {
       "Heritage": "Metatype",
@@ -58,7 +59,8 @@
       "Skills": "Skill groups raise all contained skills at once and can only be paid with group points. Individual skills (rating 1–6) use the regular skill points.",
       "Talent": "Choose the specific form of magic or resonance, then pick spells, adept powers, or complex forms. Free skills from the talent don't cost skill points.",
       "Gear": "Buy starting gear from your starting funds. Availability above the limit or “F” (forbidden) is normally not allowed during creation. Up to 10 karma can be converted into 2,000¥ each.",
-      "Summary": "Review the open points, then create the character. All values can be adjusted later on the character sheet – purchases and improvements continue via Shop and Karma Advancement."
+      "Summary": "Review the open points, then create the character. All values can be adjusted later on the character sheet – purchases and improvements continue via Shop and Karma Advancement.",
+      "Background": "Contacts (Charisma × 3 points for connection and loyalty) and knowledge/language skills ((INT + LOG) × 2 points). Your native language is free."
     },
     "ActorType": {
       "Label": "Character type",
@@ -223,7 +225,21 @@
       "NoteNewSkill": "New skill: {name}",
       "NoteNewSpell": "New spell: {name}",
       "NoteNewCF": "New complex form: {name}",
-      "NoteQuality": "Quality: {name}"
+      "NoteQuality": "Quality: {name}",
+      "Initiation": "Initiation",
+      "Submersion": "Submersion",
+      "Metamagic": "Metamagic",
+      "Echo": "Echo",
+      "Grade": "Grade",
+      "GradeUp": "To grade {grade}",
+      "AdeptOnly": "adepts only",
+      "BindFoci": "Bind foci",
+      "Knowledge": "Knowledge & language skills",
+      "NewKnowledge": "New knowledge skill",
+      "NoteInitiation": "Initiation grade {grade}: {pick}",
+      "NoteSubmersion": "Submersion grade {grade}: {pick}",
+      "NoteBindFocus": "Focus bonded: {name}",
+      "NoteNewKnowledge": "New knowledge skill: {name}"
     },
     "LearnNew": "Learn something new",
     "Settings": {
@@ -311,6 +327,32 @@
       "DoneCreate": "Character “{name}” imported.",
       "DoneSync": "Character “{name}” synced.",
       "ResultSkills": "Skills: {updated} ratings set, {created} created, {deduped} duplicates removed."
-    }
+    },
+    "ContactPoints": "Contact points",
+    "ContactHint": "Connection + loyalty per contact count against the budget (Charisma × 3).",
+    "ContactName": "Name",
+    "ContactRole": "Role (e.g. fixer)",
+    "AddContact": "Add contact",
+    "Contact": "Contact",
+    "KnowledgePoints": "Knowledge points",
+    "KnowledgeHint": "Knowledge and language skills, budget (Intuition + Logic) × 2.",
+    "KnowledgeName": "Skill (e.g. street gangs)",
+    "AddKnowledge": "Add knowledge skill",
+    "NativeLanguage": "Native language (free)",
+    "NativeLanguagePh": "e.g. English",
+    "Knowledge": {
+      "academic": "Academic",
+      "professional": "Professional",
+      "street": "Street",
+      "interests": "Interests",
+      "language": "Language"
+    },
+    "TraditionTitle": "Tradition",
+    "TraditionHint": "The tradition determines the second drain attribute (besides Willpower).",
+    "Tradition": {
+      "hermetic": "Hermetic",
+      "shamanic": "Shamanic"
+    },
+    "DrainLabel": "Drain"
   }
 }

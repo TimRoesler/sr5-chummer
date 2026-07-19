@@ -6,8 +6,10 @@ import { ChummerData, MODULE_ID } from './data.mjs';
 import { SourceLinks } from './sources.mjs';
 import {
     purchasedItemData, qualityItemData, spellItemData,
-    complexFormItemData, adeptPowerItemData, skillItemData, mapAttribute, sourceString,
+    complexFormItemData, adeptPowerItemData, mapAttribute, sourceString,
+    contactItemData, knowledgeSkillItemData, focusBindingKarma,
 } from './items.mjs';
+import { buildSkillPlanEntry, applySkillPlan } from './import-map.mjs';
 import {
     CATALOG_KINDS, catalogContext, fmt, gearHeaders, legalityOptions,
     listHeaders, resultCount, sortRows, toggleSort,
@@ -22,8 +24,23 @@ const PRIO_ICONS = {
 };
 const LETTERS = ['A', 'B', 'C', 'D', 'E'];
 const PHYS_MENTAL = ['bod', 'agi', 'rea', 'str', 'cha', 'int', 'log', 'wil'];
-const STEPS = ['Priorities', 'Metatype', 'Attributes', 'Qualities', 'Skills', 'Talent', 'Gear', 'Summary'];
-const STEP_ICONS = ['fa-list-ol', 'fa-dna', 'fa-dumbbell', 'fa-masks-theater', 'fa-graduation-cap', 'fa-wand-sparkles', 'fa-cart-shopping', 'fa-flag-checkered'];
+const STEPS = ['Priorities', 'Metatype', 'Attributes', 'Qualities', 'Skills', 'Talent', 'Background', 'Gear', 'Summary'];
+const STEP_ICONS = ['fa-list-ol', 'fa-dna', 'fa-dumbbell', 'fa-masks-theater', 'fa-graduation-cap', 'fa-wand-sparkles', 'fa-address-book', 'fa-cart-shopping', 'fa-flag-checkered'];
+
+/** Wissensfertigkeits-Typen (GRW) mit zugehörigem Attribut. */
+const KNOWLEDGE_TYPES = [
+    { id: 'academic', attribute: 'logic' },
+    { id: 'professional', attribute: 'logic' },
+    { id: 'street', attribute: 'intuition' },
+    { id: 'interests', attribute: 'intuition' },
+    { id: 'language', attribute: 'intuition' },
+];
+
+/** GRW-Traditionen: bestimmen das zweite Entzugsattribut (neben Willenskraft). */
+const TRADITIONS = [
+    { id: 'hermetic', attribute: 'logic' },
+    { id: 'shamanic', attribute: 'charisma' },
+];
 const GEAR_KINDS = CATALOG_KINDS;
 
 /** Charaktertypen: Spielercharakter, NSC, Scherge (Grunt). */
@@ -63,6 +80,10 @@ export class ChargenApp extends HandlebarsApplicationMixin(ApplicationV2) {
             togglePower: ChargenApp.#onTogglePower,
             addCart: ChargenApp.#onAddCart,
             removeCart: ChargenApp.#onRemoveCart,
+            addContact: ChargenApp.#onAddContact,
+            removeContact: ChargenApp.#onRemoveContact,
+            addKnowledge: ChargenApp.#onAddKnowledge,
+            removeKnowledge: ChargenApp.#onRemoveKnowledge,
             sortBy: ChargenApp.#onSortBy,
             create: ChargenApp.#onCreate,
             qualityPage: ChargenApp.#onQualityPage,
@@ -90,6 +111,10 @@ export class ChargenApp extends HandlebarsApplicationMixin(ApplicationV2) {
         mysticPP: 0,
         karmaNuyen: 0,
         cart: [],               // {kind, name, rating}
+        tradition: 'hermetic',  // GRW: hermetisch | schamanisch
+        contacts: [],           // {name, role, connection, loyalty}
+        knowledge: [],          // {name, type, rating}
+        nativeLanguage: '',     // Muttersprache (gratis, GRW)
     };
 
     filters = {
@@ -195,8 +220,18 @@ export class ChargenApp extends HandlebarsApplicationMixin(ApplicationV2) {
             if (q.category === 'Positive') posKarma += k;
             else negKarma += Math.abs(k);
         }
-        const karmaSpent = metaKarma + posKarma - negKarma + s.mysticPP * 5 + s.karmaNuyen;
+        // Foki im Warenkorb kosten zusätzlich Karma für die Bindung (GRW).
+        const focusKarma = s.cart.reduce((sum, c) =>
+            sum + focusBindingKarma(c.name, c.rating || 1), 0);
+
+        const karmaSpent = metaKarma + posKarma - negKarma + s.mysticPP * 5 + s.karmaNuyen + focusKarma;
         const karmaLeft = budget - karmaSpent;
+
+        // Hintergrund: Kontakte (Charisma × 3) und Wissen ((INT + LOG) × 2).
+        const contactPoints = this.#attrValue('cha') * 3;
+        const contactSpent = s.contacts.reduce((sum, c) => sum + (c.connection || 0) + (c.loyalty || 0), 0);
+        const knowledgePoints = (this.#attrValue('int') + this.#attrValue('log')) * 2;
+        const knowledgeSpent = s.knowledge.reduce((sum, k) => sum + (k.rating || 0), 0);
 
         // Ressourcen
         const baseNuyen = p.resources[s.prio.resources] ?? 0;
@@ -217,6 +252,7 @@ export class ChargenApp extends HandlebarsApplicationMixin(ApplicationV2) {
             skillPoints: skillCfg.points, skillSpent, groupPoints: skillCfg.groups, groupSpent,
             karmaBudget: budget, karmaSpent, karmaLeft, posKarma, negKarma, metaKarma,
             nuyen, cartCost, nuyenLeft: nuyen - cartCost,
+            focusKarma, contactPoints, contactSpent, knowledgePoints, knowledgeSpent,
             magic, resonance, magicRating, isAdept, isMystic,
             spellsMax: talent?.spells ?? 0, cfpMax: talent?.cfp ?? 0,
             ppTotal, ppSpent,
@@ -244,7 +280,9 @@ export class ChargenApp extends HandlebarsApplicationMixin(ApplicationV2) {
         if (s.spells.length > b.spellsMax) err(5, `${L('Spells')}: ${s.spells.length} / ${b.spellsMax}`);
         if (s.complexforms.length > b.cfpMax) err(5, `${L('ComplexForms')}: ${s.complexforms.length} / ${b.cfpMax}`);
         if (b.ppSpent > b.ppTotal) err(5, `${L('PowerPoints')}: ${b.ppSpent} / ${b.ppTotal}`);
-        if (b.nuyenLeft < 0) err(6, game.i18n.format('CHUMMER.NotEnoughNuyen', { cost: fmt(b.cartCost), have: fmt(b.nuyen) }));
+        if (b.contactSpent > b.contactPoints) err(6, `${L('ContactPoints')}: ${b.contactSpent} / ${b.contactPoints}`);
+        if (b.knowledgeSpent > b.knowledgePoints) err(6, `${L('KnowledgePoints')}: ${b.knowledgeSpent} / ${b.knowledgePoints}`);
+        if (b.nuyenLeft < 0) err(7, game.i18n.format('CHUMMER.NotEnoughNuyen', { cost: fmt(b.cartCost), have: fmt(b.nuyen) }));
         return errors;
     }
 
@@ -307,6 +345,7 @@ export class ChargenApp extends HandlebarsApplicationMixin(ApplicationV2) {
             case 'Qualities': ctx.qualities = this.#ctxQualities(); break;
             case 'Skills': ctx.skills = this.#ctxSkills(); break;
             case 'Talent': ctx.talent = this.#ctxTalent(b); break;
+            case 'Background': ctx.background = this.#ctxBackground(b); break;
             case 'Gear': ctx.gear = this.#ctxGear(b); break;
             case 'Summary': ctx.summary = this.#ctxSummary(b, errors); break;
         }
@@ -331,6 +370,7 @@ export class ChargenApp extends HandlebarsApplicationMixin(ApplicationV2) {
             !talentNeeded || (!!s.talent && freeOk
                 && s.spells.length <= b.spellsMax && s.complexforms.length <= b.cfpMax
                 && b.ppSpent <= b.ppTotal),
+            b.contactSpent <= b.contactPoints && b.knowledgeSpent <= b.knowledgePoints,
             b.nuyenLeft >= 0,
             false,
         ];
@@ -621,6 +661,16 @@ export class ChargenApp extends HandlebarsApplicationMixin(ApplicationV2) {
 
         ctx.freeSkills = this.#ctxFreeSkills();
 
+        // Tradition (nur Zauberer/Mystiker): bestimmt das Entzugsattribut.
+        if (b.magic && !b.isAdept) {
+            ctx.traditions = TRADITIONS.map(t => ({
+                id: t.id,
+                label: game.i18n.localize(`CHUMMER.Tradition.${t.id}`),
+                attr: game.i18n.localize(`CHUMMER.Attr.${t.attribute}`),
+                selected: s.tradition === t.id,
+            }));
+        }
+
         if (b.spellsMax > 0) {
             const f = this.filters.spell.toLowerCase();
             const cat = this.filters.spellCat;
@@ -679,6 +729,24 @@ export class ChargenApp extends HandlebarsApplicationMixin(ApplicationV2) {
             ctx.mysticPPMax = b.magicRating;
         }
         return ctx;
+    }
+
+    /** Hintergrund: Kontakte, Wissens- und Sprachfertigkeiten, Muttersprache. */
+    #ctxBackground(b) {
+        const s = this.state;
+        return {
+            b,
+            contacts: s.contacts.map((c, index) => ({ ...c, index })),
+            knowledge: s.knowledge.map((k, index) => ({
+                ...k, index,
+                types: KNOWLEDGE_TYPES.map(t => ({
+                    id: t.id,
+                    label: game.i18n.localize(`CHUMMER.Knowledge.${t.id}`),
+                    selected: k.type === t.id,
+                })),
+            })),
+            nativeLanguage: s.nativeLanguage,
+        };
     }
 
     #ctxGear(b) {
@@ -896,6 +964,25 @@ export class ChargenApp extends HandlebarsApplicationMixin(ApplicationV2) {
                 break;
             }
             case 'karmaNuyen': s.karmaNuyen = Math.min(10, Math.max(0, parseInt(t.value) || 0)); break;
+            case 'tradition': s.tradition = t.value; break;
+            case 'nativeLanguage': s.nativeLanguage = t.value; this.render(); return;
+            case 'contact': {
+                const c = s.contacts[parseInt(t.dataset.index)];
+                if (!c) return;
+                const key = t.dataset.key;
+                if (key === 'connection' || key === 'loyalty') c[key] = Math.min(6, Math.max(1, parseInt(t.value) || 1));
+                else { c[key] = t.value; this.render(); return; }
+                break;
+            }
+            case 'knowledge': {
+                const k = s.knowledge[parseInt(t.dataset.index)];
+                if (!k) return;
+                const key = t.dataset.key;
+                if (key === 'rating') k.rating = Math.min(6, Math.max(1, parseInt(t.value) || 1));
+                else if (key === 'type') k.type = t.value;
+                else { k[key] = t.value; this.render(); return; }
+                break;
+            }
             case 'gearKind': {
                 this.filters.gearKind = t.value;
                 this.filters.gearCat = '';
@@ -1009,6 +1096,26 @@ export class ChargenApp extends HandlebarsApplicationMixin(ApplicationV2) {
         this.render();
     }
 
+    static #onAddContact() {
+        this.state.contacts.push({ name: '', role: '', connection: 1, loyalty: 1 });
+        this.render();
+    }
+
+    static #onRemoveContact(ev, target) {
+        this.state.contacts.splice(parseInt(target.dataset.index), 1);
+        this.render();
+    }
+
+    static #onAddKnowledge() {
+        this.state.knowledge.push({ name: '', type: 'street', rating: 1 });
+        this.render();
+    }
+
+    static #onRemoveKnowledge(ev, target) {
+        this.state.knowledge.splice(parseInt(target.dataset.index), 1);
+        this.render();
+    }
+
     // ------------------------------------------------------------ Erstellung
 
     static async #onCreate() {
@@ -1047,8 +1154,12 @@ export class ChargenApp extends HandlebarsApplicationMixin(ApplicationV2) {
             nuyen: Math.max(0, b.nuyenLeft),
             metatype,
         };
-        if (b.magic) system.special = 'magic';
-        else if (b.resonance) system.special = 'resonance';
+        if (b.magic) {
+            system.special = 'magic';
+            // Tradition → Entzugsattribut (Willenskraft + X).
+            const trad = TRADITIONS.find(t => t.id === s.tradition) ?? TRADITIONS[0];
+            if (!b.isAdept) system.magic = { attribute: trad.attribute };
+        } else if (b.resonance) system.special = 'resonance';
         if (isNpc) {
             system.is_npc = true;
             system.npc = { is_grunt: isGrunt };
@@ -1071,10 +1182,13 @@ export class ChargenApp extends HandlebarsApplicationMixin(ApplicationV2) {
             }
         }
 
-        // Skills: Gruppen + Einzel-Ratings + freie Talent-Fertigkeiten
+        // Skills: Gruppen + Einzel-Ratings + freie Talent-Fertigkeiten.
+        // Nicht als Items mitgeben — das System injiziert bei der Erzeugung sein
+        // Standard-Skillset; die Ratings werden danach per applySkillPlan gesetzt.
+        const skillPlan = [];
         for (const [name, rating] of Object.entries(this.#effectiveSkills())) {
             const skDef = this.#data.skills.skills.find(x => x.name === name);
-            if (skDef && rating > 0) items.push(await skillItemData(skDef, rating));
+            if (skDef && rating > 0) skillPlan.push(await buildSkillPlanEntry(skDef, rating));
         }
 
         // Magie / Resonanz
@@ -1091,10 +1205,36 @@ export class ChargenApp extends HandlebarsApplicationMixin(ApplicationV2) {
             if (pw) items.push(await adeptPowerItemData(pw, level));
         }
 
-        // Einkäufe
+        // Hintergrund: Kontakte, Wissens-/Sprachfertigkeiten, Muttersprache (gratis).
+        for (const c of s.contacts) {
+            if (c.name || c.role) items.push(contactItemData(c));
+        }
+        for (const k of s.knowledge) {
+            if (!k.name) continue;
+            const typeDef = KNOWLEDGE_TYPES.find(t => t.id === k.type) ?? KNOWLEDGE_TYPES[1];
+            items.push(knowledgeSkillItemData({
+                name: k.name, rating: k.rating, type: k.type,
+                attribute: typeDef.attribute, isLanguage: k.type === 'language',
+            }));
+        }
+        if (s.nativeLanguage) {
+            items.push(knowledgeSkillItemData({
+                name: s.nativeLanguage, rating: 1, isLanguage: true, isNative: true,
+                attribute: 'intuition',
+            }));
+        }
+
+        // Einkäufe (Foki werden als gebunden markiert — Karma ist schon verrechnet).
         const kindMap = Object.fromEntries(GEAR_KINDS.map(([id, kind]) => [id, kind]));
         for (const c of s.cart) {
-            items.push(await purchasedItemData(kindMap[c.kind] ?? 'gear', c, c.rating));
+            const data = await purchasedItemData(kindMap[c.kind] ?? 'gear', c, c.rating);
+            const bindKarma = focusBindingKarma(c.name, c.rating || 1);
+            if (bindKarma) {
+                data.flags = foundry.utils.mergeObject(data.flags ?? {}, {
+                    [MODULE_ID]: { focusBound: true, focusKarma: bindKarma },
+                });
+            }
+            items.push(data);
         }
 
         // -------------------------------------------------------------- Actor
@@ -1121,6 +1261,8 @@ export class ChargenApp extends HandlebarsApplicationMixin(ApplicationV2) {
                 },
             },
         });
+
+        await applySkillPlan(actor, skillPlan);
 
         ui.notifications.info(game.i18n.format('CHUMMER.Created', {
             name: s.name,

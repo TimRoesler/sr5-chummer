@@ -327,6 +327,22 @@
     </div>
     {{/if}}
 
+    {{#if talent.traditions}}
+    <h3 class="cvtt-section"><i class="fas fa-hands-praying"></i> {{localize "CHUMMER.TraditionTitle"}}</h3>
+    <div class="cvtt-panel">
+        <p class="cvtt-hint"><i class="fas fa-circle-info"></i> {{localize "CHUMMER.TraditionHint"}}</p>
+        <div class="cvtt-meta-grid talents">
+            {{#each talent.traditions}}
+            <label class="cvtt-card {{#if selected}}selected{{/if}}">
+                <input type="radio" name="tradition" data-field="tradition" value="{{id}}" {{#if selected}}checked{{/if}}>
+                <div class="cvtt-card-head"><strong>{{label}}</strong></div>
+                <div class="cvtt-card-note">{{localize "CHUMMER.DrainLabel"}}: {{localize "CHUMMER.Attr.willpower"}} + {{attr}}</div>
+            </label>
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+
     {{#if talent.freeSkills}}
     <h3 class="cvtt-section"><i class="fas fa-gift"></i> {{localize "CHUMMER.FreeSkillsTitle"}}
         <span class="cvtt-badge {{#if (eq talent.freeSkills.chosen talent.freeSkills.qty)}}ok{{/if}}">{{talent.freeSkills.chosen}} / {{talent.freeSkills.qty}}</span></h3>
@@ -435,6 +451,50 @@
     </div>
     {{/if}}
     {{/if}}
+{{/if}}
+
+{{!-- ============================================================ Hintergrund --}}
+{{#if background}}
+    <div class="cvtt-columns">
+        <div class="cvtt-panel">
+            <h3><i class="fas fa-address-book"></i> {{localize "CHUMMER.ContactPoints"}}
+                <span class="cvtt-badge {{#if (eq background.b.contactSpent background.b.contactPoints)}}ok{{/if}}{{#if (gt background.b.contactSpent background.b.contactPoints)}}over{{/if}}">{{background.b.contactSpent}} / {{background.b.contactPoints}}</span></h3>
+            <p class="cvtt-hint"><i class="fas fa-circle-info"></i> {{localize "CHUMMER.ContactHint"}}</p>
+            {{#each background.contacts}}
+            <div class="cvtt-bg-row">
+                <input type="text" data-field="contact" data-index="{{index}}" data-key="name" value="{{name}}" placeholder="{{localize 'CHUMMER.ContactName'}}">
+                <input type="text" data-field="contact" data-index="{{index}}" data-key="role" value="{{role}}" placeholder="{{localize 'CHUMMER.ContactRole'}}">
+                <label>C <input type="number" data-field="contact" data-index="{{index}}" data-key="connection" value="{{connection}}" min="1" max="6"></label>
+                <label>L <input type="number" data-field="contact" data-index="{{index}}" data-key="loyalty" value="{{loyalty}}" min="1" max="6"></label>
+                <button type="button" data-action="removeContact" data-index="{{index}}" tabindex="-1"><i class="fas fa-trash"></i></button>
+            </div>
+            {{/each}}
+            <button type="button" class="cvtt-check accent" data-action="addContact">
+                <i class="fas fa-plus"></i> {{localize "CHUMMER.AddContact"}}
+            </button>
+        </div>
+        <div class="cvtt-panel">
+            <h3><i class="fas fa-book"></i> {{localize "CHUMMER.KnowledgePoints"}}
+                <span class="cvtt-badge {{#if (eq background.b.knowledgeSpent background.b.knowledgePoints)}}ok{{/if}}{{#if (gt background.b.knowledgeSpent background.b.knowledgePoints)}}over{{/if}}">{{background.b.knowledgeSpent}} / {{background.b.knowledgePoints}}</span></h3>
+            <p class="cvtt-hint"><i class="fas fa-circle-info"></i> {{localize "CHUMMER.KnowledgeHint"}}</p>
+            <label class="cvtt-flabel">{{localize "CHUMMER.NativeLanguage"}}
+                <input type="text" data-field="nativeLanguage" value="{{background.nativeLanguage}}" placeholder="{{localize 'CHUMMER.NativeLanguagePh'}}">
+            </label>
+            {{#each background.knowledge}}
+            <div class="cvtt-bg-row knowledge">
+                <input type="text" data-field="knowledge" data-index="{{index}}" data-key="name" value="{{name}}" placeholder="{{localize 'CHUMMER.KnowledgeName'}}">
+                <select data-field="knowledge" data-index="{{index}}" data-key="type">
+                    {{#each types}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+                </select>
+                <input type="number" data-field="knowledge" data-index="{{index}}" data-key="rating" value="{{rating}}" min="1" max="6">
+                <button type="button" data-action="removeKnowledge" data-index="{{index}}" tabindex="-1"><i class="fas fa-trash"></i></button>
+            </div>
+            {{/each}}
+            <button type="button" class="cvtt-check accent" data-action="addKnowledge">
+                <i class="fas fa-plus"></i> {{localize "CHUMMER.AddKnowledge"}}
+            </button>
+        </div>
+    </div>
 {{/if}}
 
 {{!-- ============================================================ Ausrüstung --}}

@@ -197,6 +197,61 @@ export async function skillItemData(skillDef, rating, specs = []) {
     return data;
 }
 
+/** Kontakt-Item (Connection/Loyalität nach GRW). */
+export function contactItemData({ name, role = '', location = '', connection = 1, loyalty = 1, family = false, blackmail = false, group = false } = {}) {
+    const bits = [role, location].filter(Boolean).join(' · ');
+    return {
+        name: name || role || game.i18n.localize('CHUMMER.Contact'),
+        type: 'contact',
+        system: {
+            type: role,
+            connection, loyalty, family, blackmail, group,
+            ...(bits ? { description: { value: `<p>${bits}</p>` } } : {}),
+        },
+    };
+}
+
+/** Metamagie- bzw. Echo-Item (def aus data/metamagic.json / data/echoes.json). */
+export function metamagicItemData(def, { echo = false } = {}) {
+    return {
+        name: ChummerData.nameOf(def),
+        type: echo ? 'echo' : 'metamagic',
+        system: { description: { source: sourceString(def) } },
+    };
+}
+
+/**
+ * Karma-Bindungskosten eines Fokus nach GRW (Kraftstufe × Multiplikator).
+ * Erkennung über den Katalognamen (deutsch); liefert 0 für Nicht-Foki.
+ */
+export function focusBindingKarma(name, rating = 1) {
+    const n = (name ?? '').toLowerCase();
+    const mult =
+        n.startsWith('kraftfokus') ? 6
+        : /^(alchemiefokus|entzauberungsfokus|zentrierungsfokus|maskierungsfokus|signaturschleier|formungsfokus|waffenfokus)/.test(n) ? 3
+        : /^(bindungsfokus|herbeirufungsfokus|verbannungsfokus|qi-fokus|antimagiefokus|ritualfokus|zauberspruchfokus|zauberspeicher)/.test(n) ? 2
+        : 0;
+    return mult * Math.max(1, rating);
+}
+
+/** Wissens-/Sprachfertigkeits-Item. */
+export function knowledgeSkillItemData({ name, rating = 1, type = 'professional', attribute = 'logic', isLanguage = false, isNative = false, specs = [] } = {}) {
+    return {
+        name,
+        type: 'skill',
+        system: {
+            skill: {
+                category: isLanguage ? 'language' : 'knowledge',
+                knowledgeType: isLanguage ? 'language' : type,
+                attribute,
+                rating: isNative ? Math.max(rating, 1) : rating,
+                specializations: specs.map(n => ({ name: n })),
+                ...(isLanguage ? { language: { isNative } } : {}),
+            },
+        },
+    };
+}
+
 /** Chummer-Attributskürzel → Systemnamen. */
 export function mapAttribute(abbr) {
     return ({

@@ -5,6 +5,7 @@
  */
 import { MODULE_ID, ChummerData } from './data.mjs';
 import { GruntImporter } from './grunts.mjs';
+import { applySkillPlan } from './import-map.mjs';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -356,6 +357,8 @@ export class QuickNpcApp extends HandlebarsApplicationMixin(ApplicationV2) {
 
         const name = s.name.trim() || d.name;
         const base = await GruntImporter.actorData(d, this.#skills);
+        const skillPlan = base.skillPlan ?? [];
+        delete base.skillPlan;
         const dispo = {
             hostile: CONST.TOKEN_DISPOSITIONS.HOSTILE,
             neutral: CONST.TOKEN_DISPOSITIONS.NEUTRAL,
@@ -381,6 +384,7 @@ export class QuickNpcApp extends HandlebarsApplicationMixin(ApplicationV2) {
             docs.push(data);
         }
         const actors = await Actor.createDocuments(docs);
+        for (const actor of actors) await applySkillPlan(actor, skillPlan);
 
         ui.notifications.info(game.i18n.format('CHUMMER.QuickNpc.Created', { count: s.count, name }));
         if (actors.length === 1) actors[0].sheet?.render(true);

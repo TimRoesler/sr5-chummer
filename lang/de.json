@@ -34,7 +34,8 @@
       "Skills": "Fertigkeiten",
       "Talent": "Magie / Resonanz",
       "Gear": "Ausrüstung",
-      "Summary": "Zusammenfassung"
+      "Summary": "Zusammenfassung",
+      "Background": "Hintergrund"
     },
     "Priority": {
       "Heritage": "Metatyp",
@@ -58,7 +59,8 @@
       "Skills": "Fertigkeitsgruppen steigern alle enthaltenen Fertigkeiten zugleich und können nur mit Gruppenpunkten bezahlt werden. Einzelne Fertigkeiten (Stufe 1–6) verbrauchen die normalen Fertigkeitspunkte.",
       "Talent": "Wähle die konkrete Ausprägung der Magie bzw. Resonanz und danach Zauber, Adeptenkräfte oder Komplexe Formen. Freie Fertigkeiten aus dem Talent kosten keine Fertigkeitspunkte.",
       "Gear": "Kaufe Startausrüstung vom Startkapital. Verfügbarkeit über dem Limit oder „F“ (verboten) ist bei der Erschaffung normalerweise nicht erlaubt. Bis zu 10 Karma lassen sich in je 2.000¥ tauschen.",
-      "Summary": "Prüfe die offenen Punkte und erstelle dann den Charakter. Alle Werte lassen sich später im Charakterbogen anpassen – Einkäufe und Steigerungen laufen über Shop und Karma-Aufstieg weiter."
+      "Summary": "Prüfe die offenen Punkte und erstelle dann den Charakter. Alle Werte lassen sich später im Charakterbogen anpassen – Einkäufe und Steigerungen laufen über Shop und Karma-Aufstieg weiter.",
+      "Background": "Kontakte (Charisma × 3 Punkte für Connection und Loyalität) und Wissens-/Sprachfertigkeiten ((INT + LOG) × 2 Punkte). Die Muttersprache ist gratis."
     },
     "ActorType": {
       "Label": "Charaktertyp",
@@ -223,7 +225,21 @@
       "NoteNewSkill": "Neue Fertigkeit: {name}",
       "NoteNewSpell": "Neuer Zauber: {name}",
       "NoteNewCF": "Neue Komplexe Form: {name}",
-      "NoteQuality": "Eigenschaft: {name}"
+      "NoteQuality": "Eigenschaft: {name}",
+      "Initiation": "Initiation",
+      "Submersion": "Wandlung",
+      "Metamagic": "Metamagie",
+      "Echo": "Echo",
+      "Grade": "Grad",
+      "GradeUp": "Auf Grad {grade}",
+      "AdeptOnly": "nur Adepten",
+      "BindFoci": "Foki binden",
+      "Knowledge": "Wissens- & Sprachfertigkeiten",
+      "NewKnowledge": "Neue Wissensfertigkeit",
+      "NoteInitiation": "Initiation Grad {grade}: {pick}",
+      "NoteSubmersion": "Wandlung Grad {grade}: {pick}",
+      "NoteBindFocus": "Fokus gebunden: {name}",
+      "NoteNewKnowledge": "Neue Wissensfertigkeit: {name}"
     },
     "LearnNew": "Neues lernen",
     "Settings": {
@@ -311,6 +327,32 @@
       "DoneCreate": "Charakter „{name}“ wurde importiert.",
       "DoneSync": "Charakter „{name}“ wurde synchronisiert.",
       "ResultSkills": "Fertigkeiten: {updated} Stufen gesetzt, {created} neu angelegt, {deduped} Duplikate entfernt."
-    }
+    },
+    "ContactPoints": "Kontaktpunkte",
+    "ContactHint": "Connection + Loyalität je Kontakt zählen gegen das Budget (Charisma × 3).",
+    "ContactName": "Name",
+    "ContactRole": "Rolle (z. B. Schieberin)",
+    "AddContact": "Kontakt hinzufügen",
+    "Contact": "Kontakt",
+    "KnowledgePoints": "Wissenspunkte",
+    "KnowledgeHint": "Wissens- und Sprachfertigkeiten, Budget (Intuition + Logik) × 2.",
+    "KnowledgeName": "Fertigkeit (z. B. Straßengangs)",
+    "AddKnowledge": "Wissensfertigkeit hinzufügen",
+    "NativeLanguage": "Muttersprache (gratis)",
+    "NativeLanguagePh": "z. B. Deutsch",
+    "Knowledge": {
+      "academic": "Akademisch",
+      "professional": "Beruflich",
+      "street": "Straßenwissen",
+      "interests": "Interessen",
+      "language": "Sprache"
+    },
+    "TraditionTitle": "Tradition",
+    "TraditionHint": "Die Tradition bestimmt das zweite Entzugsattribut (neben Willenskraft).",
+    "Tradition": {
+      "hermetic": "Hermetisch",
+      "shamanic": "Schamanistisch"
+    },
+    "DrainLabel": "Entzug"
   }
 }

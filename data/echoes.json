@@ -1,0 +1,11 @@
+[
+  { "name": "Angriffs-Upgrade", "en": "Attack Upgrade", "source": "SR5", "page": "258", "max": 2 },
+  { "name": "Datenverarbeitungs-Upgrade", "en": "Data Processing Upgrade", "source": "SR5", "page": "258", "max": 2 },
+  { "name": "Firewall-Upgrade", "en": "Firewall Upgrade", "source": "SR5", "page": "258", "max": 2 },
+  { "name": "Maschinenbeherrschung", "en": "Mind Over Machine", "source": "SR5", "page": "258", "max": 3 },
+  { "name": "Neurofilter", "en": "Neurofilter", "source": "SR5", "page": "258", "max": 2 },
+  { "name": "Resonanz-[Programm]", "en": "Resonance [Program]", "source": "SR5", "page": "258", "repeatable": true },
+  { "name": "Resonanzverbindung", "en": "Resonance Link", "source": "SR5", "page": "258" },
+  { "name": "Schleicher-Upgrade", "en": "Sleaze Upgrade", "source": "SR5", "page": "258", "max": 2 },
+  { "name": "Übertakten", "en": "Overclocking", "source": "SR5", "page": "258" }
+]

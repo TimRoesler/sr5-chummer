@@ -7,8 +7,10 @@ Foundry VTT für das Shadowrun-5e-System.
 
 - **Chummer-Import** (seit v0.9.0): JSON-Exporte der Chummer5a-Desktop-App direkt
   importieren — als neuer Charakter oder Re-Sync in einen bestehenden
-- Charaktererschaffung mit Prioritätensystem
-- Karma-basierte Steigerung/Aufstieg
+- Charaktererschaffung mit Prioritätensystem (inkl. Kontakte, Wissens-/Sprachfertigkeiten,
+  Tradition und Foki-Bindung seit v0.10.0)
+- Karma-basierte Steigerung/Aufstieg (inkl. Initiation/Wandlung mit Metamagien/Echos,
+  Foki binden, Wissensfertigkeiten seit v0.10.0)
 - Ausrüstungs-Shop
 - PDF-Quellenverweise
 - Datenbasis: Chummer5a
@@ -87,7 +89,7 @@ Voraussetzungen: das System **Shadowrun 5th Edition** (ab 0.36.0).
 |---|---|
 | Foundry VTT | v13–v14 (verifiziert: 14.364) |
 | Spielsystem | shadowrun5e (ab 0.36.0) |
-| Modulversion | 0.9.2 |
+| Modulversion | 0.10.0 |
 
 ## Entwicklung
 

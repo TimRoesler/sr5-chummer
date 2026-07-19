@@ -11,7 +11,8 @@
 import { ChummerData, MODULE_ID } from './data.mjs';
 import {
     purchasedItemData, qualityItemData, spellItemData, complexFormItemData,
-    adeptPowerItemData, skillItemData, sourceString,
+    adeptPowerItemData, skillItemData, contactItemData, metamagicItemData,
+    knowledgeSkillItemData, sourceString,
 } from './items.mjs';
 
 /** Dateiname des Katalogs → items.mjs-Einkaufsart. */
@@ -99,33 +100,14 @@ export async function buildImport(norm, options = {}) {
             report.skip(sk.name, 'Fertigkeit nicht im GRW-Katalog');
             continue;
         }
-        const data = await skillItemData(def, sk.rating, sk.specs);
-        tagSource(data, { sourceId: def.id?.toLowerCase() });
-        skillPlan.push({
-            names: [...new Set([def.name, def.en, sk.name, sk.nameEn].filter(Boolean))]
-                .map(n => n.toLowerCase()),
-            rating: sk.rating,
-            specs: sk.specs,
-            sourceId: def.id?.toLowerCase() ?? null,
-            itemData: data,
-        });
+        skillPlan.push(await buildSkillPlanEntry(def, sk.rating, sk.specs, [sk.name, sk.nameEn]));
     }
     for (const ks of norm.knowledgeSkills) {
-        const data = {
-            name: ks.name,
-            type: 'skill',
-            system: {
-                skill: {
-                    category: ks.isLanguage ? 'language' : 'knowledge',
-                    knowledgeType: ks.isLanguage ? 'language' : ks.knowledgeType,
-                    attribute: ks.attribute,
-                    rating: ks.isNative ? Math.max(ks.rating, 1) : ks.rating,
-                    specializations: ks.specs.map(name => ({ name })),
-                    ...(ks.isLanguage ? { language: { isNative: ks.isNative } } : {}),
-                },
-            },
-        };
-        items.push(report.add(data, null));
+        items.push(report.add(knowledgeSkillItemData({
+            name: ks.name, rating: ks.rating, type: ks.knowledgeType,
+            attribute: ks.attribute, isLanguage: ks.isLanguage, isNative: ks.isNative,
+            specs: ks.specs,
+        }), null));
     }
 
     // ---------------------------------------------------------- Qualitäten
@@ -170,11 +152,8 @@ export async function buildImport(norm, options = {}) {
         items.push(report.add(tagSource(data, cf), hit?.entry));
     }
     for (const mm of norm.metamagics) {
-        const data = {
-            name: displayName(mm, null),
-            type: norm.isTechnomancer ? 'echo' : 'metamagic',
-            system: { description: { source: sourceString(mm) } },
-        };
+        const data = metamagicItemData({ name: displayName(mm, null), source: mm.source, page: mm.page },
+            { echo: norm.isTechnomancer });
         items.push(report.add(tagSource(data, mm), null));
     }
     for (const cp of norm.critterpowers) report.skip(cp.name, 'Critter-Kraft (nicht unterstützt)');
@@ -224,21 +203,7 @@ export async function buildImport(norm, options = {}) {
 
     // ------------------------------------------------------------ Kontakte
     for (const ct of norm.contacts) {
-        const bits = [ct.role, ct.location].filter(Boolean).join(' · ');
-        const data = {
-            name: ct.name,
-            type: 'contact',
-            system: {
-                type: ct.role,
-                connection: ct.connection,
-                loyalty: ct.loyalty,
-                family: ct.family,
-                blackmail: ct.blackmail,
-                group: ct.group,
-                ...(bits ? { description: { value: `<p>${bits}</p>` } } : {}),
-            },
-        };
-        items.push(report.add(data, null));
+        items.push(report.add(contactItemData(ct), null));
     }
 
     // ----------------------------------------------------------- Lifestyle
@@ -303,6 +268,23 @@ export async function buildImport(norm, options = {}) {
     }
 
     return { actorData, vehicles, skillPlan, report };
+}
+
+/**
+ * Plan-Eintrag für eine aktive Fertigkeit (Katalogdefinition aus skills.json).
+ * Wird von Importer, Chargen, Schnell-NSC und Schergen-Import genutzt.
+ */
+export async function buildSkillPlanEntry(def, rating, specs = [], extraNames = []) {
+    const data = await skillItemData(def, rating, specs);
+    tagSource(data, { sourceId: def.id?.toLowerCase() });
+    return {
+        names: [...new Set([def.name, def.en, ...extraNames].filter(Boolean))]
+            .map(n => n.toLowerCase()),
+        rating,
+        specs,
+        sourceId: def.id?.toLowerCase() ?? null,
+        itemData: data,
+    };
 }
 
 /**

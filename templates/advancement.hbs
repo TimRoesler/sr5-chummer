@@ -80,6 +80,72 @@
     </div>
 </div>
 
+{{#if knowledgeSkills.length}}
+<div class="cvtt-panel">
+    <h3><i class="fas fa-book"></i> {{localize "CHUMMER.Advance.Knowledge"}}</h3>
+    <div class="cvtt-list cols-advance">
+        {{#each knowledgeSkills}}
+        <div class="cvtt-row">
+            <strong>{{name}}</strong>
+            <span class="cvtt-num"><b>{{rating}}</b> <span class="cvtt-muted">→ {{next}}</span></span>
+            <span></span>
+            <button type="button" class="cvtt-check accent" data-action="raiseKnowledge" data-id="{{id}}">
+                <i class="fas fa-plus"></i> {{cost}} K
+            </button>
+        </div>
+        {{/each}}
+    </div>
+    <div class="cvtt-newrow">
+        <label>{{localize "CHUMMER.Advance.NewKnowledge"}}</label>
+        <input type="text" data-pick="knowledgeName" placeholder="{{localize 'CHUMMER.KnowledgeName'}}">
+        <select data-pick="knowledgeType">
+            <option value="academic">{{localize "CHUMMER.Knowledge.academic"}}</option>
+            <option value="professional">{{localize "CHUMMER.Knowledge.professional"}}</option>
+            <option value="street" selected>{{localize "CHUMMER.Knowledge.street"}}</option>
+            <option value="interests">{{localize "CHUMMER.Knowledge.interests"}}</option>
+            <option value="language">{{localize "CHUMMER.Knowledge.language"}}</option>
+        </select>
+        <button type="button" class="cvtt-check accent" data-action="newKnowledge"><i class="fas fa-plus"></i> 1 K</button>
+    </div>
+</div>
+{{/if}}
+
+{{#if initiation}}
+<div class="cvtt-panel">
+    <h3><i class="fas fa-circle-up"></i> {{initiation.title}}
+        <span class="cvtt-badge accent">{{localize "CHUMMER.Advance.Grade"}} {{initiation.grade}}</span></h3>
+    <div class="cvtt-newrow">
+        <label>{{initiation.pickLabel}}</label>
+        <select data-pick="metamagic">
+            {{#each initiation.options}}
+            <option value="{{name}}">{{label}}{{#if adeptOnly}} ({{localize "CHUMMER.Advance.AdeptOnly"}}){{/if}}</option>
+            {{/each}}
+        </select>
+        <button type="button" class="cvtt-check accent" data-action="initiate">
+            <i class="fas fa-circle-up"></i> {{localize "CHUMMER.Advance.GradeUp" grade=initiation.nextGrade}} · {{initiation.cost}} K
+        </button>
+    </div>
+</div>
+{{/if}}
+
+{{#if foci.length}}
+<div class="cvtt-panel">
+    <h3><i class="fas fa-ring"></i> {{localize "CHUMMER.Advance.BindFoci"}}</h3>
+    <div class="cvtt-list cols-advance">
+        {{#each foci}}
+        <div class="cvtt-row">
+            <strong>{{name}}</strong>
+            <span class="cvtt-num">{{localize "CHUMMER.Rating"}} {{rating}}</span>
+            <span></span>
+            <button type="button" class="cvtt-check accent" data-action="bindFocus" data-id="{{id}}">
+                <i class="fas fa-link"></i> {{cost}} K
+            </button>
+        </div>
+        {{/each}}
+    </div>
+</div>
+{{/if}}
+
 {{#if log.length}}
 <div class="cvtt-panel">
     <h3><i class="fas fa-clock-rotate-left"></i> {{localize "CHUMMER.Advance.Log"}}</h3>

@@ -1158,3 +1158,16 @@ a.cvtt-source:hover { opacity: 1; text-shadow: 0 0 6px var(--c-accent-glow); }
 .cvtt-importer .cvtt-footer { display: flex; justify-content: flex-end; padding-top: 4px; }
 .cvtt-importer .cvtt-footer button { width: auto; padding: 6px 16px; }
 .cvtt-import-result ul { margin: 4px 0 0 16px; }
+
+/* ------------------------------------------------- Chargen: Hintergrund */
+.cvtt-bg-row {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr auto auto 30px;
+    gap: 6px;
+    align-items: center;
+    margin: 4px 0;
+}
+.cvtt-bg-row.knowledge { grid-template-columns: 1.4fr 1fr 60px 30px; }
+.cvtt-bg-row label { display: flex; align-items: center; gap: 4px; font-size: var(--font-size-12, 12px); }
+.cvtt-bg-row input[type="number"] { width: 52px; text-align: center; }
+.cvtt-bg-row button { width: auto; }

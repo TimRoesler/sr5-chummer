@@ -1,0 +1,11 @@
+[
+  { "name": "Abschirmung", "en": "Shielding", "source": "SR5", "page": "326" },
+  { "name": "Adeptenzentrierung", "en": "Adept Centering", "source": "SR5", "page": "326", "adeptOnly": true },
+  { "name": "Fixierung", "en": "Fixation", "source": "SR5", "page": "326" },
+  { "name": "Flexible Signatur", "en": "Flexible Signature", "source": "SR5", "page": "326" },
+  { "name": "Intensivierung", "en": "Quickening", "source": "SR5", "page": "326" },
+  { "name": "Kraftpunkt", "en": "Power Point", "source": "SR5", "page": "326", "adeptOnly": true, "repeatable": true },
+  { "name": "Maskierung", "en": "Masking", "source": "SR5", "page": "326" },
+  { "name": "Zauberformung", "en": "Spell Shaping", "source": "SR5", "page": "326" },
+  { "name": "Zentrierung", "en": "Centering", "source": "SR5", "page": "326" }
+]

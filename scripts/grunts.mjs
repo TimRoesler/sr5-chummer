@@ -7,8 +7,9 @@
 import { MODULE_ID, ChummerData } from './data.mjs';
 import {
     purchasedItemData, qualityItemData, spellItemData,
-    complexFormItemData, adeptPowerItemData, skillItemData,
+    complexFormItemData, adeptPowerItemData,
 } from './items.mjs';
+import { buildSkillPlanEntry, applySkillPlan } from './import-map.mjs';
 
 const PACK_NAME = 'sr5-schergen';
 
@@ -53,10 +54,17 @@ export class GruntImporter {
         }
 
         const actors = [];
+        const plans = [];
         for (const g of defs.grunts) {
-            actors.push(await this.actorData(g, skillData, folderIds));
+            const data = await this.actorData(g, skillData, folderIds);
+            plans.push(data.skillPlan ?? []);
+            delete data.skillPlan;
+            actors.push(data);
         }
-        await Actor.createDocuments(actors, { pack: pack.collection });
+        const created = await Actor.createDocuments(actors, { pack: pack.collection });
+        for (let i = 0; i < created.length; i++) {
+            await applySkillPlan(created[i], plans[i]);
+        }
 
         if (notify) {
             ui.notifications.info(game.i18n.format('CHUMMER.Grunts.Done', { count: actors.length }));
@@ -115,13 +123,16 @@ export class GruntImporter {
             ratings[sk.en] = Math.max(ratings[sk.en] ?? 0, sk.rating);
             if (sk.specs?.length) specs[sk.en] = sk.specs;
         }
+        // Aktive Skills nicht als Items (Standard-Skillset wird injiziert) —
+        // der Aufrufer wendet data.skillPlan nach der Erzeugung an.
+        const skillPlan = [];
         for (const [en, rating] of Object.entries(ratings)) {
             const def = skillData.skills.find(x => keyOf(x) === en);
             if (!def) {
                 console.warn(`${MODULE_ID} | Schergen-Import: unbekannte Fertigkeit "${en}" (${g.name})`);
                 continue;
             }
-            items.push(await skillItemData(def, rating, specs[en] ?? []));
+            skillPlan.push(await buildSkillPlanEntry(def, rating, specs[en] ?? []));
         }
 
         // Wissensfertigkeiten.
@@ -186,6 +197,7 @@ export class GruntImporter {
             type: 'character',
             folder: folderIds[g.folder] ?? null,
             system,
+            skillPlan,
             items: items.filter(Boolean),
             prototypeToken: {
                 actorLink: false,

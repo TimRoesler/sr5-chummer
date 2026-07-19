@@ -77,6 +77,8 @@ export class ChummerData {
     static async spells() { return this.filterBooks(await this.load('spells')); }
     static async powers() { return this.filterBooks(await this.load('powers')); }
     static async complexforms() { return this.filterBooks(await this.load('complexforms')); }
+    static async metamagic() { return this.load('metamagic'); }
+    static async echoes() { return this.load('echoes'); }
 
     /** Metatypen inkl. Metavarianten, gefiltert auf aktive Regelwerke. */
     static async metatypes() {

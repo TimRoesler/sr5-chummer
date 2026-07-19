@@ -4,7 +4,10 @@
  *   Neue Fertigkeit: 2 · Spezialisierung: 7 · Zauber: 5 · Komplexe Form: 4 · Quality: 2 × Karma
  */
 import { ChummerData, MODULE_ID } from './data.mjs';
-import { qualityItemData, spellItemData, complexFormItemData, skillItemData } from './items.mjs';
+import {
+    qualityItemData, spellItemData, complexFormItemData, skillItemData,
+    metamagicItemData, knowledgeSkillItemData, focusBindingKarma,
+} from './items.mjs';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -30,6 +33,10 @@ export class AdvancementApp extends HandlebarsApplicationMixin(ApplicationV2) {
             newSpell: AdvancementApp.#onNewSpell,
             newCF: AdvancementApp.#onNewCF,
             buyQuality: AdvancementApp.#onBuyQuality,
+            initiate: AdvancementApp.#onInitiate,
+            bindFocus: AdvancementApp.#onBindFocus,
+            raiseKnowledge: AdvancementApp.#onRaiseKnowledge,
+            newKnowledge: AdvancementApp.#onNewKnowledge,
         },
     };
 
@@ -103,6 +110,57 @@ export class AdvancementApp extends HandlebarsApplicationMixin(ApplicationV2) {
             .filter(q => q.category === 'Positive' && !q.chargenonly && !has(q))
             .map(q => ({ ...pick(q), cost: (parseInt(q.karma) || 0) * 2 }));
 
+        // Wissens-/Sprachfertigkeiten: Steigern kostet neue Stufe × 1 Karma.
+        const knowledgeSkills = actor.items
+            .filter(i => i.type === 'skill' && ['knowledge', 'language'].includes(i.system.skill?.category))
+            .map(i => ({
+                id: i.id, name: i.name,
+                rating: i.system.skill.rating ?? 0,
+                next: (i.system.skill.rating ?? 0) + 1,
+                cost: (i.system.skill.rating ?? 0) + 1,
+            }))
+            .sort((a, b) => a.name.localeCompare(b.name));
+
+        // Initiation (Magier) bzw. Wandlung (Technomancer): 10 + (Grad + 1) × 3 Karma.
+        let initiation = null;
+        if (system.special === 'magic' || system.special === 'resonance') {
+            const isMagic = system.special === 'magic';
+            const grade = isMagic
+                ? (system.magic?.initiation ?? 0)
+                : (system.technomancer?.submersion ?? 0);
+            const ownedCount = name => actor.items.filter(i =>
+                ['metamagic', 'echo'].includes(i.type) && i.name === name).length;
+            const defs = isMagic ? await ChummerData.metamagic() : await ChummerData.echoes();
+            const options = defs
+                .filter(def => {
+                    const n = ChummerData.nameOf(def);
+                    const count = ownedCount(n);
+                    if (def.repeatable) return true;
+                    return count < (def.max ?? 1);
+                })
+                .map(def => ({ name: def.name, label: ChummerData.nameOf(def), adeptOnly: !!def.adeptOnly }));
+            initiation = {
+                isMagic,
+                grade,
+                nextGrade: grade + 1,
+                cost: 10 + (grade + 1) * 3,
+                options,
+                title: game.i18n.localize(isMagic ? 'CHUMMER.Advance.Initiation' : 'CHUMMER.Advance.Submersion'),
+                pickLabel: game.i18n.localize(isMagic ? 'CHUMMER.Advance.Metamagic' : 'CHUMMER.Advance.Echo'),
+            };
+        }
+
+        // Ungebundene Foki (per Bindungskosten-Erkennung am Katalognamen).
+        const foci = actor.items
+            .filter(i => ['equipment', 'device'].includes(i.type))
+            .map(i => ({
+                id: i.id, name: i.name,
+                rating: i.system.technology?.rating ?? 1,
+                cost: focusBindingKarma(i.name, i.system.technology?.rating ?? 1),
+                bound: !!i.getFlag(MODULE_ID, 'focusBound'),
+            }))
+            .filter(f => f.cost > 0 && !f.bound);
+
         const log = (actor.getFlag(MODULE_ID, 'karmaLog') ?? [])
             .slice(-30).reverse()
             .map(e => ({
@@ -112,7 +170,10 @@ export class AdvancementApp extends HandlebarsApplicationMixin(ApplicationV2) {
                 positive: e.karma > 0,
             }));
 
-        return { karma: this.#karma, attrs, skills, newSkills, newSpells, newCFs, qualities, log };
+        return {
+            karma: this.#karma, attrs, skills, newSkills, newSpells, newCFs,
+            qualities, log, knowledgeSkills, initiation, foci,
+        };
     }
 
     // ------------------------------------------------------------- Aktionen
@@ -179,6 +240,66 @@ export class AdvancementApp extends HandlebarsApplicationMixin(ApplicationV2) {
         if (!def) return;
         await this.#spend(4, game.i18n.format('CHUMMER.Advance.NoteNewCF', { name: ChummerData.nameOf(def) }), async () => {
             await this.actor.createEmbeddedDocuments('Item', [await complexFormItemData(def)]);
+        });
+    }
+
+    /** Initiation (Magier) bzw. Wandlung (Technomancer) mit Metamagie-/Echo-Wahl. */
+    static async #onInitiate(ev, target) {
+        const system = this.actor.system;
+        const isMagic = system.special === 'magic';
+        const grade = isMagic
+            ? (system.magic?.initiation ?? 0)
+            : (system.technomancer?.submersion ?? 0);
+        const cost = 10 + (grade + 1) * 3;
+        const select = this.element.querySelector('select[data-pick="metamagic"]');
+        const name = select?.value;
+        if (!name) return;
+        const defs = isMagic ? await ChummerData.metamagic() : await ChummerData.echoes();
+        const def = defs.find(d => d.name === name);
+        if (!def) return;
+        const note = game.i18n.format(
+            isMagic ? 'CHUMMER.Advance.NoteInitiation' : 'CHUMMER.Advance.NoteSubmersion',
+            { grade: grade + 1, pick: ChummerData.nameOf(def) });
+        await this.#spend(cost, note, async () => {
+            await this.actor.update(isMagic
+                ? { 'system.magic.initiation': grade + 1 }
+                : { 'system.technomancer.submersion': grade + 1 });
+            await this.actor.createEmbeddedDocuments('Item', [metamagicItemData(def, { echo: !isMagic })]);
+        });
+    }
+
+    /** Fokus binden: Karma nach GRW-Tabelle, Flag verhindert Doppelbindung. */
+    static async #onBindFocus(ev, target) {
+        const item = this.actor.items.get(target.dataset.id);
+        if (!item) return;
+        const rating = item.system.technology?.rating ?? 1;
+        const cost = focusBindingKarma(item.name, rating);
+        if (!cost) return;
+        await this.#spend(cost, game.i18n.format('CHUMMER.Advance.NoteBindFocus', { name: item.name }), async () => {
+            await item.setFlag(MODULE_ID, 'focusBound', true);
+        });
+    }
+
+    static async #onRaiseKnowledge(ev, target) {
+        const item = this.actor.items.get(target.dataset.id);
+        if (!item) return;
+        const cur = item.system.skill.rating ?? 0;
+        await this.#spend(cur + 1, `${item.name} ${cur} → ${cur + 1}`, async () => {
+            await item.update({ 'system.skill.rating': cur + 1 });
+        });
+    }
+
+    /** Neue Wissens-/Sprachfertigkeit (1 Karma, GRW). */
+    static async #onNewKnowledge(ev, target) {
+        const name = this.element.querySelector('input[data-pick="knowledgeName"]')?.value?.trim();
+        const type = this.element.querySelector('select[data-pick="knowledgeType"]')?.value ?? 'street';
+        if (!name) return;
+        await this.#spend(1, game.i18n.format('CHUMMER.Advance.NoteNewKnowledge', { name }), async () => {
+            await this.actor.createEmbeddedDocuments('Item', [knowledgeSkillItemData({
+                name, rating: 1, type,
+                attribute: ['street', 'interests', 'language'].includes(type) ? 'intuition' : 'logic',
+                isLanguage: type === 'language',
+            })]);
         });
     }
 
