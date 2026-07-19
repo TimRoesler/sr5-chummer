@@ -69,20 +69,20 @@
     {{!-- ======================================================== Optionen --}}
     <div class="cvtt-panel">
         <h3><i class="fas fa-sliders"></i> {{localize "CHUMMER.Import.Options"}}</h3>
-        <label class="cvtt-check">
+        <label class="cvtt-import-option">
             <input type="checkbox" data-field="option" data-option="vehicles" {{#if state.options.vehicles}}checked{{/if}}>
             {{localize "CHUMMER.Import.OptVehicles"}}
         </label>
-        <label class="cvtt-check">
+        <label class="cvtt-import-option">
             <input type="checkbox" data-field="option" data-option="mugshot" {{#if state.options.mugshot}}checked{{/if}}>
             {{localize "CHUMMER.Import.OptMugshot"}}
         </label>
         {{#unless targetNew}}
-        <label class="cvtt-check">
+        <label class="cvtt-import-option">
             <input type="checkbox" data-field="option" data-option="updateValues" {{#if state.options.updateValues}}checked{{/if}}>
             {{localize "CHUMMER.Import.OptValues"}}
         </label>
-        <label class="cvtt-check">
+        <label class="cvtt-import-option">
             <input type="checkbox" data-field="option" data-option="deleteOrphans" {{#if state.options.deleteOrphans}}checked{{/if}}>
             {{localize "CHUMMER.Import.OptOrphans"}}
         </label>

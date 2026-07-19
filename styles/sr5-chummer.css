@@ -1143,7 +1143,18 @@ a.cvtt-source:hover { opacity: 1; text-shadow: 0 0 6px var(--c-accent-glow); }
 .cvtt-import-file { display: flex; align-items: center; gap: 8px; }
 .cvtt-import-file input[type="file"] { flex: 1; }
 .cvtt-import-file button { width: auto; flex: 0 0 auto; }
-.cvtt-importer .cvtt-check { display: flex; align-items: center; gap: 6px; margin: 4px 0; }
+.cvtt-import-option {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    width: 100%;
+    margin: 4px 0;
+    white-space: normal;
+    cursor: pointer;
+}
+.cvtt-import-option input[type="checkbox"] { flex: 0 0 auto; margin: 0; }
+.cvtt-import-option:hover { color: var(--c-accent); }
 .cvtt-importer .cvtt-footer { display: flex; justify-content: flex-end; padding-top: 4px; }
 .cvtt-importer .cvtt-footer button { width: auto; padding: 6px 16px; }
 .cvtt-import-result ul { margin: 4px 0 0 16px; }
