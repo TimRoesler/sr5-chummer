@@ -10,6 +10,25 @@ Foundry VTT für das Shadowrun-5e-System.
 - Ausrüstungs-Shop
 - PDF-Quellenverweise
 - Datenbasis: Chummer5a
+- **GRW-Anreicherung**: Alle 490 Items des Grundregelwerks erhalten beim Kauf und Import
+  eigene deutsche Beschreibungen; Wirk-Items (Drogen, Toxine, Slap-Patches, Granaten)
+  zusätzlich ActiveEffects streng nach GRW-Werten (kompatibel mit sr5-dice-flow v2.4:
+  Zieleffekte per Bestätigungs-Button, Drogen als Selbstanwendung)
+
+## GRW-Anreicherung
+
+Neue Käufe (Shop, Charaktererschaffung, Grunt-Import) werden automatisch angereichert.
+Bereits existierende Welt-Items rüstet der Spielleiter per Konsole nach:
+
+```js
+game.modules.get('sr5-chummer').api.enrichItems()          // anwenden
+game.modules.get('sr5-chummer').api.enrichItems({dryRun: true})  // nur zählen
+```
+
+Beschreibungen werden nur gesetzt, wenn sie leer sind; Effekte nur, wenn noch keine
+angereicherten vorhanden sind (Flag `sr5-chummer.enriched`). Die Datenquellen liegen in
+`tools/enrichment-src/` und werden mit `python3 tools/build-enrichment.py` nach
+`data/enrichment-*.json` gebaut.
 
 ## Installation
 

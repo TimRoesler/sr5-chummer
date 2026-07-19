@@ -1,0 +1,38 @@
+{
+ "31c68476-6328-476a-ae8a-94f65d505a04": {
+  "description": "<p>Alltagskleidung des Jahres 2075 — von der 5-¥-Automaten-Sojafaser bis zum Designerstück: eingewebte Elektronik, energiesammelnde Stoffe, kein Schutzwert. Je mehr Nuyen, desto beeindruckender der Auftritt.</p>"
+ },
+ "5a650844-8f24-48e7-829f-0443d9ff5cf7": {
+  "description": "<p>Diskret gepanzerter Geschäftsanzug für Mr. Johnsons, Unterhändler und Schieber — hochklassiger Schutz gepaart mit Stil, inklusive Tarnholster im Jackett.</p>"
+ },
+ "40826eaa-c22a-43da-8730-bc1867ea65a1": {
+  "description": "<p>Leichtes ballistisches Gewebe in beliebigen Stilen — als Panzerung praktisch nicht zu erkennen, dafür mit weniger Schutz als echte Panzerung.</p>"
+ },
+ "36a4cd30-c32c-44d0-847a-0c15fb51072a": {
+  "description": "<p>Die beliebteste Panzerung der Straße, erhältlich in jedem denkbaren Stil: guter Schutz ohne viel Aufsehen. Für die Dinnerparty trotzdem ungeeignet.</p>"
+ },
+ "4ad1eeab-daf3-4495-a73d-fbb0ce89be5b": {
+  "description": "<p>Moderne, flexible Weste für unter die Kleidung, die dabei nicht aufträgt — die beliebte, kostengünstige Option.</p>"
+ },
+ "aacafde3-ff9a-4de0-85ac-3870645a9197": {
+  "description": "<p>Ganzkörperanzug mit sensorgekoppelter Rutheniumpolymerbeschichtung, die die Umgebung perspektivisch korrekt repliziert: +2 auf das Limit von Schleichenproben zum Verstecken — und gepanzert ist er auch. <strong>WiFi:</strong> zusätzlich +2 Würfelpool auf Schleichenproben zum Verstecken.</p>"
+ },
+ "9ee80c97-9197-4dd5-baed-f77cfd2cee17": {
+  "description": "<p>Unverhohlene Militär- und Sicherheitspanzerung mit taktischen Holstern, Taschen und Gurten — auf Einschüchterung und Beweglichkeit ausgelegt. Optional mit Umweltanpassung oder Chemischer Versiegelung; der zugehörige Vollhelm (+3) hat Kapazität 6 für Sicht-/Audioverstärkungen.</p>"
+ },
+ "013b9f3f-533b-4545-aa51-c6cf8d50f3b6": {
+  "description": "<p>Der Wildwest-Mantel, seit 30 Jahren fester Bestandteil der rauen Sprawl-Straßen: solider Schutz plus Tarnmodifikator −2 für alles, was darunter versteckt wird.</p>"
+ },
+ "d8d9154d-c8d3-4593-a408-9f5b259f0363": {
+  "description": "<p>Bunter, atmungsaktiver Overall für Kuriere, Athleten und Parkourläufer — mit Densiplast- und Flüssigreaktivpanzerung überraschend schutzstark, inklusive Musikplayer und Vitalmonitor.</p>"
+ },
+ "fd6e194b-89ea-4030-9203-87341442eadb": {
+  "description": "<p>Schützt die Rübe (+2 auf den Panzerungswert getragener Panzerung) und bietet Kapazität 6 für Trodennetze und Sicht-/Audioverstärkungen.</p>"
+ },
+ "943d19f7-ee6b-4ce9-8a43-93d3fe5100f2": {
+  "description": "<p>Großer SWAT-Schild (+6 Panzerung) mit Sichtfenster und innenliegendem Leiterrahmen zum Überklettern kleiner Hindernisse. Unhandlich: −1 Körperliches Limit, wenn er im Weg ist; als Waffe (STR+2)G (Exotische Nahkampfwaffe).</p>"
+ },
+ "b0d6d8a6-b74a-4ea3-9c04-cc0d057e51b6": {
+  "description": "<p>Aufruhrbekämpfungs-Schild (+6 Panzerung), der jedem Berührenden einen Elektroschock versetzt (9G(e), DK −5); 10 Ladungen, Netzladung 1/10 s. <strong>WiFi:</strong> Induktionsladung 1/Stunde. −1 Körperliches Limit, wenn er im Weg ist.</p>"
+ }
+}

@@ -10,6 +10,7 @@ import { AdvancementApp } from './advancement.mjs';
 import { PackTranslator } from './packs.mjs';
 import { GruntImporter } from './grunts.mjs';
 import { QuickNpcApp } from './quicknpc.mjs';
+import { retrofitWorldItems } from './enrich.mjs';
 
 Hooks.once('init', () => {
     // Sicherheitsnetz: Modul nur im shadowrun5e-System initialisieren
@@ -98,6 +99,7 @@ Hooks.once('init', () => {
         openBookConfig: () => new BooksConfig().render(true),
         translatePacks: () => PackTranslator.translateAll(),
         importGrunts: () => GruntImporter.import(),
+        enrichItems: options => retrofitWorldItems(options),
     };
 
     registerHooks();

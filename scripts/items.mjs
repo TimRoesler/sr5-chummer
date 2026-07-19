@@ -4,6 +4,7 @@
  * fällt sonst auf minimale, schema-kompatible Items zurück.
  */
 import { ChummerData } from './data.mjs';
+import { enrichItemData } from './enrich.mjs';
 
 export function sourceString(entry) {
     if (!entry?.source) return '';
@@ -71,7 +72,7 @@ const COMPENDIUM_KIND = {
 /** Item-Daten für einen Katalogeintrag (Shop/Chargen-Kauf). */
 export async function purchasedItemData(kind, entry, rating = 0) {
     const comp = await fromCompendium(COMPENDIUM_KIND[kind], entry, rating);
-    if (comp) return comp;
+    if (comp) return enrichItemData(comp, entry);
 
     const type = FALLBACK_TYPES[kind] ?? 'equipment';
     const system = { ...baseDescription(entry), ...technology(entry, rating) };
@@ -85,7 +86,7 @@ export async function purchasedItemData(kind, entry, rating = 0) {
         })[entry.en ?? entry.name] ?? 'other';
     }
 
-    return { name: ChummerData.nameOf(entry), type, system };
+    return enrichItemData({ name: ChummerData.nameOf(entry), type, system }, entry);
 }
 
 /** Quality-Item. */

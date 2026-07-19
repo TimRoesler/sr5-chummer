@@ -1,0 +1,1652 @@
+{
+ "e97c478c-f10a-494e-98ba-0d9c3076cd73": {
+  "description": "<p>Misst kontinuierlich Lebenszeichen — Herzfrequenz, Blutdruck, Temperatur — und analysiert Blut-, Schweiß- und Hautproben. Als Armband tragbar oder in Kleidung/Kommlink integrierbar.</p><p><strong>WiFi:</strong> Teilt die Daten mit festgelegten Geräten und kann DocWagon oder einen anderen Notfalldienst alarmieren, wenn die Lebenszeichen einen Schwellenwert unterschreiten.</p>"
+ },
+ "6cf42a40-a0cf-4815-82b1-ca30adcbabad": {
+  "description": "<p>Kunststoffspritze mit Metallnadel für den Einmalgebrauch. Dient dem Verabreichen von Toxinen mit Injektionsvektor — unkooperative Opfer müssen vorher immobilisiert oder festgehalten werden.</p>"
+ },
+ "ae9c37df-6d82-44c1-aa21-6c87e45e2dc1": {
+  "description": "<p>Medikamente, Verbände, Werkzeuge und ein (redseliges) Arzt-Expertensystem für die gängigen Notfälle von Schusswunden bis Vergiftung.</p><p><strong>Regeln:</strong> Die Stufe des Medkits wird zum Limit von Erste-Hilfe-Proben addiert. Stufe 1–3 passt in eine Tasche, Stufe 4+ ist aktenkoffergroß. Muss nach (Stufe) Verwendungen aufgefüllt werden.</p><p><strong>WiFi:</strong> +Stufe Würfelpoolbonus auf Erste Hilfe + Logik, oder das Medkit handelt selbst mit Pool = Stufe × 2 und Limit = Stufe.</p>"
+ },
+ "76aca45d-0d4f-45a3-a532-c47ac0b26b89": {
+  "description": "<p>Ersatzbestückung für ein verbrauchtes Medkit: Medikamente, Verbände und Verbrauchsmaterial für (Stufe) weitere Anwendungen.</p>"
+ },
+ "47e12d78-cb99-4e20-aff5-11cbed1e715e": {
+  "description": "<p>Selbstklebendes Pflaster. Addiert seine Stufe zu jeder Toxinwiderstandsprobe, die innerhalb von 20 Minuten nach dem Aufkleben abgelegt wird. Das Zeitfenster vor Wirkungseintritt des Toxins ist oft sehr eng.</p><p>Anwendung an Unfreiwilligen erfordert einen erfolgreichen Nahkampfangriff (ohne Schaden) auf nackte Haut.</p>",
+  "effects": [
+   {
+    "name": "Antidot-Patch (+Stufe auf Toxinwiderstand)",
+    "img": "icons/svg/heal.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": []
+    },
+    "duration": {
+     "seconds": 1200
+    }
+   }
+  ]
+ },
+ "d1c0cab8-b4ea-4f08-b462-75b18246e1d8": {
+  "description": "<p>Ein leeres Slap-Patch, das mit einer Dosis einer Chemikalie oder eines Toxins gefüllt werden kann — zur späteren Anwendung an einem Patienten oder an sich selbst.</p>"
+ },
+ "320bd9e3-e261-4a45-aa03-c740b6855e73": {
+  "description": "<p>Entfernt (Stufe) Kästchen Geistigen Schaden für (Stufe × 10) Minuten. Danach erleidet der Patient (Stufe + 1) Kästchen Geistigen Schaden, denen nicht widerstanden werden kann. Während der Wirkung ist keine Erholung möglich.</p><p>Häufige Nutzung kann Abhängigkeitsproben erfordern (Abhängigkeitswert 2, Schwellenwert 1).</p>",
+  "effects": [
+   {
+    "name": "Stim-Patch (Geistiger Schaden unterdrückt)",
+    "img": "icons/svg/upgrade.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": []
+    }
+   }
+  ]
+ },
+ "5e4f9fdf-cf51-4ea1-9de0-8ca4f33af8b1": {
+  "description": "<p>Verursacht Geistigen Schaden in Höhe seiner Stufe, dem nur mit Konstitution widerstanden wird. Anwendung an Unfreiwilligen erfordert einen erfolgreichen Nahkampfangriff (ohne Schaden) auf nackte Haut.</p>",
+  "effects": [
+   {
+    "name": "Tranq-Patch",
+    "img": "icons/svg/sleep.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": []
+    }
+   }
+  ]
+ },
+ "5de1956f-0ec3-4fad-9e9a-d8b90ac1e3f4": {
+  "description": "<p>Erlaubt einem sterbenden Patienten sofort eine Stabilisierungsprobe mit Konstitution statt Erste Hilfe oder Medizin.</p><p><strong>WiFi:</strong> Keine Probe nötig — der Patient wird automatisch stabilisiert.</p>",
+  "effects": [
+   {
+    "name": "Trauma-Patch (stabilisiert)",
+    "img": "icons/svg/regen.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": []
+    }
+   }
+  ]
+ },
+ "62bffcd7-4a43-45cd-9cf7-3067ba9688f6": {
+  "description": "<p><strong>Vektor:</strong> Inhalation, Injektion · <strong>Geschwindigkeit:</strong> 1 Kampfrunde · <strong>Dauer:</strong> (6 − Konstitution) Stunden, mindestens 1 · <strong>Abhängigkeit:</strong> Körperlich und Psychisch</p><p><strong>Wirkung:</strong> −1 Reaktion, −1 auf alle Limits, +1 auf alle Schwellenwerte, Hohe Schmerztoleranz 3 (3 Kästchen werden bei Verletzungsmodifikatoren ignoriert).</p><p>Ein aus Mohn gewonnenes Opiat: Die Welt wird weich und weit weg. Wer Bliss nimmt, sucht Weltflucht — Schmerzen und Sorgen verschwimmen, aber auch Reflexe und Urteilsvermögen.</p>",
+  "effects": [
+   {
+    "name": "Bliss",
+    "img": "icons/svg/pill.svg",
+    "disabled": true,
+    "system": {
+     "applyTo": "actor",
+     "changes": [
+      {
+       "key": "system.attributes.reaction",
+       "type": "add",
+       "value": -1
+      },
+      {
+       "key": "system.modifiers.physical_limit",
+       "type": "add",
+       "value": -1
+      },
+      {
+       "key": "system.modifiers.mental_limit",
+       "type": "add",
+       "value": -1
+      },
+      {
+       "key": "system.modifiers.social_limit",
+       "type": "add",
+       "value": -1
+      },
+      {
+       "key": "system.modifiers.pain_tolerance_stun",
+       "type": "add",
+       "value": 3
+      },
+      {
+       "key": "system.modifiers.pain_tolerance_physical",
+       "type": "add",
+       "value": 3
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "8dc829b9-8b94-4510-ab1a-2305cbad69c9": {
+  "description": "<p><strong>Vektor:</strong> Einnahme, Inhalation · <strong>Geschwindigkeit:</strong> 10 Minuten · <strong>Dauer:</strong> (12 − Konstitution) Stunden, mindestens 1 · <strong>Abhängigkeit:</strong> Psychisch</p><p><strong>Wirkung:</strong> +1 Reaktion, +1W6 Initiativewürfel.</p><p><strong>Nach dem Rausch:</strong> Zusammenbruch mit 6 Kästchen Geistigen Schadens, denen nicht widerstanden werden kann.</p><p>Das Standard-Aufputschmittel der Straße. Cram macht hellwach bis zur Paranoia — schnelle Reaktionen, wenig Nachdenken, zittrige Finger.</p>",
+  "effects": [
+   {
+    "name": "Cram",
+    "img": "icons/svg/upgrade.svg",
+    "disabled": true,
+    "system": {
+     "applyTo": "actor",
+     "changes": [
+      {
+       "key": "system.attributes.reaction",
+       "type": "add",
+       "value": 1
+      },
+      {
+       "key": "system.initiative.meatspace.dice",
+       "type": "add",
+       "value": 1
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "5f5bc907-ce31-4f34-b7cf-a48d9d5d10b3": {
+  "description": "<p><strong>Vektor:</strong> Einnahme, Inhalation · <strong>Geschwindigkeit:</strong> Sofort · <strong>Dauer:</strong> (6 − Konstitution) Stunden, mindestens 1 · <strong>Abhängigkeit:</strong> Körperlich</p><p><strong>Wirkung:</strong> +1 Willenskraft, +1 Geistiges Limit, −1 Körperliches Limit; Erwachte werden zu astraler Wahrnehmung gezwungen.</p><p><strong>Nach dem Rausch:</strong> Für die Dauer der Wirkung nochmals −1 auf alle Würfelpools und −1 auf alle Limits.</p><p>Ein Narkotikum aus einer erwachten Seetang-Art, entwickelt von karibischen Houngans. Für Erwachte gefährlich verführerisch — und ein beliebtes Werkzeug, um Opfer auf Besessenheit vorzubereiten.</p>",
+  "effects": [
+   {
+    "name": "Deepweed",
+    "img": "icons/svg/eye.svg",
+    "disabled": true,
+    "system": {
+     "applyTo": "actor",
+     "changes": [
+      {
+       "key": "system.attributes.willpower",
+       "type": "add",
+       "value": 1
+      },
+      {
+       "key": "system.modifiers.mental_limit",
+       "type": "add",
+       "value": 1
+      },
+      {
+       "key": "system.modifiers.physical_limit",
+       "type": "add",
+       "value": -1
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "929c4835-1754-4999-9215-9859e8ec5384": {
+  "description": "<p><strong>Vektor:</strong> Inhalation · <strong>Geschwindigkeit:</strong> Sofort · <strong>Dauer:</strong> 10 × 1W6 Minuten · <strong>Abhängigkeit:</strong> Körperlich und Psychisch</p><p><strong>Wirkung:</strong> +1 Reaktion, +1 Körperliches Limit, +2W6 Initiativewürfel.</p><p><strong>Nach dem Rausch:</strong> Zusammenbruch; für die Dauer der Wirkung zusätzlich Desorientierung (−2 auf alle Handlungen).</p><p>Der Ausgleicher für Gesetzeshüter gegen verchromte Straßensamurai, meist als Einzeldosis-Popper. Jazz macht überdreht wie ein Zweijähriger auf Koffein.</p>",
+  "effects": [
+   {
+    "name": "Jazz",
+    "img": "icons/svg/lightning.svg",
+    "disabled": true,
+    "system": {
+     "applyTo": "actor",
+     "changes": [
+      {
+       "key": "system.attributes.reaction",
+       "type": "add",
+       "value": 1
+      },
+      {
+       "key": "system.modifiers.physical_limit",
+       "type": "add",
+       "value": 1
+      },
+      {
+       "key": "system.initiative.meatspace.dice",
+       "type": "add",
+       "value": 2
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "098bf489-bea9-4f17-b3d9-aead979fdc32": {
+  "description": "<p><strong>Vektor:</strong> Inhalation · <strong>Geschwindigkeit:</strong> Sofort · <strong>Dauer:</strong> 10 × 1W6 Minuten · <strong>Abhängigkeit:</strong> Körperlich</p><p><strong>Wirkung:</strong> +1 Konstitution, +1 Geschicklichkeit, +2 Stärke, +1 Willenskraft, +2 Körperliches Limit, +2W6 Initiativewürfel, Hohe Schmerztoleranz 3.</p><p><strong>Nach dem Rausch:</strong> Zusammenbruch: −1 Reaktion, −1 Willenskraft, −2 auf alle Limits für die Dauer der Wirkung sowie 6 Kästchen Geistiger Schaden, denen nicht widerstanden werden kann.</p><p>Eine Designer-Kampfdroge. Kamikaze-Konsumenten fühlen sich unbesiegbar und ignorieren ihr eigenes Wohlergehen — unterhaltsam, solange man nicht in ihrer Angriffsrichtung steht.</p>",
+  "effects": [
+   {
+    "name": "Kamikaze",
+    "img": "icons/svg/explosion.svg",
+    "disabled": true,
+    "system": {
+     "applyTo": "actor",
+     "changes": [
+      {
+       "key": "system.attributes.body",
+       "type": "add",
+       "value": 1
+      },
+      {
+       "key": "system.attributes.agility",
+       "type": "add",
+       "value": 1
+      },
+      {
+       "key": "system.attributes.strength",
+       "type": "add",
+       "value": 2
+      },
+      {
+       "key": "system.attributes.willpower",
+       "type": "add",
+       "value": 1
+      },
+      {
+       "key": "system.modifiers.physical_limit",
+       "type": "add",
+       "value": 2
+      },
+      {
+       "key": "system.initiative.meatspace.dice",
+       "type": "add",
+       "value": 2
+      },
+      {
+       "key": "system.modifiers.pain_tolerance_stun",
+       "type": "add",
+       "value": 3
+      },
+      {
+       "key": "system.modifiers.pain_tolerance_physical",
+       "type": "add",
+       "value": 3
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "d4cf626d-0af1-41f7-bec0-e53b4dba2eb1": {
+  "description": "<p><strong>Vektor:</strong> Injektion · <strong>Geschwindigkeit:</strong> 10 Minuten · <strong>Dauer:</strong> 4 Tage · <strong>Abhängigkeit:</strong> Psychisch</p><p><strong>Wirkung:</strong> Schaltet das Schlafbedürfnis aus: vier Tage wach ohne Müdigkeits- oder Erschöpfungsmodifikatoren.</p><p><strong>Nach dem Rausch:</strong> Danach 8W6 Stunden Tiefschlaf. Eine zweite Dosis direkt im Anschluss hält weitere 1W6÷2 Tage wach, kostet dann aber 10 Kästchen Geistigen Schaden (kein Widerstand) vor dem Tiefschlaf.</p><p>Synthetisierte Hormone gegen den Schlaf — das Werkzeug für lange Nächte im Labor, am Deck oder auf Wache.</p>",
+  "effects": [
+   {
+    "name": "Long Haul",
+    "img": "icons/svg/sun.svg",
+    "disabled": true,
+    "system": {
+     "applyTo": "actor",
+     "changes": []
+    },
+    "duration": {
+     "seconds": 345600
+    }
+   }
+  ]
+ },
+ "d7ec13fa-8601-4f9c-a59c-6a86573b40ee": {
+  "description": "<p><strong>Vektor:</strong> Inhalation · <strong>Geschwindigkeit:</strong> 1 Kampfrunde · <strong>Dauer:</strong> 10 × 1W6 Minuten · <strong>Abhängigkeit:</strong> Körperlich und Psychisch</p><p><strong>Wirkung:</strong> +2 Stärke, +2 Willenskraft, +2 auf Wahrnehmungsproben, +2 Körperliches Limit, Hohe Schmerztoleranz 6.</p><p><strong>Nach dem Rausch:</strong> −2 auf alle Limits für die Dauer der Wirkung sowie 9 Kästchen Geistiger Schaden, denen nicht widerstanden werden kann.</p><p>Ein bei Trollgangs beliebter Hochleistungs-Cocktail, der einen Konsumenten leicht umbringen kann. Der Wahrnehmungsbonus (+2) gilt auf Proben und ist hier nicht als Attributsänderung hinterlegt.</p>",
+  "effects": [
+   {
+    "name": "Nitro",
+    "img": "icons/svg/fire.svg",
+    "disabled": true,
+    "system": {
+     "applyTo": "actor",
+     "changes": [
+      {
+       "key": "system.attributes.strength",
+       "type": "add",
+       "value": 2
+      },
+      {
+       "key": "system.attributes.willpower",
+       "type": "add",
+       "value": 2
+      },
+      {
+       "key": "system.modifiers.physical_limit",
+       "type": "add",
+       "value": 2
+      },
+      {
+       "key": "system.modifiers.pain_tolerance_stun",
+       "type": "add",
+       "value": 6
+      },
+      {
+       "key": "system.modifiers.pain_tolerance_physical",
+       "type": "add",
+       "value": 6
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "836f54d5-1e11-49ea-b115-34c14ed843c9": {
+  "description": "<p><strong>Vektor:</strong> Inhalation, Injektion · <strong>Geschwindigkeit:</strong> 1 Kampfrunde · <strong>Dauer:</strong> (10 − Konstitution) Stunden, mindestens 1 · <strong>Abhängigkeit:</strong> Körperlich und Psychisch</p><p><strong>Wirkung:</strong> +1 Reaktion, +1 Charisma, +1 auf Wahrnehmungsproben, +1 Soziales Limit, Hohe Schmerztoleranz 1.</p><p><strong>Nach dem Rausch:</strong> Charisma und Willenskraft sinken für die Dauer der Wirkung auf 1, alle Limits um 1.</p><p>Das Partypulver der Sechsten Welt, gewonnen aus der Cocapflanze — charmant, wach, unbesiegbar. Bis der Absturz kommt.</p>",
+  "effects": [
+   {
+    "name": "Novacoke",
+    "img": "icons/svg/upgrade.svg",
+    "disabled": true,
+    "system": {
+     "applyTo": "actor",
+     "changes": [
+      {
+       "key": "system.attributes.reaction",
+       "type": "add",
+       "value": 1
+      },
+      {
+       "key": "system.attributes.charisma",
+       "type": "add",
+       "value": 1
+      },
+      {
+       "key": "system.modifiers.social_limit",
+       "type": "add",
+       "value": 1
+      },
+      {
+       "key": "system.modifiers.pain_tolerance_stun",
+       "type": "add",
+       "value": 1
+      },
+      {
+       "key": "system.modifiers.pain_tolerance_physical",
+       "type": "add",
+       "value": 1
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "778eefae-94ad-4f8c-ad03-8b9039b5c48e": {
+  "description": "<p><strong>Vektor:</strong> Einnahme · <strong>Geschwindigkeit:</strong> 10 Minuten · <strong>Dauer:</strong> (12 − Konstitution) Stunden, mindestens 1 · <strong>Abhängigkeit:</strong> Psychisch</p><p><strong>Wirkung:</strong> +1 Intuition, +1 Logik, +1 Geistiges Limit; Erwachte erhalten nur −1 statt −2 pro aufrechterhaltenem Zauber.</p><p>Die Denkdroge für Zauberer und Technomancer: hyperfokussiert und distanziert zugleich, gern in Details verloren.</p>",
+  "effects": [
+   {
+    "name": "Psyche",
+    "img": "icons/svg/daze.svg",
+    "disabled": true,
+    "system": {
+     "applyTo": "actor",
+     "changes": [
+      {
+       "key": "system.attributes.intuition",
+       "type": "add",
+       "value": 1
+      },
+      {
+       "key": "system.attributes.logic",
+       "type": "add",
+       "value": 1
+      },
+      {
+       "key": "system.modifiers.mental_limit",
+       "type": "add",
+       "value": 1
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "3a946800-be1e-4bbb-899a-c3d1c48a3a31": {
+  "description": "<p><strong>Vektor:</strong> Inhalation · <strong>Geschwindigkeit:</strong> 5 Minuten · <strong>Dauer:</strong> 10 × 1W6 Minuten · <strong>Abhängigkeit:</strong> Psychisch</p><p><strong>Wirkung:</strong> −2 Reaktion, +1 Willenskraft, −1 Würfelpool auf körperliche Handlungen.</p><p>Ein psychedelisches Halluzinogen für Realitätsflüchtige und Trancesucher. Der Körper wird träge, der Geist weit.</p>",
+  "effects": [
+   {
+    "name": "Zen",
+    "img": "icons/svg/sleep.svg",
+    "disabled": true,
+    "system": {
+     "applyTo": "actor",
+     "changes": [
+      {
+       "key": "system.attributes.reaction",
+       "type": "add",
+       "value": -2
+      },
+      {
+       "key": "system.attributes.willpower",
+       "type": "add",
+       "value": 1
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "18eb72a1-2b4d-4800-9669-d9e62ecc50b3": {
+  "description": "<p><strong>Gerätestufe:</strong> 1 · <strong>Datenverarbeitung:</strong> 3 · <strong>Firewall:</strong> 2</p><p>Aus Ersatzteilen und Schrott zusammengebastelt — hält, solange man nicht zu fest draufhaut.</p><p><em>Riggerkonsole: aktenkoffergroße Drohnen-Kommandozentrale — kann alles, was ein Kommlink kann, plus Riggerkontrolle.</em></p>"
+ },
+ "9d410862-89ae-408c-8342-82f7e6c1ae8f": {
+  "description": "<p><strong>Gerätestufe:</strong> 2 · <strong>Datenverarbeitung:</strong> 3 · <strong>Firewall:</strong> 3</p><p>Das Einsteigermodell aus dem Elektronikmarkt: billig, verbreitet, unspektakulär.</p><p><em>Riggerkonsole: aktenkoffergroße Drohnen-Kommandozentrale — kann alles, was ein Kommlink kann, plus Riggerkontrolle.</em></p>"
+ },
+ "d157fdf9-2315-4402-af6e-2aa4924f6a82": {
+  "description": "<p><strong>Gerätestufe:</strong> 3 · <strong>Datenverarbeitung:</strong> 4 · <strong>Firewall:</strong> 4</p><p>Essy Motors solide Mittelklasse für ambitionierte Drohnenpiloten.</p><p><em>Riggerkonsole: aktenkoffergroße Drohnen-Kommandozentrale — kann alles, was ein Kommlink kann, plus Riggerkontrolle.</em></p>"
+ },
+ "f35d6a78-de2c-4b99-9509-2c87c5e382b4": {
+  "description": "<p><strong>Gerätestufe:</strong> 4 · <strong>Datenverarbeitung:</strong> 5 · <strong>Firewall:</strong> 4</p><p>CompuForce-Konsole mit Schwerpunkt auf schneller Datenverarbeitung.</p><p><em>Riggerkonsole: aktenkoffergroße Drohnen-Kommandozentrale — kann alles, was ein Kommlink kann, plus Riggerkontrolle.</em></p>"
+ },
+ "a2c33659-d930-4eb8-9fac-238a67009def": {
+  "description": "<p><strong>Gerätestufe:</strong> 4 · <strong>Datenverarbeitung:</strong> 4 · <strong>Firewall:</strong> 5</p><p>Die „Spinne\" von Maersk setzt auf robuste Firewalls — beliebt bei Sicherheitsriggern.</p><p><em>Riggerkonsole: aktenkoffergroße Drohnen-Kommandozentrale — kann alles, was ein Kommlink kann, plus Riggerkontrolle.</em></p>"
+ },
+ "3f1e53d0-3f2f-4672-8cca-9f6d7ee979de": {
+  "description": "<p><strong>Gerätestufe:</strong> 5 · <strong>Datenverarbeitung:</strong> 5 · <strong>Firewall:</strong> 5</p><p>Industriequalität von Maser: ausgewogen und zuverlässig.</p><p><em>Riggerkonsole: aktenkoffergroße Drohnen-Kommandozentrale — kann alles, was ein Kommlink kann, plus Riggerkontrolle.</em></p>"
+ },
+ "c8642e4c-6d1e-4338-8a7b-dd63c866a485": {
+  "description": "<p><strong>Gerätestufe:</strong> 5 · <strong>Datenverarbeitung:</strong> 5 · <strong>Firewall:</strong> 6</p><p>Der Liegelord verteidigt sein Drohnennetz mit einer erstklassigen Firewall.</p><p><em>Riggerkonsole: aktenkoffergroße Drohnen-Kommandozentrale — kann alles, was ein Kommlink kann, plus Riggerkontrolle.</em></p>"
+ },
+ "f9941dbe-1db1-4948-a8be-d760733446ea": {
+  "description": "<p><strong>Gerätestufe:</strong> 5 · <strong>Datenverarbeitung:</strong> 6 · <strong>Firewall:</strong> 5</p><p>Proteus-Technik mit maritimem Erbe — stark in der Datenverarbeitung.</p><p><em>Riggerkonsole: aktenkoffergroße Drohnen-Kommandozentrale — kann alles, was ein Kommlink kann, plus Riggerkontrolle.</em></p>"
+ },
+ "4eebf70d-6e0f-4bbb-9356-3eaac0150d4d": {
+  "description": "<p><strong>Gerätestufe:</strong> 6 · <strong>Datenverarbeitung:</strong> 6 · <strong>Firewall:</strong> 5</p><p>Lone Stars Profigerät für Polizei-Drohnenflotten.</p><p><em>Riggerkonsole: aktenkoffergroße Drohnen-Kommandozentrale — kann alles, was ein Kommlink kann, plus Riggerkontrolle.</em></p>"
+ },
+ "f13946fe-8e30-466f-8fc4-9aba7ba7b0f8": {
+  "description": "<p><strong>Gerätestufe:</strong> 6 · <strong>Datenverarbeitung:</strong> 7 · <strong>Firewall:</strong> 6</p><p>MCTs Drohnennetz-Konsole der Spitzenklasse.</p><p><em>Riggerkonsole: aktenkoffergroße Drohnen-Kommandozentrale — kann alles, was ein Kommlink kann, plus Riggerkontrolle.</em></p>"
+ },
+ "fe9d2aa1-f914-4e3b-b1ec-29cc97312c34": {
+  "description": "<p><strong>Gerätestufe:</strong> 6 · <strong>Datenverarbeitung:</strong> 8 · <strong>Firewall:</strong> 7</p><p>Das Nonplusultra unter den Riggerkonsolen — der ÜberMensch lässt keine Wünsche offen.</p><p><em>Riggerkonsole: aktenkoffergroße Drohnen-Kommandozentrale — kann alles, was ein Kommlink kann, plus Riggerkontrolle.</em></p>"
+ },
+ "2e409fba-8b1a-42c4-8fa5-4d256ccd540d": {
+  "description": "<p>Handschuhe für die manuelle AR-Interaktion: virtuelle AROs „berühren\" und „halten\" mit taktiler Rückmeldung zu Gewicht, Temperatur und Härte.</p>"
+ },
+ "e0a8b465-3a3b-455d-83ca-8d8b1777a04c": {
+  "description": "<p>Handgerät für Fingerabdrücke, Retinascans, Stimmmuster und mehr — auch nutzbar, um die eigene Elektronik biometrisch zu sperren.</p>"
+ },
+ "35b38293-313a-462c-9a24-f90056567883": {
+  "description": "<p>Farbdrucker mit montiertem Papierbehälter — falls tatsächlich einmal etwas auf Papier gebraucht wird.</p>"
+ },
+ "566afc73-6047-46e2-9532-fd540c8b3838": {
+  "description": "<p>Faltbares, aufrollbares elektronisches Blatt (Notizzettel bis Poster): zeigt Bilder, Text und Video, dient als Touchscreen und ist kabellos beschreib- und löschbar.</p>"
+ },
+ "37aaf8a5-78ee-4143-88f0-a4fae3383e71": {
+  "description": "<p>Verbindung zu Kommunikationssatelliten im niedrigen Orbit samt tragbarer Schüssel — Matrixzugang auch ohne WiFi-Netz; Entfernungsrauschen maximal −5.</p>"
+ },
+ "2dda7452-c594-410d-923d-2933e8c0f236": {
+  "description": "<p>SimSinn-Rekorder, der sensorische und emotionale Daten des Trägers aufzeichnet — die Grundlage der meisten SimSinn-Chips. Benötigt ein Sim-Modul mit DNI.</p>"
+ },
+ "7bdc5866-88ae-45a6-a525-ec03f161f086": {
+  "description": "<p>Kaum zu entdeckendes Halsmikrofon für gemurmelte Kommunikation — Lauscher erleiden −4 auf Wahrnehmungsproben, das Gesagte zu hören.</p>"
+ },
+ "fb8bc051-f4b2-42f3-98e6-9c5d614cbd9d": {
+  "description": "<p>Projiziert ein Trideo-Hologramm in einen fünf Meter großen Würfel — realistisch, aber ohne kunstvollen Einsatz als Trideo erkennbar.</p>"
+ },
+ "418d5ba1-dd19-4179-add8-074be445a7b2": {
+  "description": "<p>Elektroden-/Ultraschallnetz als Stirnband, Netz oder Kappe: verleiht ein Direktes Neuralinterface (DNI) ohne Datenbuchsen-OP. In Helmen: 2 Punkte Kapazität.</p>"
+ },
+ "84bb92e7-ce13-4eb6-bf9e-15bf3887469c": {
+  "description": "<p>Der Standard-Winzcomputer der Sechsten Welt mit Klebstoffrückseite: Geotagging, AR-Botschaften, Zugangskontrolle, Registrierung — oder Peilsender per periodischer GPS-Übermittlung.</p>"
+ },
+ "5deb8e1d-98bf-4cd4-9dce-b74d67546a1d": {
+  "description": "<p>Fingergroßer Chip für enorme Datenmengen zur physischen Übergabe. Nicht WiFi-fähig — Zugriff nur über den Universal-Datenport.</p>"
+ },
+ "cb405ce6-6133-4b34-8d71-60387e78dd0c": {
+  "description": "<p>EMP-geschützter Überwachungs-Chip, wie ihn Konzerne ihren Sararimännern implantieren — nicht mit dem RFID-Löscher löschbar; Entfernen unter der Haut erfordert Medizin + Logik [Geistig] (10, 1 Minute).</p>"
+ },
+ "8751915f-0573-4c99-b97e-cb74b3788a8a": {
+  "description": "<p>RFID-Chip mit Platz für einen Einzelsensor bis Stufe 2 — zeichnet bis zu 24 Stunden auf (danach abschalten oder überschreiben). <strong>WiFi:</strong> Echtzeitüberwachung durch den Besitzer.</p>"
+ },
+ "baa9ba27-f93b-48da-91b7-cfcce0ba274d": {
+  "description": "<p>Läuft permanent auf Schleichfahrt (Schleicher = Gerätestufe) und ist so gebaut, dass er nicht wie ein RFID-Chip aussieht (Tarnmodifikator −2). Das heimliche Backup der Sicherheits-Chips.</p>"
+ },
+ "8f351e25-d734-4bd0-86da-80b68a4cae68": {
+  "description": "<p>Hackingwerkzeug zum Anklemmen an ein Datenkabel: verschafft eine Direktverbindung zu den Geräten an beiden Kabelenden. <strong>WiFi:</strong> Selbstzerstörung per Freier Handlung (Kabel bleibt heil).</p>"
+ },
+ "3447ab94-a2b1-4e98-a805-4754a2bd0614": {
+  "description": "<p>Neutralisiert implantierte Kommlinks: wirkt wie ein Störsender, aber nur auf den Träger und seine Bodytech. Entfernen ohne Schlüssel: Hardware/Schlosser (8) bzw. an sich selbst Entfesseln + GES (4).</p>"
+ },
+ "d1fca845-ae01-4b39-a176-1506da699e0e": {
+  "description": "<p>Der Profi-Klassiker seit den 2050ern: Sprechfunk mit ausgewählten Gegenstellen im Umkreis von 1 km, bestehend aus Ohrstöpsel und subvokalem Mikrofon. <strong>WiFi:</strong> weltweite Reichweite.</p>"
+ },
+ "d0eb5971-03d6-4822-9fb5-c524bf16bf62": {
+  "description": "<p>Erzeugt auf 5 mm Distanz ein starkes EM-Feld: 10 Kästchen Matrixschaden (normaler Widerstand) — perfekt gegen RFID-Chips, tödlich für Kommlinks. Eine Ladung; Netz-Aufladung in 10 s.</p>"
+ },
+ "6576cfa9-f2f5-4624-bbde-60a8f3f13785": {
+  "description": "<p>Flutet einen kugelförmigen Bereich mit Störsignalen: Rauschen = Gerätestufe, −1 pro 5 m vom Zentrum. <strong>WiFi:</strong> ausgewählte Geräte/Personas bleiben unbeeinflusst.</p>"
+ },
+ "f47ee634-8f59-43c5-8502-32e447f03980": {
+  "description": "<p>Störsender mit 30°-Kegel: Rauschen = Gerätestufe, −1 pro 20 m. <strong>WiFi:</strong> ausgewählte Geräte/Personas bleiben unbeeinflusst.</p>"
+ },
+ "0918742f-6fc8-46ac-91e0-2b7260841923": {
+  "description": "<p>Lokalisiert WiFi-Geräte im Umkreis von 20 m und misst Signalstärke/Position. Probe: Elektronische Kriegsführung + Logik [Stufe]; Schleichfahrt-Geräte verteidigen mit Logik + Schleicher. <strong>WiFi:</strong> Scannerstufe statt eigener Fertigkeit nutzbar.</p>"
+ },
+ "7e887224-6896-4588-a5d3-cace6a8506d2": {
+  "description": "<p>Maskiert Gespräche mit einem Feld zufälligen Rauschens: Lauscher im Umkreis von (Stufe) Metern erleiden −Stufe auf Wahrnehmungsproben. Hilft nicht gegen Video oder WiFi. <strong>WiFi:</strong> dreifacher Radius.</p>"
+ },
+ "c56554d1-4102-446f-8d3e-acd0c7404c3a": {
+  "description": "<p>Beglaubigter Credstick (max. 5.000 ¥): anonymes Bargeld des 21. Jahrhunderts — nicht registriert, nicht rückverfolgbar, nicht WiFi-fähig. Wer ihn verliert, verliert das Geld.</p>"
+ },
+ "4f5b4fbc-78c4-4aa4-a5c2-7739f12e9b39": {
+  "description": "<p>Beglaubigter Credstick Silber (max. 20.000 ¥): anonym, nicht rückverfolgbar, Übertragung nur per Universal-Datenport.</p>"
+ },
+ "697ef5f4-8cde-434d-aca6-1bddd4d526d3": {
+  "description": "<p>Beglaubigter Credstick Gold (max. 100.000 ¥): das bevorzugte Zahlungsmittel für ernsthafte Schattengeschäfte.</p>"
+ },
+ "a19055f0-02ab-4bc2-ab43-0ef82e1b9100": {
+  "description": "<p>Beglaubigter Credstick Platin (max. 500.000 ¥): für Geschäfte, über die man besser nicht spricht.</p>"
+ },
+ "fd2c8afe-7c0f-4b98-ae93-a6108531b236": {
+  "description": "<p>Beglaubigter Credstick Ebenholz (max. 1.000.000 ¥): die Königsklasse anonymer Zahlungsmittel — allein der Besitz wirft Fragen auf.</p>"
+ },
+ "0c800bca-e6ff-475b-a014-c2069f5e364c": {
+  "description": "<p>Eine gefälschte Systemidentifikationsnummer — die Eintrittskarte der SINlosen in die legale Welt. Die Stufe wird bei Proben gegen Verifizierungssysteme verwendet; kriminelle Nutzung macht sie zum Wegwerfartikel.</p>"
+ },
+ "8a16bbb2-8028-4c74-b22b-7aad9d001073": {
+  "description": "<p>Gefälschte Erlaubnis für einen Eingeschränkten Gegenstand oder eine Aktivität (Waffenbesitz, verdecktes Tragen, Spruchzauberei …) — wird einer bestimmten (gefälschten) SIN zugeordnet; Stufe gegen Verifizierungssysteme.</p>"
+ },
+ "64fa5212-1d58-4e94-9cc1-9e3eb10773ed": {
+  "description": "<p>Tragbare Werkzeugkiste für eine bestimmte Fertigkeit — das grundlegende Werkzeug für Standardreparaturen.</p>"
+ },
+ "4edec80a-e8df-4817-9728-4a6fc04d183e": {
+  "description": "<p>Werkzeugladen für eine bestimmte Fertigkeit (passt in einen Van): kompliziertere Werkzeuge für Bau und Reparatur, mit Standard-Ersatzteilen.</p>"
+ },
+ "d0c85aa4-5686-452b-9f1a-7c603ac43258": {
+  "description": "<p>Fest installierte Werkstatt für eine bestimmte Fertigkeit — schwere Maschinen für komplizierte Bauten und Modifikationen, mit Standard-Ersatzteilen. Nicht transportabel.</p>"
+ },
+ "b218dbd1-5706-4d9e-a6a7-ab9b658c3acd": {
+  "description": "<p>Brille mit Leichtbaurahmen (Kapazität 1–4 für Sichtverstärkungen) — mit Verstärkungen nur bei genauem Hinsehen von einer normalen Brille zu unterscheiden.</p>"
+ },
+ "1c6db3ed-a360-40b4-8118-9aca9d96001c": {
+  "description": "<p>Elektronisches Fernglas mit eingebauter Sichtvergrößerung; kann mit weiteren Sichtverstärkungen ausgestattet werden (Kapazität 1–3).</p>"
+ },
+ "fa2851aa-841e-4d9c-a1e4-96a5e5eb4462": {
+  "description": "<p>Rein optisches Fernglas (Lichtbeugung statt Elektronik) — keine Verstärkungen möglich, aber Zauberer können hindurch ein Blickfeld etablieren (Spruchzauberei −3).</p>"
+ },
+ "07805498-75ea-441f-bd27-6536d4131b51": {
+  "description": "<p>Nimmt Fotos, Videos und Trideos (mit Ton) auf; erweiterbar mit Sicht- und Audioverstärkungen (Kapazität 1–6).</p>"
+ },
+ "fa6fa434-107b-4f36-a138-f98b044dae76": {
+  "description": "<p>Winzige Kamera mit Kapazität 1 — für alles, was unauffällig dokumentiert werden soll.</p>"
+ },
+ "1a3a9204-959b-4db5-83de-094f921c5e7f": {
+  "description": "<p>Anzeige direkt auf dem Auge: praktisch unentdeckbar, aber wenig Platz (Kapazität 1–3). Nur kabellos — kein Universal-Datenport.</p>"
+ },
+ "324e2a5f-de77-4e64-9c95-676bd987c772": {
+  "description": "<p>Einzelnes Sichtglas am Stirnband, Helm-Klapparm oder klassisch an der Kette (Kapazität 1–4).</p>"
+ },
+ "e8d0a618-b3d6-4bd5-b134-377d848be31a": {
+  "description": "<p>Großes, am Kopf befestigtes Sichtgerät mit viel Platz für Verstärkungen (Kapazität 1–6) — wuchtig, aber schwer zu entfernen.</p>"
+ },
+ "22ceb53b-7863-424b-8ee5-d04bb520d97d": {
+  "description": "<p>Mindestens meterlanges Glasfaserkabel mit myomerischen Endstücken und optischer Linse: um Ecken, unter Türen und in Spalte schauen. Optisches Gerät — auch für Zauberblickfelder (−3).</p>"
+ },
+ "535d41b8-d1f7-4675-a256-951bb0eac974": {
+  "description": "<p>Schweres Sichtgerät an einem myomerischen Glasfaserseil (10/20/30 m) mit optischer Endlinse — erlaubt Zauberern ein Blickfeld aus der Deckung (Spruchzauberei −3).</p>"
+ },
+ "5b0c94f2-437f-431a-b7f4-9cb00a0820eb": {
+  "description": "<p>L-förmige Röhre mit zwei Spiegeln: um Ecken sehen, schießen oder zaubern (optisches Gerät, Spruchzauberei −3).</p>"
+ },
+ "2886d77a-1321-4a29-aec8-8040b9c5776f": {
+  "description": "<p>Zeigt visuelle Informationen (AROs, Text, Video) im Blickfeld — die Grundvoraussetzung, um AR zu „sehen\" und taktische Daten im Team zu teilen. [Kapazität 1]</p>"
+ },
+ "7fc23c2f-b41a-46b0-9ed7-9dc93986fab3": {
+  "description": "<p>Schützt vor Blendlicht und Lichtblitzen: verringert Sichtmodifikatoren durch blendendes Licht und senkt den Malus von Blitzquellen wie dem Flash-Pack. [Kapazität 1]</p>"
+ },
+ "f7f74a85-bd3b-4a46-9c3b-80688c72ef51": {
+  "description": "<p>Sehen im Infrarotspektrum: Hitzemuster erkennen, Lebewesen in völliger Dunkelheit finden, warme Motoren entdecken. [Kapazität 1]</p>"
+ },
+ "287c6d58-2217-48b2-9e14-6ba23584939a": {
+  "description": "<p>Normales Sehen selbst bei Sternenlicht — hilft aber nicht in totaler Dunkelheit. [Kapazität 1]</p>"
+ },
+ "588c3193-4298-4a73-b45a-c5f8fd175133": {
+  "description": "<p>Falkenblick auf alle Entfernungen: +Stufe auf das Limit visueller Wahrnehmungsproben. <strong>WiFi:</strong> +Stufe als Würfelpoolbonus. [Kapazität Stufe]</p>"
+ },
+ "adf3533a-461c-46ae-9ee7-77dfd31c5d5a": {
+  "description": "<p>Digitaler Zoom bis 50-fach für weit entfernte Ziele; im Fernkampf nach den Regeln für Sichtvergrößerung. [Kapazität 1]</p>"
+ },
+ "b0eef1d1-31ad-4e5c-bd55-27b2ae492327": {
+  "description": "<p>Gegenstück zum Smartgunsystem: erst mit Smartlink liefert die Smartgun ihre vollen Vorteile (Entfernung, Munitionsstand, Hitze …). In Cyberaugen effektiver als in externen Geräten. [Kapazität 4]</p>"
+ },
+ "5d69d002-c33d-4d0f-9c4d-d78db4d78e5d": {
+  "description": "<p>Ergonomische Ohrstöpsel (Kapazität 1–3) — kaum von den Alltagsstöpseln jedes Kommlinks zu unterscheiden.</p>"
+ },
+ "c6084c7a-ab84-4ea6-999e-ff99b91f9bf0": {
+  "description": "<p>Komplettes Headset mit verstellbaren Riemen (Kapazität 1–6) — auffälliger als Ohrstöpsel, dafür mehr Platz für Verstärkungen.</p>"
+ },
+ "f42df886-b644-4691-a993-e672f2b77de0": {
+  "description": "<p>Omnidirektionales Aufnahmegerät (Kapazität 1–6), meist eingebaut in oder verbunden mit einem Kommlink. Mikroversionen: Kapazität 1, Reichweite 5 m.</p>"
+ },
+ "3ca6be75-6efb-4cf4-809f-da72eb83e909": {
+  "description": "<p>Winziges omnidirektionales Mikrofon (Kapazität 1) mit maximal 5 m Reichweite — für die diskrete Aufzeichnung.</p>"
+ },
+ "0e713b88-ab10-4fed-8373-df0a4d8546cc": {
+  "description": "<p>Belauscht weit entfernte Gespräche, als stünde man bis zu 100 m näher dran — feste Hindernisse und Lärm im Lauschweg stören (Kapazität 1–6).</p>"
+ },
+ "026f00c9-376e-4b4a-b615-9242db87afb3": {
+  "description": "<p>Liest per Laserstrahl die Vibrationen einer Oberfläche (z. B. Fensterscheibe) und übersetzt sie in die Geräusche dahinter; Reichweite 100 m. Kein Richtungsdetektor einbaubar (Kapazität 1–6).</p>"
+ },
+ "eced7e9a-0959-4c4a-a67f-66abc0dd5228": {
+  "description": "<p>Erweitertes Hörspektrum (Infra-/Ultraschall), feinste Nuancen, Ausblenden von Störgeräuschen: +Stufe auf das Limit bei Hör-Wahrnehmungsproben. <strong>WiFi:</strong> +Stufe als Würfelpoolbonus. [Kapazität Stufe]</p>"
+ },
+ "3f086e04-8de6-4d4e-a503-a19cba8295f5": {
+  "description": "<p>Lokalisiert Geräuschquellen: +2 auf das Limit bei Wahrnehmungsproben, die Quelle eines Geräuschs zu finden. <strong>WiFi:</strong> +2 als Würfelpoolbonus. [Kapazität 2]</p>"
+ },
+ "e7291814-96a9-4c77-b2bb-7665db7a447b": {
+  "description": "<p>Filtert Hintergrundgeräusche und erkennt Sprach-, Wort- und Geräuschmuster: pro Stufenpunkt eine Geräuschgruppe aktiv verfolgen, weitere aufzeichnen oder automatisch überwachen (z. B. Alarm bei einem Stichwort). [Kapazität Stufe]</p>"
+ },
+ "2ca81a10-d0f7-4b39-ac93-a84f2f69f9d9": {
+  "description": "<p>Sensorpaket mit bis zu acht Sensorfunktionen (Stufe 2–8). Bei Wahrnehmungsproben darf Elektronische Kriegsführung statt Wahrnehmung verwendet werden, mit der Sensorstufe als Limit.</p>"
+ },
+ "2d4edef2-2891-4383-83f6-81f05cfbd046": {
+  "description": "<p>Sensor mit genau einer Sensorfunktion (Stufe 2–8) — zum Einbau in Gehäuse oder Geräte mit Kapazität.</p>"
+ },
+ "49bbc9d3-860d-47db-b4bc-8417f5b6ab65": {
+  "description": "<p>Tragbares Sensorgehäuse (Kapazität 1–3) für Einzelsensoren oder kleine Arrays.</p>"
+ },
+ "5e4772d7-5cba-4cc4-988d-38ef79b41fd3": {
+  "description": "<p>Wandmontiertes Sensorgehäuse (Kapazität 1–6) — der Standard für stationäre Überwachung.</p>"
+ },
+ "5c3b9966-ad7e-42e3-b0e0-f656021784cf": {
+  "description": "<p>Sekundengenaue Analyse der Umgebungsluft — verlässlicher als jede Wettervorhersage der Sechsten Welt.</p>"
+ },
+ "e853967a-a2b8-4d89-9a97-773034489a16": {
+  "description": "<p>Ultraschall plus niedrigenergetisches Infrarot erkennen Bewegung und Temperatursprünge; Reichweite 25 m.</p>"
+ },
+ "c6f60201-524f-4e3f-adc7-727eace4c7bd": {
+  "description": "<p>Millimeterwellenscanner zur Entdeckung von Cyberware und anderer Kontrabande; Reichweite 15 m.</p>"
+ },
+ "d98f419f-7625-4228-9723-0217950d8155": {
+  "description": "<p>Misst die Radioaktivität der Umgebung.</p>"
+ },
+ "c763fac2-8b08-4c61-8dc2-6291d905a2df": {
+  "description": "<p>Fängt Moleküle aus der Luft ein und analysiert sie — funktioniert wie Geruchsbooster-Cyberware.</p>"
+ },
+ "3a79e046-8106-4089-a1ab-895eee956b86": {
+  "description": "<p>Berechnet per reflektiertem Laserstrahl die exakte Entfernung zum Ziel; Reichweite 1.000 m.</p>"
+ },
+ "ff0f7ab6-ee55-47aa-bdec-0646acca4bff": {
+  "description": "<p>Magnetanomaliedetektor für Waffen und andere Metallkonzentrationen; Reichweite 5 m.</p>"
+ },
+ "4d12e4a1-edd3-4abf-830f-aa95874b7531": {
+  "description": "<p>Sensorversion des Wanzenscanners: lokalisiert WiFi-Geräte; Reichweite 20 m.</p>"
+ },
+ "e140b671-dc22-429d-b12a-dfbf46951049": {
+  "description": "<p>Erstellt aus Ultraschallechos eine topographische Karte — „sieht\" auch magisch Unsichtbare, aber keine Farben und nichts hinter Glas. Passivmodus empfängt nur fremde Impulse; Reichweite 50 m.</p>"
+ },
+ "ffc069af-d3ec-4201-887c-0178dcdfeef9": {
+  "description": "<p>Kamera als Sensorfunktion: Fotos, Videos und Trideos mit Ton (siehe Sichtgeräte).</p>"
+ },
+ "1345a189-50d2-44e0-aeea-73ce0f28390b": {
+  "description": "<p>Richtmikrofon als Sensorfunktion: entfernte Gespräche belauschen, als wäre man bis zu 100 m näher dran.</p>"
+ },
+ "f25e4819-209c-4cbf-b24f-668359a7a2ad": {
+  "description": "<p>Lasermikrofon als Sensorfunktion: liest Oberflächenvibrationen und macht daraus Ton; Reichweite 100 m.</p>"
+ },
+ "0f13599a-2a4e-4b75-80e2-fab4405a7a87": {
+  "description": "<p>Mikrofon als Sensorfunktion: omnidirektionale Audioaufnahme.</p>"
+ },
+ "c68da753-6ee3-4e14-8234-26676b7735f6": {
+  "description": "<p>Sichtvergrößerung als Sensorfunktion: digitaler Zoom bis 50-fach.</p>"
+ },
+ "2bcc17b8-33bb-4567-887d-8be9593f7899": {
+  "description": "<p>Mechanisches Schloss — alte Infrastruktur, Nostalgie, oder schlicht das, was Einbrecher nicht erwarten.</p>"
+ },
+ "4a2468f8-0ec5-4f33-9a5d-46861e8a79f4": {
+  "description": "<p>Mechanisches Zylinder- oder Kombinationsschloss (Stufe 1–6) — geknackt wird mit Schlosser und passendem Werkzeug.</p>"
+ },
+ "d0cde5ea-d524-451d-9fd6-eeccd1439293": {
+  "description": "<p>Elektronisches Schloss mit wählbaren Zugangskontrollen — von Magnetkarte über Tastatur bis Biometrie. Das Rückgrat moderner Gebäudesicherheit.</p>"
+ },
+ "a2953d6e-8bb8-40a8-b7f6-997be35947cf": {
+  "description": "<p>Tastatur-Zugangsmodul für ein Magschloss — geknackt mit einem Sequencer.</p>"
+ },
+ "71a4cc20-19f0-4ed1-92f8-d049ba370134": {
+  "description": "<p>Kartenleser-Zugangsmodul für ein Magschloss — anfällig für Magschlossknacker und kopierte Karten.</p>"
+ },
+ "caa0f85d-e6f0-415a-98c7-fc4f16139964": {
+  "description": "<p>Erschwert das physische Öffnen und Manipulieren eines Magschlosses: +Stufe (1–4) auf den Schwellenwert entsprechender Proben.</p>"
+ },
+ "b380cbde-7569-44d9-ba06-fe74278a12cd": {
+  "description": "<p>Biometrisches Zugangsmodul für ein Magschloss: Fingerabdruck, Retina, Stimme — überlistet z. B. mit einem Abdruckhandschuh.</p>"
+ },
+ "b9812675-b4c3-43ce-b564-c47a5f66b0fc": {
+  "description": "<p>Metallhandschellen (Panzerung 16, Struktur 2) mit mechanischem oder WiFi-Schloss.</p>"
+ },
+ "7abaa077-48ee-4a28-9a10-6dff788ccb1d": {
+  "description": "<p>Plasstahlhandschellen (Panzerung 20, Struktur 2): werden beim Schließen verschmolzen und müssen aufgeschnitten werden.</p>"
+ },
+ "53c0b4cc-b209-4db4-bb0d-6710b3f4349a": {
+  "description": "<p>Einweg-Plastikstreifen (Panzerung 6, Struktur 1) — leicht und im Bündel tragbar.</p>"
+ },
+ "75ed6157-a4f4-4fdc-9482-22cf7521b20d": {
+  "description": "<p>Metallfesseln (Panzerung 16, Struktur 2), die Gefangene aufs Schlurftempo bremsen und Cyberimplantatwaffen blockieren.</p>"
+ },
+ "af829cba-8d5e-40fd-b37b-e5266c29c55a": {
+  "description": "<p>Sperrpistole für mechanische Schlösser: +Stufe auf das Limit beim Schlossknacken. <strong>WiFi:</strong> +Stufe als Würfelpoolbonus dank Online-Schlossdatenbank.</p>"
+ },
+ "0fdeb240-743c-4a9d-9cf1-fef0990575bb": {
+  "description": "<p>Klassische mechanische Einbruchswerkzeuge — seit Jahrhunderten kaum verändert und für mechanische Schlösser unverzichtbar.</p>"
+ },
+ "f5ac4b53-82ad-4a2f-8f3d-990e075951f7": {
+  "description": "<p>Verdoppelt die effektive Stärke beim Aufbrechen von Türen und Behältern.</p>"
+ },
+ "de595490-7f88-4b1c-b239-009a6c5c10f4": {
+  "description": "<p>Verdoppelt die effektive Stärke beim Aufbrechen von Türen und Behältern.</p>"
+ },
+ "d90a58cd-f89c-486d-b785-991d2fecf32f": {
+  "description": "<p>Formt aus einem Finger- oder Handabdruck einen tragbaren „Handschuh\", der biometrische Schlösser überlistet (Stufe 1–4).</p>"
+ },
+ "dcab11fa-b31a-49bd-ba43-3a9009072e4e": {
+  "description": "<p>Liest (gestohlene) Magnetkarten in Sekunden aus; mit Hardware-Kiste, 10 Minuten und Hardware + Logik [Geistig] (2) entsteht eine Kopie, die mit doppelter Stufe gegen die doppelte Magschlossstufe antritt.</p>"
+ },
+ "ea6c4929-0bd5-413f-a023-f9ca0a9f4ea3": {
+  "description": "<p>Magschloss-„Rohkarte\", die jedem Kartenleser eine legitime Zugangskarte vorgaukelt (Stufe 1–4). <strong>WiFi:</strong> +1 auf die Stufe.</p>"
+ },
+ "fe4ea7f4-df9b-4bda-a0ca-26347ca85738": {
+  "description": "<p>Elektronisches Gerät zum Knacken von Magschlössern mit Tastatur (Stufe 1–6). <strong>WiFi:</strong> +1 auf die Stufe.</p>"
+ },
+ "a210be88-be16-4d66-afcb-7d58b8e1397f": {
+  "description": "<p>Tragbares Schweißgerät mit kleinem Lichtbogen: schneidet oder verschweißt Metall (Schadenscode 25 gegen Barrieren), 30 Minuten Betrieb pro Füllung. Als Waffe untauglich.</p>"
+ },
+ "97f888dd-7e0d-4f33-b4cc-396cddecdf62": {
+  "description": "<p>Ersatz-Treibstoffkanister für 30 weitere Minuten Mini-Schweißgerät-Betrieb.</p>"
+ },
+ "17a4ed15-a9d3-40a6-b5d4-4a69f6c8b9d3": {
+  "description": "<p>Motorsäge mit monofilamentbeschichteter Kette: ideal gegen Bäume, Türen und Unbewegliches — gegen Barrieren verdoppelt sich der Schadenscode von 8K. Als Nahkampfwaffe unhandlich (Exotische Nahkampfwaffe).</p>"
+ },
+ "9d775d72-29ca-4784-b617-a667469fe192": {
+  "description": "<p>Spraydose mit Lösungsmittel für etwa einen Quadratmeter schnelltrocknenden Aerosol-Superkleber.</p>"
+ },
+ "8b2b55ed-89d2-4133-b478-41cd9d996c96": {
+  "description": "<p>Schnelltrocknender Aerosol-Superkleber für ca. einen Quadratmeter (genug für eine Tür oder ein Panoramafenster); härtet in 1 Kampfrunde aus. Aufbrechen: Vergleichende Probe gegen KON 5 + STR 5.</p>"
+ },
+ "a5f6b922-53db-4813-91db-caa5953bc5b1": {
+  "description": "<p>Brennstab aus Thermit und Sauerstoff: brennt Löcher in Eisen, Stahl und Plasstahl (30K Feuerschaden gegen Barrieren). Zu heikel für den Waffeneinsatz.</p>"
+ },
+ "93d81bd8-52bf-4461-b2da-394aca4ce262": {
+  "description": "<p><strong>Alchemiefokus:</strong> +Kraftstufe als Würfelpoolbonus auf Alchemieproben.</p><p><em>Bindungskosten: Kraftstufe × 3 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "1efc3ad3-c5d7-4534-ab97-a059f08f1b74": {
+  "description": "<p><strong>Entzauberungsfokus:</strong> In Kontakt mit dem zu entzaubernden Gegenstand +Kraftstufe als Würfelpoolbonus auf die Entzaubernprobe.</p><p><em>Bindungskosten: Kraftstufe × 3 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "12e54f08-070f-421c-a523-c0088cbafcfc": {
+  "description": "<p><strong>Zentrierungsfokus</strong> (Metamagiefokus, nur Initiaten): +Kraftstufe zum Initiatengrad, wenn die Metamagie Zentrierung für Entzugswiderstandsproben eingesetzt wird.</p><p><em>Bindungskosten: Kraftstufe × 3 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "e946041a-0c16-49a5-811f-dfd2fba0ae8f": {
+  "description": "<p><strong>Signaturschleier</strong> (Metamagiefokus, nur Initiaten): +Kraftstufe zum Initiatengrad beim Erhöhen des Schwellenwerts gegen Askennenproben durch Flexible Signatur.</p><p><em>Bindungskosten: Kraftstufe × 3 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "62df3c6c-d080-4db9-98c0-24fc5e9a0604": {
+  "description": "<p><strong>Maskierungsfokus</strong> (Metamagiefokus, nur Initiaten): +Kraftstufe als Würfelpoolbonus beim Widerstand gegen Askennenproben durch Maskierung (erhöht nicht die Zahl maskierbarer Foki).</p><p><em>Bindungskosten: Kraftstufe × 3 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "ff779a68-a360-4a68-9e57-9a363b5de0d0": {
+  "description": "<p><strong>Formungsfokus</strong> (Metamagiefokus, nur Initiaten): +Kraftstufe zum Magieattribut, wenn bestimmt wird, wie stark Zauber geformt werden können.</p><p><em>Bindungskosten: Kraftstufe × 3 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "62bfb38d-5515-440b-83ed-289ed926d27e": {
+  "description": "<p><strong>Kraftfokus:</strong> Das mächtigste Artefakt seiner Art — addiert seine Kraftstufe zu Hexerei-, Beschwörungs- und Verzauberungswürfelpools sowie zu allen Proben mit dem Attribut Magie. Beliebt als Ring oder Amulett.</p><p><em>Bindungskosten: Kraftstufe × 6 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "a64c073c-8aa9-4383-b885-267f8ce1ea99": {
+  "description": "<p><strong>Qi-Fokus</strong> (nur Adepten): Auf eine bestimmte Adeptenkraft mit fester Stufe ausgelegt — aktiviert verleiht er die Kraft bzw. erhöht ihre Stufe (bis zum Maximum). Die Kraftstufe des Fokus muss dem Vierfachen der Kraftpunktkosten entsprechen. Auch als Tätowierung, Piercing oder Schmucknarbe ausführbar.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "469f16ea-fe25-4f01-b663-166442850018": {
+  "description": "<p>Geisterfokus: Wird bei der Herstellung auf eine Geisterart eingestimmt (unveränderlich) und wirkt nur gegen bzw. für Geister dieser Art.</p><p><strong>Herbeirufungsfokus:</strong> +Kraftstufe als Würfelpoolbonus auf Herbeirufenproben für die passende Geisterart.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "5fae16cf-c68c-46e8-91b2-ca5220824ba5": {
+  "description": "<p>Geisterfokus: Wird bei der Herstellung auf eine Geisterart eingestimmt (unveränderlich) und wirkt nur gegen bzw. für Geister dieser Art.</p><p><strong>Verbannungsfokus:</strong> +Kraftstufe als Würfelpoolbonus auf Verbannenproben gegen die passende Geisterart.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "082b52f1-9109-40aa-bf0e-8cb364fa2f8c": {
+  "description": "<p>Geisterfokus: Wird bei der Herstellung auf eine Geisterart eingestimmt (unveränderlich) und wirkt nur gegen bzw. für Geister dieser Art.</p><p><strong>Bindungsfokus:</strong> +Kraftstufe als Würfelpoolbonus auf Bindenproben für die passende Geisterart.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "25b0168d-7052-4f76-b8e5-162d67b8ab6e": {
+  "description": "<p><strong>Waffenfokus:</strong> Immer eine Nahkampfwaffe. +Kraftstufe als Würfelpoolbonus auf Nahkampfangriffe; wirkt auch gegen astrale Gestalten und kann aktiviert auf die Astralebene mitgenommen werden (Astralkampf mit Charisma statt Stärke, Schadensart wählbar).</p><p><em>Bindungskosten: Kraftstufe × 3 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "30bdbf30-929a-4221-9982-f9de8574f87b": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Kampf</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Antimagiefokus:</strong> +Kraftstufe auf Proben zum Bannen von Kampf-Zaubern und auf Zauberwiderstandsproben gegen Kampf-Zauber.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "e1b66500-1c39-4747-87a6-071b8b1966cc": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Kampf</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Ritualfokus:</strong> +Kraftstufe auf Ritualzaubereiproben (als Leiter oder Teilnehmer), solange kein Zauber einer fremden Kategorie beteiligt ist.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "2f485376-54c1-41be-8678-79cc98e04ebc": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Kampf</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Zauberspruchfokus:</strong> +Kraftstufe auf Spruchzaubereiproben mit Kampf-Zaubern.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "39f2f34b-14e2-47f3-8e24-a401015a645a": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Kampf</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Zauberspeicher:</strong> Hält einen durch ihn gewirkten Kampf-Zauber (Kraftstufe ≤ Fokusstufe) aufrecht — ohne Würfelpoolmalus für den Zauberer. Keine Ritualzauber.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "a56807b8-e430-479d-847d-e0e294b5e937": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Wahrnehmung</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Antimagiefokus:</strong> +Kraftstufe auf Proben zum Bannen von Wahrnehmung-Zaubern und auf Zauberwiderstandsproben gegen Wahrnehmung-Zauber.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "2c465730-38cb-41d4-9d19-366435fb71bb": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Wahrnehmung</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Ritualfokus:</strong> +Kraftstufe auf Ritualzaubereiproben (als Leiter oder Teilnehmer), solange kein Zauber einer fremden Kategorie beteiligt ist.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "90885434-a40c-416d-8eb3-2d93b96414c2": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Wahrnehmung</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Zauberspruchfokus:</strong> +Kraftstufe auf Spruchzaubereiproben mit Wahrnehmung-Zaubern.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "724d1b39-72e9-4df3-aba1-b4ccbe56f32c": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Wahrnehmung</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Zauberspeicher:</strong> Hält einen durch ihn gewirkten Wahrnehmung-Zauber (Kraftstufe ≤ Fokusstufe) aufrecht — ohne Würfelpoolmalus für den Zauberer. Keine Ritualzauber.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "49e7fc11-d3c6-4021-9162-cdf217a4579a": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Heilung</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Antimagiefokus:</strong> +Kraftstufe auf Proben zum Bannen von Heilung-Zaubern und auf Zauberwiderstandsproben gegen Heilung-Zauber.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "41842bc7-e48b-446c-b5ce-73f8399f64c0": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Heilung</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Ritualfokus:</strong> +Kraftstufe auf Ritualzaubereiproben (als Leiter oder Teilnehmer), solange kein Zauber einer fremden Kategorie beteiligt ist.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "630114f3-b538-4a4f-ad02-36df0e577d9c": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Heilung</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Zauberspruchfokus:</strong> +Kraftstufe auf Spruchzaubereiproben mit Heilung-Zaubern.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "1e024c0b-d43b-49b1-87e0-c4e4474645fe": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Heilung</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Zauberspeicher:</strong> Hält einen durch ihn gewirkten Heilung-Zauber (Kraftstufe ≤ Fokusstufe) aufrecht — ohne Würfelpoolmalus für den Zauberer. Keine Ritualzauber.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "8f69fd55-e5ff-404f-99ec-45a9c8498657": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Illusion</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Antimagiefokus:</strong> +Kraftstufe auf Proben zum Bannen von Illusion-Zaubern und auf Zauberwiderstandsproben gegen Illusion-Zauber.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "db0e5016-8ae3-4190-ad94-fe3f318f3f3f": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Illusion</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Ritualfokus:</strong> +Kraftstufe auf Ritualzaubereiproben (als Leiter oder Teilnehmer), solange kein Zauber einer fremden Kategorie beteiligt ist.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "aa849313-adf9-4134-b86b-1f6a15f6620f": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Illusion</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Zauberspruchfokus:</strong> +Kraftstufe auf Spruchzaubereiproben mit Illusion-Zaubern.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "e491973f-0bb0-4297-9c32-f02a483ecc8e": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Illusion</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Zauberspeicher:</strong> Hält einen durch ihn gewirkten Illusion-Zauber (Kraftstufe ≤ Fokusstufe) aufrecht — ohne Würfelpoolmalus für den Zauberer. Keine Ritualzauber.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "2f4f52bb-a198-4d7a-ab4c-d82de4f80cbf": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Manipulation</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Antimagiefokus:</strong> +Kraftstufe auf Proben zum Bannen von Manipulation-Zaubern und auf Zauberwiderstandsproben gegen Manipulation-Zauber.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "7057c240-d998-4b45-a119-de8a3ffaa717": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Manipulation</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Ritualfokus:</strong> +Kraftstufe auf Ritualzaubereiproben (als Leiter oder Teilnehmer), solange kein Zauber einer fremden Kategorie beteiligt ist.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "8783e50c-f80b-4efe-b440-d2963b55c54e": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Manipulation</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Zauberspruchfokus:</strong> +Kraftstufe auf Spruchzaubereiproben mit Manipulation-Zaubern.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "d6cae23b-0d69-4505-a98c-a75876b457ed": {
+  "description": "<p>Zauberfokus der Kategorie <strong>Manipulation</strong>: Wird bei der Herstellung auf diese Zauberkategorie eingestimmt (unveränderlich).</p><p><strong>Zauberspeicher:</strong> Hält einen durch ihn gewirkten Manipulation-Zauber (Kraftstufe ≤ Fokusstufe) aufrecht — ohne Würfelpoolmalus für den Zauberer. Keine Ritualzauber.</p><p><em>Bindungskosten: Kraftstufe × 2 Karma. Ein Fokus wirkt nur gebunden und aktiviert; die Summe aktivierter Kraftstufen über dem Magieattribut riskiert Fokusabhängigkeit.</em></p>"
+ },
+ "f8151303-b838-4af1-ba9d-d43ff0892b40": {
+  "description": "<p>Traditionsgemäße Materialien zum Errichten eines dauerhaften Magischen Refugiums der entsprechenden Kraftstufe — vom hermetischen Bibliothekszirkel bis zur schamanischen Medizinhütte. Das Refugium bietet einen geschützten Arbeitsraum für Rituale, Alchemie und Lehre.</p>"
+ },
+ "ef37af30-1204-4918-af66-dfbdd33cd045": {
+  "description": "<p>Traditionsgebundene magische Materialien (Kräuter, Talismane, Kristalle …), gemessen in Dram. Reagenzien setzen u. a. Limits bei Spruchzauberei-, Herbeirufen- und Antimagieproben (1 Dram pro Punkt) und speisen Alchemie und temporäre Refugien. Fremde Traditionen nutzen sie nur mit halber Wirkung.</p>"
+ },
+ "a1c4884b-b9b2-471e-99fd-6fb31a62ad52": {
+  "description": "<p>Das legendäre magische Metall — der reinste bekannte Manaleiter. Ein Dram Orichalkum entspricht mehreren Dram gewöhnlicher Reagenzien und ist der Standard, in dem magische Macht gemessen wird. Entsprechend begehrt und teuer.</p>"
+ },
+ "4d620cf5-8443-448a-9e3e-0e887d889789": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Alchemiefokus</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "7676d897-ac6e-40ed-abd1-378ecf2ed36e": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Entzauberungsfokus</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "d597f728-596a-4304-9ea4-e457d6d708f7": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Zentrierungsfokus</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "9b4244d8-621c-4a04-b3a2-74b6181b9d27": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Signaturschleier</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "d19ba087-be20-4d0b-8b73-b8c09ecccfef": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Maskierungsfokus</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "6d512bcd-685f-44c8-bd1b-f17b45354294": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Formungsfokus</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "6afdcc4f-416b-4171-b04a-f202c9736d59": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Kraftfokus</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "d817509a-49fd-41ae-a99d-6501161ee3a2": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Qi-Fokus</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "2003dcde-a778-4447-be67-eabdab02e243": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Antimagiefokus (Kampf)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "8d589212-a086-4fbf-908a-e3818c75721d": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Ritualfokus (Kampf)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "4f2b39f9-f219-4735-b69d-786043e249fd": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Zauberspruchfokus (Kampf)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "ba8fa866-ab50-45d8-b9c3-375d688d9d5f": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Zauberspeicher (Kampf)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "913f2412-ee15-4a04-a120-ace6346a5221": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Antimagiefokus (Wahrnehmung)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "65eee2b5-6b25-4f59-9ae5-c5506f3957fe": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Ritualfokus (Wahrnehmung)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "291da6dd-0791-43e9-8df7-885711f86159": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Zauberspruchfokus (Wahrnehmung)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "3039945f-bd0c-46e0-8136-2bf5e6b3d4d6": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Zauberspeicher (Wahrnehmung)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "63066d38-fc93-4696-824a-e1fc146a6a8e": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Antimagiefokus (Heilung)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "338412ce-1e32-4513-8f37-bd649264b699": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Ritualfokus (Heilung)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "125316e5-227b-431b-b84d-3f698951ed7a": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Zauberspruchfokus (Heilung)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "53e90b06-8b7a-4de5-ad00-1f0658219992": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Zauberspeicher (Heilung)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "aca6fc75-c330-420a-b7e6-2d7c9e41d7c4": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Antimagiefokus (Illusion)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "78e1ad22-b0cc-415e-acb7-69e6ada79f55": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Ritualfokus (Illusion)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "b3608901-2f35-4e09-b5b4-d91265a60439": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Zauberspruchfokus (Illusion)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "890daab7-7e6d-480c-b638-1f208cc10036": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Zauberspeicher (Illusion)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "fe57e4c5-a6c2-47b9-9444-2099742383f8": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Antimagiefokus (Manipulation)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "2856260d-e53c-4c99-8d1b-f248d8cf88cd": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Ritualfokus (Manipulation)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "ef5d5ebe-62f8-4d0a-9e54-fed48629b156": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Zauberspruchfokus (Manipulation)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "0d308699-7e57-442f-897e-d9f005d14bcd": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Zauberspeicher (Manipulation)</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "59206083-9102-4961-82b0-ebff82e5b7fd": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Herbeirufungsfokus</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "b6d50e0c-8c72-458c-8985-3088300fca1a": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Verbannungsfokus</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "70ce43e0-2182-4f24-bdfd-9bc57c510edb": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Bindungsfokus</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "ead947af-b88b-4b0e-9736-c04d6b21024c": {
+  "description": "<p>Die vollständige Konstruktionsformel für einen <strong>Waffenfokus</strong>: Materialliste, astrale Muster und Herstellungsschritte für die Verzauberung. Preis: 25 % der Fokuskosten.</p>"
+ },
+ "6006ea2c-55b2-44cd-88ea-1b2184716485": {
+  "description": "<p>Die schriftliche Formel eines Zaubers der Kategorie <strong>Kampf</strong> — Grundlage, um den Zauber zu erlernen oder alchemistisch aufzubereiten. In Traditionen unterschiedlich notiert, vom hermetischen Traktat bis zum schamanischen Liedzeichen.</p>"
+ },
+ "eb5f507b-bc3c-4d51-b140-80a0098a1e8b": {
+  "description": "<p>Die schriftliche Formel eines Zaubers der Kategorie <strong>Wahrnehmung</strong> — Grundlage, um den Zauber zu erlernen oder alchemistisch aufzubereiten. In Traditionen unterschiedlich notiert, vom hermetischen Traktat bis zum schamanischen Liedzeichen.</p>"
+ },
+ "ddd25c4d-c165-4840-8525-70197a0fbb3c": {
+  "description": "<p>Die schriftliche Formel eines Zaubers der Kategorie <strong>Heilung</strong> — Grundlage, um den Zauber zu erlernen oder alchemistisch aufzubereiten. In Traditionen unterschiedlich notiert, vom hermetischen Traktat bis zum schamanischen Liedzeichen.</p>"
+ },
+ "369de39c-e1e0-4357-ac63-a23a3765f21a": {
+  "description": "<p>Die schriftliche Formel eines Zaubers der Kategorie <strong>Illusion</strong> — Grundlage, um den Zauber zu erlernen oder alchemistisch aufzubereiten. In Traditionen unterschiedlich notiert, vom hermetischen Traktat bis zum schamanischen Liedzeichen.</p>"
+ },
+ "c5b7dddf-8e33-401d-998f-fe89956aa75f": {
+  "description": "<p>Die schriftliche Formel eines Zaubers der Kategorie <strong>Manipulation</strong> — Grundlage, um den Zauber zu erlernen oder alchemistisch aufzubereiten. In Traditionen unterschiedlich notiert, vom hermetischen Traktat bis zum schamanischen Liedzeichen.</p>"
+ },
+ "fe598c15-fe7a-46f9-bc84-751cb32735e2": {
+  "description": "<p><strong>Editieren:</strong> Smartes Interface mit Vorschlägen — +2 auf das Limit Datenverarbeitung für alle Editierenproben, solange das Programm läuft.</p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "0e9a4de8-c78e-498e-8f3b-8e581bc73e43": {
+  "description": "<p><strong>Konfigurator:</strong> Speichert eine alternative Deck-Konfiguration; beim nächsten Umkonfigurieren kann sie komplett übernommen werden, statt nur zwei Attribute oder Programme zu tauschen.</p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "b3c0a6bd-e086-4971-be77-dc9a9cb2e174": {
+  "description": "<p><strong>Schmöker:</strong> Praktische Suchmaschine — halbiert den Grundzeitraum der Handlung Matrixsuche.</p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "1662e26b-7370-4ade-9d9d-c9b92b0d145b": {
+  "description": "<p><strong>Signalreiniger:</strong> Analysiert Hintergrundrauschen und eingehende Signale — Rauschunterdrückung 2.</p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "cffae49c-30d1-42df-b47c-a407f3a86e7a": {
+  "description": "<p><strong>Toolbox:</strong> Speicherverwaltung — +1 auf das Attribut Datenverarbeitung.</p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "d3bb1242-73b0-4b8a-89ab-27c272ebc900": {
+  "description": "<p><strong>Verschlüsselung:</strong> +1 auf das Firewallattribut.</p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "7b8f4a4e-0bdb-4e05-ade4-bf558daf60a6": {
+  "description": "<p><strong>Virtuelle Maschine:</strong> Zwei zusätzliche Programmplätze auf dem Deck — aber die Persona erleidet bei jedem Matrixschaden 1 Kästchen zusätzlich (kein Widerstand).</p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "9bfce6cb-99ea-4b63-ad9f-e1bceb87bbd6": {
+  "description": "<p><strong>Aufspüren:</strong> +2 auf Datenverarbeitung bei der Handlung Icon Aufspüren. Gegen Tarnkappe heben sich beide Programme auf.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "67ea7c0c-1703-412b-80d3-9c23cc6d8291": {
+  "description": "<p><strong>Ausnutzen:</strong> Analysiert Firewall-Schwächen — +2 auf das Attribut Schleicher bei der Handlung Eiliges Hacken.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "a37b8000-495b-4ab8-a73b-16a36a6a410e": {
+  "description": "<p><strong>Babymonitor:</strong> Auf GOD-Algorithmen basierend — der Charakter kennt jederzeit seinen aktuellen Overwatch-Wert.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "e631585a-0cce-4c95-873d-74b278a661df": {
+  "description": "<p><strong>Biofeedback:</strong> Angriffe verursachen zusätzlich Biofeedback-Schaden in Höhe des Matrixschadens (Geistig bei kaltem, Körperlich bei heißem Sim; Widerstand Willenskraft + Firewall). Wirkt auch auf Angreifer, deren Matrixhandlung gegen den Charakter misslingt. Nur gegen biologische Ziele.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "7bc33fe3-96b0-4f3c-a459-7c85ede9f8c1": {
+  "description": "<p><strong>Biofeedback-Filter:</strong> Firewall fürs Sim-Modul — +2 Würfelpool zum Widerstand gegen Biofeedback-Schaden.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "f3134808-861c-41df-8bdf-2d2c855e78a4": {
+  "description": "<p><strong>Blackout:</strong> Wie Biofeedback, verursacht aber auch bei heißem Sim nur Geistigen Schaden.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "5217388a-e2ce-4add-bcc0-b0b1672f156c": {
+  "description": "<p><strong>Entschlüsselung:</strong> +1 auf das Attribut Angriff.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "70be200d-5b83-4842-83b5-725839330808": {
+  "description": "<p><strong>Fessel:</strong> Wer vom Charakter Matrixschaden erleidet, wird mit einer Linksperre belegt — bis das Programm endet oder das Opfer sich erfolgreich ausstöpselt.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "69a87be8-6f05-453d-a344-b02d9fab055c": {
+  "description": "<p><strong>Gabel:</strong> Eine Matrixhandlung gegen zwei Ziele gleichzeitig: eine Probe (Modifikatoren beider Ziele kumulativ), jedes Ziel verteidigt separat, Auswirkungen werden je Ziel bestimmt.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "a3851f14-3fdc-47d6-82b4-07caf00202ce": {
+  "description": "<p><strong>Hammer:</strong> +2 Matrixschaden bei allen schadenverursachenden Handlungen des Charakters (nicht beim Schaden, den Angreifer durch misslungene Angriffe erleiden).</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "8920c83c-f4f2-4dfa-81a4-b150ba6ae1c0": {
+  "description": "<p><strong>Irreführung:</strong> Verschleierte Routen — +2 Würfelpool zur Verteidigung gegen Icon Aufspüren; ein fokussierender Halbgott erfährt den physischen Standort nicht.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "a1e4b783-0751-43eb-b5bd-ee00f84b7bb3": {
+  "description": "<p><strong>Panzerung:</strong> Zweite Firewall — +2 Würfelpool zum Widerstand gegen Matrixschaden.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "ea3178a2-535f-43b7-8555-deca95ac837d": {
+  "description": "<p><strong>Schild:</strong> Schützt Schwachstellen — Angreifer erhalten −1 Zusatzschaden pro Marke auf dem Charakter.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "84a3e0d5-ed40-4706-9b96-7f07567bcbef": {
+  "description": "<p><strong>Schutzschirm:</strong> Filter-Algorithmen — +1 Würfelpool zum Widerstand gegen Matrixschaden und Biofeedback (kumulativ mit ähnlichen Boni).</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "168b8c61-9ea4-4816-8cf4-cb996067b6d6": {
+  "description": "<p><strong>Splitterschutz:</strong> Barrieren gegen Datenbomben — +4 Würfelpool zum Widerstand gegen Datenbomben-Schaden.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "3da01b93-3830-4211-b563-f41c7fcf4ab0": {
+  "description": "<p><strong>Superbombe:</strong> Vom Charakter gelegte Datenbomben erhalten +1 Stufe, solange das Programm läuft.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "d5877f46-03e0-4603-b77a-f27e278202ab": {
+  "description": "<p><strong>Tarnkappe:</strong> +1 auf das Attribut Schleicher.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "62d165f6-bc3f-4204-afb7-47b3485e25ad": {
+  "description": "<p><strong>Überfall:</strong> Verfolgt die eigenen Marken aktiv — +1 Zusatzschaden pro Marke auf dem Ziel.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "4a33f713-566b-4233-bdd2-985000097648": {
+  "description": "<p><strong>Verwandlung:</strong> Überbrückt die Icon-Protokolle — das eigene Icon kann per Icon Verändern beliebig gestaltet werden (eine Predator als Credstick, die Persona als Limousine). Durchschaubar nur per begründeter Matrixwahrnehmungsprobe.</p><p><em>Hackingprogramm — Kauf, Besitz und Nutzung sind ohne Lizenz illegal.</em></p><p><em>Cyberprogramm: läuft auf einem Deck; nur ein Programm desselben Typs gleichzeitig.</em></p>"
+ },
+ "b6d1476d-a08c-43fc-be0e-68ca9330a43e": {
+  "description": "<p><strong>Gerätestufe:</strong> 1 · <strong>Attributsanordnung:</strong> 4 3 2 1 · <strong>Programme:</strong> 1</p><p><em>Cyberdeck: Die Attributswerte werden frei auf Angriff/Schleicher/Datenverarbeitung/Firewall verteilt; serienmäßig mit illegalem Hot-Sim-Modul.</em></p><p>Das Einsteigerdeck von Erika — billig, verbreitet, und für erste Gehversuche im Hosting-Untergrund völlig ausreichend.</p>"
+ },
+ "540831fa-7866-443a-9187-112c5c5cbf7b": {
+  "description": "<p><strong>Gerätestufe:</strong> 1 · <strong>Attributsanordnung:</strong> 4 3 3 1 · <strong>Programme:</strong> 1</p><p><em>Cyberdeck: Die Attributswerte werden frei auf Angriff/Schleicher/Datenverarbeitung/Firewall verteilt; serienmäßig mit illegalem Hot-Sim-Modul.</em></p><p>Microdecks kompakter Klassiker — kaum größer als ein Kommlink und bei Einsteigern beliebt.</p>"
+ },
+ "d0815d76-b7b7-4f50-b700-9eb873096408": {
+  "description": "<p><strong>Gerätestufe:</strong> 2 · <strong>Attributsanordnung:</strong> 5 4 3 2 · <strong>Programme:</strong> 2</p><p><em>Cyberdeck: Die Attributswerte werden frei auf Angriff/Schleicher/Datenverarbeitung/Firewall verteilt; serienmäßig mit illegalem Hot-Sim-Modul.</em></p><p>Aztechnologys Volksdeck aus Tenochtitlán: solide Mittelklasse zum fairen Preis.</p>"
+ },
+ "785179f5-1500-46b6-b04f-063effa3a457": {
+  "description": "<p><strong>Gerätestufe:</strong> 2 · <strong>Attributsanordnung:</strong> 5 4 4 2 · <strong>Programme:</strong> 2</p><p><em>Cyberdeck: Die Attributswerte werden frei auf Angriff/Schleicher/Datenverarbeitung/Firewall verteilt; serienmäßig mit illegalem Hot-Sim-Modul.</em></p><p>Der zuverlässige Kurierwagen unter den Decks — unauffällig, robust, weit verbreitet.</p>"
+ },
+ "ab0a7547-3cb4-4816-a65a-cb03dd2186ac": {
+  "description": "<p><strong>Gerätestufe:</strong> 3 · <strong>Attributsanordnung:</strong> 6 5 4 3 · <strong>Programme:</strong> 3</p><p><em>Cyberdeck: Die Attributswerte werden frei auf Angriff/Schleicher/Datenverarbeitung/Firewall verteilt; serienmäßig mit illegalem Hot-Sim-Modul.</em></p><p>Der Nachfolger einer Legende: Novatechs Navigator ist das Arbeitspferd professioneller Decker.</p>"
+ },
+ "5f4c41eb-abaa-4725-86ce-62fe11eeee0b": {
+  "description": "<p><strong>Gerätestufe:</strong> 3 · <strong>Attributsanordnung:</strong> 6 5 5 3 · <strong>Programme:</strong> 3</p><p><em>Cyberdeck: Die Attributswerte werden frei auf Angriff/Schleicher/Datenverarbeitung/Firewall verteilt; serienmäßig mit illegalem Hot-Sim-Modul.</em></p><p>Renrakus „Schwert\" — japanische Präzision für Sicherheitsspinnen und Schattenprofis.</p>"
+ },
+ "79134070-7441-416a-8f14-922a5b7f490d": {
+  "description": "<p><strong>Gerätestufe:</strong> 4 · <strong>Attributsanordnung:</strong> 7 6 5 4 · <strong>Programme:</strong> 4</p><p><em>Cyberdeck: Die Attributswerte werden frei auf Angriff/Schleicher/Datenverarbeitung/Firewall verteilt; serienmäßig mit illegalem Hot-Sim-Modul.</em></p><p>Sonys Oberklasse-Deck für alle, die Stil und Substanz verlangen.</p>"
+ },
+ "c3f15a4a-1987-4879-ba74-5b93d602ca8c": {
+  "description": "<p><strong>Gerätestufe:</strong> 5 · <strong>Attributsanordnung:</strong> 8 7 6 5 · <strong>Programme:</strong> 5</p><p><em>Cyberdeck: Die Attributswerte werden frei auf Angriff/Schleicher/Datenverarbeitung/Firewall verteilt; serienmäßig mit illegalem Hot-Sim-Modul.</em></p><p>Shiawases Cyber-5 spielt in der Konzernliga — entsprechend selten außerhalb von Hochsicherheitsabteilungen.</p>"
+ },
+ "5d649de9-aa6f-450e-893b-63e5ad166388": {
+  "description": "<p><strong>Gerätestufe:</strong> 6 · <strong>Attributsanordnung:</strong> 9 8 7 6 · <strong>Programme:</strong> 6</p><p><em>Cyberdeck: Die Attributswerte werden frei auf Angriff/Schleicher/Datenverarbeitung/Firewall verteilt; serienmäßig mit illegalem Hot-Sim-Modul.</em></p><p>Das Nonplusultra: Fairlights Excalibur ist das Deck, von dem jeder Decker träumt — und für das mancher töten würde.</p>"
+ },
+ "d63eb841-7b15-4539-9026-b90a4924aeeb": {
+  "description": "<p>Ein individuell zusammengestelltes Kommlink (Werte nach Absprache mit dem Spielleiter).</p>"
+ },
+ "89a0f3c9-5ef6-41cd-981f-4ac690ee2ab3": {
+  "description": "<p><strong>Gerätestufe:</strong> 1 (Datenverarbeitung und Firewall = 1)</p><p><em>Kommlink: das digitale Schweizer Messer — AR, Telefon/Funk, Kamera, GPS, Credstickleser, Scanner und mehr in einem stoß- und wasserfesten Gehäuse.</em></p><p>Das Wegwerf-Link der Straße: tut, was es muss, und nicht mehr — dafür kostet es fast nichts.</p>"
+ },
+ "d808ba12-db93-4a7b-85a1-9e9f6229087f": {
+  "description": "<p><strong>Gerätestufe:</strong> 2 (Datenverarbeitung und Firewall = 2)</p><p><em>Kommlink: das digitale Schweizer Messer — AR, Telefon/Funk, Kamera, GPS, Credstickleser, Scanner und mehr in einem stoß- und wasserfesten Gehäuse.</em></p><p>Sonys Massenmodell mit ordentlicher Ausstattung für den Alltag im Sprawl.</p>"
+ },
+ "15a6c42b-12a4-494e-8ca5-e6c3a1052314": {
+  "description": "<p><strong>Gerätestufe:</strong> 3 (Datenverarbeitung und Firewall = 3)</p><p><em>Kommlink: das digitale Schweizer Messer — AR, Telefon/Funk, Kamera, GPS, Credstickleser, Scanner und mehr in einem stoß- und wasserfesten Gehäuse.</em></p><p>Renrakus „Lehrer\" — der solide Mittelklassestandard vieler Angestellter.</p>"
+ },
+ "72d1ca07-71b1-4085-8a4d-bd720a6b1908": {
+  "description": "<p><strong>Gerätestufe:</strong> 4 (Datenverarbeitung und Firewall = 4)</p><p><em>Kommlink: das digitale Schweizer Messer — AR, Telefon/Funk, Kamera, GPS, Credstickleser, Scanner und mehr in einem stoß- und wasserfesten Gehäuse.</em></p><p>Erikas gehobene Klasse: elegant, schnell, zuverlässig.</p>"
+ },
+ "6de5a1b0-30e2-4c74-8646-971f698cb231": {
+  "description": "<p><strong>Gerätestufe:</strong> 5 (Datenverarbeitung und Firewall = 5)</p><p><em>Kommlink: das digitale Schweizer Messer — AR, Telefon/Funk, Kamera, GPS, Credstickleser, Scanner und mehr in einem stoß- und wasserfesten Gehäuse.</em></p><p>Das Ikon ist bei Profis beliebt — hohe Leistung ohne Luxusaufschlag.</p>"
+ },
+ "01077e2d-4f67-428a-850d-250faad2007c": {
+  "description": "<p><strong>Gerätestufe:</strong> 6 (Datenverarbeitung und Firewall = 6)</p><p><em>Kommlink: das digitale Schweizer Messer — AR, Telefon/Funk, Kamera, GPS, Credstickleser, Scanner und mehr in einem stoß- und wasserfesten Gehäuse.</em></p><p>Transys Avalon: Oberklasse mit allem Zubehör, das Statussymbol gehobener Konzernetagen.</p>"
+ },
+ "1522dd91-99d9-42f9-ab19-b43e8e3c7322": {
+  "description": "<p><strong>Gerätestufe:</strong> 7 (Datenverarbeitung und Firewall = 7)</p><p><em>Kommlink: das digitale Schweizer Messer — AR, Telefon/Funk, Kamera, GPS, Credstickleser, Scanner und mehr in einem stoß- und wasserfesten Gehäuse.</em></p><p>Fairlights Caliban — das beste Kommlink, das man für Geld kaufen kann.</p>"
+ },
+ "d589142e-a71f-4cd9-b916-967168721eea": {
+  "description": "<p><strong>Sim-Modul:</strong> Übersetzt Computerdaten in neurale Signale — Voraussetzung für SimSinn und VR. Zugriff nur per Direktem Neuralinterface (Troden, Datenbuchse oder implantiertes Kommlink).</p>"
+ },
+ "b7da0596-da6e-4122-adc3-21d7f3f9e3f1": {
+  "description": "<p><strong>Sim-Modul (heißes Sim):</strong> Für heißes Sim modifiziertes Sim-Modul — eröffnet die volle (und gefährliche) Bandbreite der VR-Erfahrung. Illegal.</p>"
+ },
+ "d8960057-bd49-4ed0-8dc9-75cb7262c158": {
+  "description": "<p><strong>Hackpack:</strong> Cyberdeck-Bauform als robuster Rucksack/Tragepack — unauffälliger Formfaktor für Decks abseits des klassischen Quaders.</p>"
+ },
+ "c4da5448-0069-447c-b3e4-4147e6bf4ca7": {
+  "description": "<p><strong>Aktionssoft:</strong> Ersetzt eine körperliche Aktionsfertigkeit (Talentsoftstufe statt Fertigkeit; kein Edge auf solche Proben). Benötigt Talentleitungen und eine Talentbuchse; die Stufe der Talentleitungen begrenzt die Anzahl gleichzeitig nutzbarer Aktionssofts.</p>"
+ },
+ "d9d017c4-b3b5-4d28-9c41-870d69287cfb": {
+  "description": "<p><strong>Wissenssoft:</strong> Repliziert eine Wissensfertigkeit und überschreibt aktiv das eigene Wissen (Talentsoftstufe statt Fertigkeit; kein Edge). Zugriff per Talentbuchse; deren Stufe begrenzt die Anzahl gleichzeitig nutzbarer Wissenssofts.</p>"
+ },
+ "c4599705-6b8c-45d0-8687-63a720043f7d": {
+  "description": "<p><strong>Linguasoft:</strong> Repliziert eine Sprachfertigkeit — automatische Übersetzung direkt aus dem Sprachkortex, wenn auch manchmal etwas gestelzt. Zugriff per Talentbuchse; deren Stufe begrenzt die Anzahl gleichzeitig nutzbarer Linguasofts.</p>"
+ },
+ "149a8dd2-dfef-473f-94a4-1bdd77e4f855": {
+  "description": "<p><strong>Clearsight:</strong> Autosoft — steht für die Fertigkeit Wahrnehmung der Drohne.</p>"
+ },
+ "f84179b8-34b2-4fb1-bb24-099b0b700b5b": {
+  "description": "<p><strong>Elektronische Kriegsführung:</strong> Autosoft — steht für die Fertigkeit Elektronische Kriegsführung der Drohne.</p>"
+ },
+ "80137629-41f0-41da-bfed-c8a1388b759e": {
+  "description": "<p><strong>Ausweichen [Modell]:</strong> Autosoft — lässt den Autopiloten der Zielverfolgung durch Sensoren entgehen. Modellgebunden.</p>"
+ },
+ "9d81218f-ee70-4304-9a09-ac865d84b8e0": {
+  "description": "<p><strong>Manövrieren [Modell]:</strong> Autosoft — wie die entsprechende Fahrzeugfertigkeit, aber auf ein Drohnen-/Fahrzeugmodell beschränkt.</p>"
+ },
+ "c29a96f9-25bf-4ebc-8c56-f4c8afc3c002": {
+  "description": "<p><strong>Stealth [Modell]:</strong> Autosoft — lässt die Drohne so unauffällig wie möglich agieren (vergleichbar Schleichen). Modellgebunden.</p>"
+ },
+ "0949997a-acb7-49d9-9905-5ae2cd35626f": {
+  "description": "<p><strong>Zielerfassung [Waffe]:</strong> Autosoft — wie die Fertigkeit Geschütze, aber auf ein bestimmtes Waffenmodell beschränkt.</p>"
+ },
+ "2d8396ff-a4a9-4382-ab69-70d198856e7f": {
+  "description": "<p><strong>Agent:</strong> Autonomes Programm (Stufe 1–6) mit eigener Persona: Fertigkeiten Computer/Hacking/Matrixkampf = Stufe, Matrixattribute des Trägergeräts. Belegt einen Programmplatz; Schaden trifft das Gerät.</p>"
+ },
+ "1a55fbe3-b3c1-4568-882f-abe4dedb8572": {
+  "description": "<p><strong>Datensoft:</strong> Informationsdatei/Datenbank zu einem beliebigen Thema — passende Datensofts geben +1 auf das Geistige Limit bei entsprechenden Wissensproben.</p>"
+ },
+ "2f30c3cc-a62e-4ac1-8e1f-5fa217cadae4": {
+  "description": "<p><strong>Kartensoft:</strong> Detaildaten eines Gebiets (Straßen, Topographie, GPS, GridGuide-Updates) — nach Maßgabe des SL +1 auf das Limit bei Navigationsproben im abgedeckten Gebiet. Vorsicht: kann zur Ortung genutzt werden.</p>"
+ },
+ "fc8da0ad-bbfd-4961-a311-71db32f86130": {
+  "description": "<p><strong>Shopsoft:</strong> Shopping-App mit Preisvergleichen und Bewertungen (legal wie schwarz) — +1 auf das Soziale Limit bei Verfügbarkeits- und Verhandlungsproben für die passende Produktart.</p>"
+ },
+ "21afa914-713e-45a2-9018-9640ab75ae2d": {
+  "description": "<p><strong>Lehrsoft:</strong> Virtueller Privatlehrer für eine Fertigkeit — legt Unterrichtsproben mit Pool = Stufe × 2 ab. Lehrt nichts, was auf Magie oder Resonanz basiert.</p>"
+ },
+ "45b1f2c4-99a3-421b-8c83-a7f574ecd39f": {
+  "description": "<p>Nuyen (¥) — die Weltleitwährung des Jahres 2075, praktisch nur noch elektronisch auf Credsticks und Konten.</p>"
+ },
+ "0025f1c7-45a4-4ec5-a692-e18aab2f97a9": {
+  "description": "<p>Ein frei definierter Gegenstand — Werte und Beschreibung nach Absprache mit dem Spielleiter.</p>"
+ },
+ "75ccb148-e774-429c-b854-a27816439626": {
+  "description": "<p>Ein zusätzliches Magazin für die eigene Waffe — leer geliefert, Munition wird separat gekauft. Wer nachladen will, sollte vorher gefüllte Streifen dabeihaben.</p>"
+ },
+ "f87701a0-4ea2-47db-bcac-f5b8396c369e": {
+  "description": "<p>Ein Ring, der einen kompletten Satz Revolverpatronen hält: Damit lädt man einen Revolver mit einer Komplexen Handlung vollständig, statt Kugel für Kugel nachzuschieben. Jeder Schnelllader ist auf sein Waffenmodell angepasst.</p>"
+ },
+ "ef9c8aae-26df-4fe6-88b3-79fbb5eb77c5": {
+  "description": "<p><strong>Schaden:</strong> — · <strong>DK:</strong> −4</p><p>Militärische panzerbrechende Unterkalibergeschosse (Armor-Piercing Discarding Sabot), entwickelt für hohe Geschwindigkeit und das Durchschlagen von Körperpanzerung.</p><p><em>Schadens- und DK-Modifikator werden zum Schadenscode/DK der Waffe addiert; Munition gilt je Waffenklasse.</em></p>"
+ },
+ "0bf4113c-dedb-411d-8981-7b6af169f056": {
+  "description": "<p>Spezialmunition für Sturmkanonen — die einzige Munitionsart, die diese Waffen verschießen können, und in nichts anderem verwendbar.</p><p><em>Schadens- und DK-Modifikator werden zum Schadenscode/DK der Waffe addiert; Munition gilt je Waffenklasse.</em></p>"
+ },
+ "1315cecd-1c13-4d69-9828-a3ea535675da": {
+  "description": "<p><strong>Schaden:</strong> +1 · <strong>DK:</strong> −1</p><p>Hohlladungsgeschosse, die beim Aufprall explodieren und zersplittern. Bei einem Kritischen Patzer zündet die Munition fehl: Der Schütze muss dem Waffenschaden selbst widerstehen, der Angriff verfehlt und die Waffe wird zerstört.</p><p><em>Schadens- und DK-Modifikator werden zum Schadenscode/DK der Waffe addiert; Munition gilt je Waffenklasse.</em></p>"
+ },
+ "95bff6e2-d788-407b-9069-093250f89fcb": {
+  "description": "<p><strong>Schaden:</strong> +2 · <strong>DK:</strong> +5</p><p>Dicht gepackte Metallsplitter, die als Schrapnellhagel auf das Ziel zufliegen — vernichtend gegen Ungeschützte, schwach gegen gehärtete Panzerung.</p><p><em>Schadens- und DK-Modifikator werden zum Schadenscode/DK der Waffe addiert; Munition gilt je Waffenklasse.</em></p>"
+ },
+ "0c8d16cb-6e96-4d95-8454-104a36091cf9": {
+  "description": "<p><strong>Schaden:</strong> +0, Geistig · <strong>DK:</strong> +1</p><p>Weniger tödliche Munition aus halbsteifem Gel für die Aufstandsbekämpfung: verursacht Geistigen Schaden und senkt das Körperliche Limit des Ziels um 2 bei Proben auf Niederschlag.</p><p><em>Schadens- und DK-Modifikator werden zum Schadenscode/DK der Waffe addiert; Munition gilt je Waffenklasse.</em></p>"
+ },
+ "f486f414-ee2c-46db-92ea-c682861d8fe0": {
+  "description": "<p><strong>Schaden:</strong> +1 · <strong>DK:</strong> +2</p><p>Dum-Dum-Geschosse mit ausgehöhlter Spitze, die beim Aufprall aufpilzen — wirksam gegen Ungepanzerte, bleibt gern in Panzerung stecken.</p><p><em>Schadens- und DK-Modifikator werden zum Schadenscode/DK der Waffe addiert; Munition gilt je Waffenklasse.</em></p>"
+ },
+ "638c81a2-328b-4e22-8fb0-ee37c5e2f6c9": {
+  "description": "<p>Pfeile für Pfeilwaffen wie die Parashield-Pfeilpistole, jeder mit einer Dosis Droge oder Toxin (separat kaufen). Verabreichung: mindestens 1 Nettoerfolg gegen ungepanzerte, 3 gegen gepanzerte Ziele (Toxinangriff mit Injektionsvektor).</p>"
+ },
+ "63AA2CA3-E0B7-4193-8B15-290F6B5DD21E": {
+  "description": "<p>Munition für den Taurus Omni-6 im Schwere-Pistole-Kaliber. Der Revolver kann wahlweise leichte oder schwere Munition verwenden.</p><p><em>Schadens- und DK-Modifikator werden zum Schadenscode/DK der Waffe addiert; Munition gilt je Waffenklasse.</em></p>"
+ },
+ "b2a0b340-c793-4322-8422-8b03d18a6fae": {
+  "description": "<p>Vollmantelgeschosse für alle üblichen Anwendungen — gewöhnlich zum Töten.</p><p><em>Schadens- und DK-Modifikator werden zum Schadenscode/DK der Waffe addiert; Munition gilt je Waffenklasse.</em></p>"
+ },
+ "d9f69780-93eb-41ff-9a9c-893f8c52794e": {
+  "description": "<p><strong>Schaden:</strong> −2, Geistig (Elektro) · <strong>DK:</strong> pauschal −5</p><p>Verursacht elektrischen Geistigen Schaden (Waffenschaden −2); die DK von −5 ersetzt die DK der Waffe, statt sie zu modifizieren.</p>"
+ },
+ "e0d7aea7-52ac-4670-bac3-b13ce144257c": {
+  "description": "<p>Brennende Leuchtspurgeschosse (jedes dritte Geschoss im Streifen) für vollautomatische Waffen: +1 Präzision, wenn mehr als eine Kugel pro Handlungsphase verschossen wird (kumulativ mit Lasermarkierer, nicht mit Smartgun).</p>"
+ },
+ "8afe5065-5815-4a98-b047-2a7fed85db55": {
+  "description": "<p>Ersatzpfeile mit Leitdrähten für Taser.</p>"
+ },
+ "9bb893c0-2cab-4f7f-a0cf-bdacc940254b": {
+  "description": "<p>Munition für die Ares S-III Super Squirt: Gelpacks mit CO₂-Treibladung, die je eine Dosis eines Kontakt-Toxins oder einer anderen Substanz aufnehmen (separat kaufen).</p>"
+ },
+ "9e7a685f-e612-4b6b-955c-a7bc42b23682": {
+  "description": "<p>Standardpfeile für Bögen, erhältlich in Stufen (Pfeilstufe muss der Bogenstufe entsprechen oder darunter liegen).</p>"
+ },
+ "775d2fed-57ab-4e63-b2e4-638ccf4a21d0": {
+  "description": "<p>Bogenpfeil mit Injektionsreservoir für eine Dosis Droge oder Toxin (separat kaufen). Verabreichung: mindestens 1 Nettoerfolg gegen ungepanzerte, 3 gegen gepanzerte Ziele (Injektionsvektor).</p>"
+ },
+ "c3c2fa27-36a7-4296-aadd-627078e6e052": {
+  "description": "<p>Standardbolzen für Armbrüste.</p>"
+ },
+ "7d697849-0a11-4a38-8f07-2e5becf8efe0": {
+  "description": "<p>Armbrustbolzen mit Injektionsreservoir für eine Dosis Droge oder Toxin (separat kaufen). Verabreichung wie Injektionspfeil (Injektionsvektor).</p>"
+ },
+ "d9bf2003-1911-4e65-b6a1-8babb761dd85": {
+  "description": "<p>Ausbalancierte Klingen zum Werfen — billig, lautlos und in Mengen tragbar. Geworfen mit der Fertigkeit Wurfwaffen; Schaden (STR+1)K, DK −1.</p>"
+ },
+ "b4bbdbd3-1f65-44e5-b196-6ccbee1cc182": {
+  "description": "<p>Flache Wurfsterne aus Metall — klein, leicht zu verbergen, lautlos. Geworfen mit der Fertigkeit Wurfwaffen; Schaden (STR+1)K, DK −1.</p>"
+ },
+ "f4b92e14-fe1f-4be4-ad73-aed10e1f73b4": {
+  "description": "<p><strong>Schaden:</strong> 10G(e) · <strong>DK:</strong> −4 · <strong>Sprengwirkung:</strong> 10 m Radius (gleichmäßig)</p><p>„Betäubungsgranate\": explodiert mit grellem Blitz und Druckwelle, die sich gleichmäßig über den ganzen Radius ausbreitet — der Schaden fällt nicht mit der Entfernung ab.</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "8e04c493-b04d-4511-ba68-7b2e0edbf3aa": {
+  "description": "<p><strong>Schaden:</strong> Speziell (Blendung) · <strong>Sprengwirkung:</strong> Speziell</p><p>Kein Sprengkörper, sondern ein zigarettenschachtelgroßes Stroboskop mit vier Quarz-Halogen-Blitzern. Wer in seine Richtung schaut, erleidet <strong>−4 auf alle Angriffsproben</strong> (Blitzkompensation in Sichtgeräten: −2; in Cyberaugen/Retinamodifikation: −1). 10 Ladungen, 1 Ladung pro Kampfrunde; lädt am Stromnetz 1 Ladung pro 10 Sekunden.</p><p><strong>WiFi:</strong> Angemeldete Verbündete erleiden nur die halben Blendmodifikatoren; Induktionsladung 1/Stunde.</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>",
+  "effects": [
+   {
+    "name": "Geblendet: Flash-Pack (−4 Angriffe)",
+    "img": "icons/svg/blind.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": []
+    }
+   }
+  ]
+ },
+ "7c5e7573-d75e-43e3-949c-cb4c9d70329b": {
+  "description": "<p><strong>Schaden:</strong> 18K(f) · <strong>DK:</strong> +5 · <strong>Sprengwirkung:</strong> −1/m</p><p>Der klassische Tötungsapparat: eine Schrapnellwolke über einen großen Bereich, verheerend gegen weiche Ziele, wenig wirksam gegen Panzerung (Flechette-Regeln).</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "e61c5487-2074-4fc8-8da0-9891b15482e7": {
+  "description": "<p><strong>Schaden:</strong> 16K · <strong>DK:</strong> −2 · <strong>Sprengwirkung:</strong> −2/m</p><p>Reine Druckwelle und konzentrierte Zerstörung rund um den Detonationspunkt.</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "06798b15-40bb-4464-b6a8-a01466ee9b9e": {
+  "description": "<p><strong>Schaden:</strong> wie Chemikalie · <strong>Sprengwirkung:</strong> 10 m Radius</p><p>Setzt statt einer Explosion eine Gaswolke frei — üblicherweise CS-/Tränengas, aber jedes andere Toxin ist möglich (separat kaufen; dessen Effekt gilt für alle in der Wolke). Die Wolke hält etwa 4 Kampfrunden (kürzer bei Wind, länger in geschlossenen Räumen).</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "84c6921e-dfa0-42ca-a01f-87c459ffc000": {
+  "description": "<p><strong>Sprengwirkung:</strong> 10 m Radius</p><p>Erzeugt eine dichte Rauchwolke mit 10 m Radius, die die Sicht einschränkt (Sichtbarkeitsmodifikatoren für Rauch). Die Wolke hält etwa 4 Kampfrunden (kürzer bei Wind, länger in geschlossenen Räumen).</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "f3472dc1-4c7b-403a-8001-6441bb65a687": {
+  "description": "<p><strong>Sprengwirkung:</strong> 10 m Radius</p><p>Wie die Rauchgranate, aber mit heißen Partikeln im Rauch, die auch Infrarotsicht behindern (Sichtbarkeitsmodifikatoren für IR-Rauch). Die Wolke hält etwa 4 Kampfrunden.</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "f092fca8-46a9-4351-a06a-362846e6546a": {
+  "description": "<p><strong>Schaden:</strong> 10G(e) · <strong>DK:</strong> −4 · <strong>Sprengwirkung:</strong> 10 m Radius (gleichmäßig)</p><p>„Betäubungsgranate\": explodiert mit grellem Blitz und Druckwelle, die sich gleichmäßig über den ganzen Radius ausbreitet — der Schaden fällt nicht mit der Entfernung ab.</p><p>Minigranaten sind für Granatwerfer gebaut: Sie werden nach 5 Metern Flugbahn scharf und explodieren beim Aufprall (außer mit Airburst-Verbindung). Wirkung und Preis wie die Standardgranate.</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "7c00891f-6554-497d-9726-058d7c4a598e": {
+  "description": "<p><strong>Schaden:</strong> Speziell (Blendung) · <strong>Sprengwirkung:</strong> Speziell</p><p>Kein Sprengkörper, sondern ein zigarettenschachtelgroßes Stroboskop mit vier Quarz-Halogen-Blitzern. Wer in seine Richtung schaut, erleidet <strong>−4 auf alle Angriffsproben</strong> (Blitzkompensation in Sichtgeräten: −2; in Cyberaugen/Retinamodifikation: −1). 10 Ladungen, 1 Ladung pro Kampfrunde; lädt am Stromnetz 1 Ladung pro 10 Sekunden.</p><p><strong>WiFi:</strong> Angemeldete Verbündete erleiden nur die halben Blendmodifikatoren; Induktionsladung 1/Stunde.</p><p>Minigranaten sind für Granatwerfer gebaut: Sie werden nach 5 Metern Flugbahn scharf und explodieren beim Aufprall (außer mit Airburst-Verbindung). Wirkung und Preis wie die Standardgranate.</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>",
+  "effects": [
+   {
+    "name": "Geblendet: Flash-Pack (−4 Angriffe)",
+    "img": "icons/svg/blind.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": []
+    }
+   }
+  ]
+ },
+ "8e1583bf-4cc5-4498-a800-36cb61d3fb27": {
+  "description": "<p><strong>Schaden:</strong> 18K(f) · <strong>DK:</strong> +5 · <strong>Sprengwirkung:</strong> −1/m</p><p>Der klassische Tötungsapparat: eine Schrapnellwolke über einen großen Bereich, verheerend gegen weiche Ziele, wenig wirksam gegen Panzerung (Flechette-Regeln).</p><p>Minigranaten sind für Granatwerfer gebaut: Sie werden nach 5 Metern Flugbahn scharf und explodieren beim Aufprall (außer mit Airburst-Verbindung). Wirkung und Preis wie die Standardgranate.</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "daecdfc8-15d5-4864-9e20-13e4a0dca88e": {
+  "description": "<p><strong>Schaden:</strong> 16K · <strong>DK:</strong> −2 · <strong>Sprengwirkung:</strong> −2/m</p><p>Reine Druckwelle und konzentrierte Zerstörung rund um den Detonationspunkt.</p><p>Minigranaten sind für Granatwerfer gebaut: Sie werden nach 5 Metern Flugbahn scharf und explodieren beim Aufprall (außer mit Airburst-Verbindung). Wirkung und Preis wie die Standardgranate.</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "74284124-57a0-479b-9ab1-3433bdb9e3b7": {
+  "description": "<p><strong>Schaden:</strong> wie Chemikalie · <strong>Sprengwirkung:</strong> 10 m Radius</p><p>Setzt statt einer Explosion eine Gaswolke frei — üblicherweise CS-/Tränengas, aber jedes andere Toxin ist möglich (separat kaufen; dessen Effekt gilt für alle in der Wolke). Die Wolke hält etwa 4 Kampfrunden (kürzer bei Wind, länger in geschlossenen Räumen).</p><p>Minigranaten sind für Granatwerfer gebaut: Sie werden nach 5 Metern Flugbahn scharf und explodieren beim Aufprall (außer mit Airburst-Verbindung). Wirkung und Preis wie die Standardgranate.</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "b6381691-1a96-4299-b9df-129ffee64c45": {
+  "description": "<p><strong>Sprengwirkung:</strong> 10 m Radius</p><p>Erzeugt eine dichte Rauchwolke mit 10 m Radius, die die Sicht einschränkt (Sichtbarkeitsmodifikatoren für Rauch). Die Wolke hält etwa 4 Kampfrunden (kürzer bei Wind, länger in geschlossenen Räumen).</p><p>Minigranaten sind für Granatwerfer gebaut: Sie werden nach 5 Metern Flugbahn scharf und explodieren beim Aufprall (außer mit Airburst-Verbindung). Wirkung und Preis wie die Standardgranate.</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "e2252b3c-1bae-496e-adbb-f1c3d6e0b32b": {
+  "description": "<p><strong>Sprengwirkung:</strong> 10 m Radius</p><p>Wie die Rauchgranate, aber mit heißen Partikeln im Rauch, die auch Infrarotsicht behindern (Sichtbarkeitsmodifikatoren für IR-Rauch). Die Wolke hält etwa 4 Kampfrunden.</p><p>Minigranaten sind für Granatwerfer gebaut: Sie werden nach 5 Metern Flugbahn scharf und explodieren beim Aufprall (außer mit Airburst-Verbindung). Wirkung und Preis wie die Standardgranate.</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "922c2a9b-88a8-47bf-a3ac-378a0e86be9c": {
+  "description": "<p><strong>Schaden:</strong> 10G(e) · <strong>DK:</strong> −4 · <strong>Sprengwirkung:</strong> 10 m Radius (gleichmäßig)</p><p>„Betäubungsgranate\": explodiert mit grellem Blitz und Druckwelle, die sich gleichmäßig über den ganzen Radius ausbreitet — der Schaden fällt nicht mit der Entfernung ab.</p><p>Aerodynamische Bauform für größere Wurfreichweite (Reichweitenkategorie „Aerodynamische Granate\").</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "4d27ebbf-02e8-45e7-9c0a-7151f1e4faae": {
+  "description": "<p><strong>Schaden:</strong> Speziell (Blendung) · <strong>Sprengwirkung:</strong> Speziell</p><p>Kein Sprengkörper, sondern ein zigarettenschachtelgroßes Stroboskop mit vier Quarz-Halogen-Blitzern. Wer in seine Richtung schaut, erleidet <strong>−4 auf alle Angriffsproben</strong> (Blitzkompensation in Sichtgeräten: −2; in Cyberaugen/Retinamodifikation: −1). 10 Ladungen, 1 Ladung pro Kampfrunde; lädt am Stromnetz 1 Ladung pro 10 Sekunden.</p><p><strong>WiFi:</strong> Angemeldete Verbündete erleiden nur die halben Blendmodifikatoren; Induktionsladung 1/Stunde.</p><p>Aerodynamische Bauform für größere Wurfreichweite (Reichweitenkategorie „Aerodynamische Granate\").</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>",
+  "effects": [
+   {
+    "name": "Geblendet: Flash-Pack (−4 Angriffe)",
+    "img": "icons/svg/blind.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": []
+    }
+   }
+  ]
+ },
+ "afde3ea3-2db2-4049-b54a-f471e8c11102": {
+  "description": "<p><strong>Schaden:</strong> 18K(f) · <strong>DK:</strong> +5 · <strong>Sprengwirkung:</strong> −1/m</p><p>Der klassische Tötungsapparat: eine Schrapnellwolke über einen großen Bereich, verheerend gegen weiche Ziele, wenig wirksam gegen Panzerung (Flechette-Regeln).</p><p>Aerodynamische Bauform für größere Wurfreichweite (Reichweitenkategorie „Aerodynamische Granate\").</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "e7a602bd-33f4-485b-8a18-a253b7e73a77": {
+  "description": "<p><strong>Schaden:</strong> 16K · <strong>DK:</strong> −2 · <strong>Sprengwirkung:</strong> −2/m</p><p>Reine Druckwelle und konzentrierte Zerstörung rund um den Detonationspunkt.</p><p>Aerodynamische Bauform für größere Wurfreichweite (Reichweitenkategorie „Aerodynamische Granate\").</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "1ceef439-32d7-4e1b-a13b-0223dfadf784": {
+  "description": "<p><strong>Schaden:</strong> wie Chemikalie · <strong>Sprengwirkung:</strong> 10 m Radius</p><p>Setzt statt einer Explosion eine Gaswolke frei — üblicherweise CS-/Tränengas, aber jedes andere Toxin ist möglich (separat kaufen; dessen Effekt gilt für alle in der Wolke). Die Wolke hält etwa 4 Kampfrunden (kürzer bei Wind, länger in geschlossenen Räumen).</p><p>Aerodynamische Bauform für größere Wurfreichweite (Reichweitenkategorie „Aerodynamische Granate\").</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "13208e69-2cc6-43c4-98ff-e0295cdf3b68": {
+  "description": "<p><strong>Sprengwirkung:</strong> 10 m Radius</p><p>Erzeugt eine dichte Rauchwolke mit 10 m Radius, die die Sicht einschränkt (Sichtbarkeitsmodifikatoren für Rauch). Die Wolke hält etwa 4 Kampfrunden (kürzer bei Wind, länger in geschlossenen Räumen).</p><p>Aerodynamische Bauform für größere Wurfreichweite (Reichweitenkategorie „Aerodynamische Granate\").</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "2b58af45-2097-4607-a0d4-e251b64332af": {
+  "description": "<p><strong>Sprengwirkung:</strong> 10 m Radius</p><p>Wie die Rauchgranate, aber mit heißen Partikeln im Rauch, die auch Infrarotsicht behindern (Sichtbarkeitsmodifikatoren für IR-Rauch). Die Wolke hält etwa 4 Kampfrunden.</p><p>Aerodynamische Bauform für größere Wurfreichweite (Reichweitenkategorie „Aerodynamische Granate\").</p><p><em>Geworfen mit Wurfwaffen, verschossen mit Schwere Waffen (Granatwerfer); Streuregeln für Granaten beachten.</em></p>"
+ },
+ "60d28c15-42dd-4837-bc5f-8d8a15393655": {
+  "description": "<p><strong>Schaden:</strong> 24K · <strong>DK:</strong> −10 gegen Fahrzeuge/Barrieren, −4 sonst · <strong>Sprengwirkung:</strong> −4/m</p><p>Hohlladung, die sich durch Fahrzeuge und Barrieren brennt; die Sprengwirkung drumherum bleibt begrenzt.</p><p><em>Raketen werden nach 10 m Flug scharf und explodieren beim Aufprall; Abfeuern mit Schwere Waffen.</em></p>"
+ },
+ "4c5be084-c975-42d2-962c-dc2add203b6b": {
+  "description": "<p><strong>Schaden:</strong> 23K(f) · <strong>DK:</strong> +5 · <strong>Sprengwirkung:</strong> −1/m</p><p>Antipersonen-Sprengkopf: Kunststoff- und Metallsplitter mit hoher Geschwindigkeit — hochwirksam gegen ungeschützte Personen, kaum gegen Barrieren und Fahrzeuge.</p><p><em>Raketen werden nach 10 m Flug scharf und explodieren beim Aufprall; Abfeuern mit Schwere Waffen.</em></p>"
+ },
+ "d5136e8b-bf34-401d-967d-c52f8cc175c1": {
+  "description": "<p><strong>Schaden:</strong> 21K · <strong>DK:</strong> −2 · <strong>Sprengwirkung:</strong> −2/m</p><p>Schwerer Flächenschaden wie eine große Sprenggranate; gegen gehärtete Ziele wenig effektiv.</p><p><em>Raketen werden nach 10 m Flug scharf und explodieren beim Aufprall; Abfeuern mit Schwere Waffen.</em></p>"
+ },
+ "a42b7377-5a2e-456d-b729-8783873465f0": {
+  "description": "<p><strong>Schaden:</strong> 24K · <strong>DK:</strong> −10 gegen Fahrzeuge/Barrieren, −4 sonst · <strong>Sprengwirkung:</strong> −4/m</p><p>Hohlladung, die sich durch Fahrzeuge und Barrieren brennt; die Sprengwirkung drumherum bleibt begrenzt.</p><p><em>Lenkrakete mit internem Zielführungssystem (Werte wie die Rakete, Verfügbarkeit +4, Aufpreis nach Sensorstufe).</em></p>"
+ },
+ "bb40694a-59de-4fb8-9cee-697f37377a55": {
+  "description": "<p><strong>Schaden:</strong> 23K(f) · <strong>DK:</strong> +5 · <strong>Sprengwirkung:</strong> −1/m</p><p>Antipersonen-Sprengkopf: Kunststoff- und Metallsplitter mit hoher Geschwindigkeit — hochwirksam gegen ungeschützte Personen, kaum gegen Barrieren und Fahrzeuge.</p><p><em>Lenkrakete mit internem Zielführungssystem (Werte wie die Rakete, Verfügbarkeit +4, Aufpreis nach Sensorstufe).</em></p>"
+ },
+ "838a308e-a638-433e-b5bc-54222fb645c9": {
+  "description": "<p><strong>Schaden:</strong> 21K · <strong>DK:</strong> −2 · <strong>Sprengwirkung:</strong> −2/m</p><p>Schwerer Flächenschaden wie eine große Sprenggranate; gegen gehärtete Ziele wenig effektiv.</p><p><em>Lenkrakete mit internem Zielführungssystem (Werte wie die Rakete, Verfügbarkeit +4, Aufpreis nach Sensorstufe).</em></p>"
+ },
+ "48eca1ec-bce2-4878-bfdc-5b37639e9d6f": {
+  "description": "<p><strong>Stufe:</strong> 5</p><p>Industrielle Sprengverbindungen in fester oder flüssiger Form für alle zerstörerischen Bedürfnisse der Bauindustrie.</p><p><em>Schadenscode = Stufe × √kg (abgerundet); Sprengwirkung −2/m (kreisförmig) bzw. −1/m (gerichtet, 60°). Direkt am Ziel befestigt halbiert die Panzerung, sonst DK −2. Erfolge einer Sprengstoffe-Probe addieren zur effektiven Stufe.</em></p>"
+ },
+ "0183db3c-974e-40f8-ab73-ccf733beadd5": {
+  "description": "<p><strong>Stufe:</strong> 6–25</p><p>Plastiksprengstoff in Rasierschaum-Konsistenz aus der Sprühdose — perfekt für Spalten und Ritzen, gezündet wie normaler Plastiksprengstoff.</p><p><em>Schadensberechnung wie Kommerzieller Sprengstoff.</em></p>"
+ },
+ "0b5b01f5-9c02-4513-8393-7bd64e1ca86c": {
+  "description": "<p><strong>Stufe:</strong> 6–25</p><p>Hochstabile, formbare und haftfähige Militärsprengstoffe, ideal zum Durchbrechen von Mauern. Die Färbung zeigt die nötige Detonationsspannung an (schwarz: Magnetfeldinduktion, bis kalkweiß: 440 V).</p><p><em>Schadensberechnung wie Kommerzieller Sprengstoff.</em></p>"
+ },
+ "2c98be77-22d7-4116-90fc-e8489944578d": {
+  "description": "<p>Zünder mit programmierbarem Timer, der in den Sprengstoff eingesetzt wird. Programmieren: Komplexe Handlung.</p><p><strong>WiFi:</strong> Programmieren als Einfache Handlung; Zünden ohne Countdown mit einer Freien Handlung.</p>"
+ },
+ "241e831d-230a-403b-a4a1-1e601b1afdc3": {
+  "description": "<p>Filtermaske über Mund und Nase: addiert ihre Stufe zu Toxinwiderstandsproben gegen Inhalations-Toxine.</p>"
+ },
+ "4a925049-5390-4394-8842-6cb46423cf00": {
+  "description": "<p>Undurchlässiger Ganzkörperanzug über Kleidung/Panzerung: Chemische Isolierung in Höhe der Stufe (nicht vakuumversiegelt — kein Hazmat-Ersatz). Nur die höchste Isolierungsstufe zählt.</p>"
+ },
+ "2633cf38-90a6-4843-b475-e3ee1132fb5f": {
+  "description": "<p>Vollgesichts-Atemgerät mit einer Stunde Sauerstoff: immun gegen Inhalations-Toxine; an größere Lufttanks anschließbar. <strong>WiFi:</strong> analysiert die nicht geatmete Umgebungsluft.</p>"
+ },
+ "8bed8fa9-b75e-44ad-8181-a9dcd1f110cd": {
+  "description": "<p>Set aus Handschuhen, Kniepolstern und Überziehsohlen mit Trockenklebstoff aus Millionen Mikrohärchen — hält selbst einen Troll kopfüber an der Decke (Regeln für Klettern mit Ausrüstung). Nass nutzlos. <strong>WiFi:</strong> Haftschicht zeitweise neutralisierbar.</p>"
+ },
+ "a39501ca-0df5-4fb7-8992-97b765383d17": {
+  "description": "<p>Ganzkörperanzug mit internem Lufttank (4 Stunden): unbeschädigt bietet er Chemische Versiegelung gegen Kontakt- und Inhalations-Toxine; oft mit Geigerzähler. <strong>WiFi:</strong> analysiert die Umgebung.</p>"
+ },
+ "a17cae86-4d6f-4e00-acb6-03f0ccfb2807": {
+  "description": "<p>Rucksack mit 400-kg-Seil, Klettergeschirr, Handschuhen, Karabinern, Steigeisen und allem fürs Klettern mit Ausrüstung.</p>"
+ },
+ "2bb6956f-c00e-452c-ab99-6b4613d7bb3e": {
+  "description": "<p>Spezialgewebe für besseren Griff: +2 Würfelpool auf Proben, sich am Seil festzuhalten. Pflicht für den Umgang mit Microwire.</p>"
+ },
+ "c658ec7e-48c1-4ead-8083-f3ee0eab92e4": {
+  "description": "<p>Knicken, schütteln, leuchten: drei Stunden sanftes Chemielicht mit zehn Metern Radius.</p>"
+ },
+ "08fb5b81-af99-4311-8588-f7d680d3fa5c": {
+  "description": "<p>Anzünden für fünf Minuten helles Fackellicht.</p>"
+ },
+ "78f71833-4104-4dfb-b811-9bcabff95ecf": {
+  "description": "<p>Schießt farbige Leuchtraketen bis 200 m hoch und erhellt minutenlang einen Häuserblock (eliminiert Teil-/Schwachbeleuchtungs-Modifikatoren). Als Waffe: Exotische Fernkampfwaffe, 5K Feuerschaden.</p>"
+ },
+ "f3d0d8f1-a2be-45d9-83a6-b5461afb62de": {
+  "description": "<p>Ersatz-Leuchtrakete für die Mini-Signalraketenkanone (5K Feuerschaden, wenn zweckentfremdet).</p>"
+ },
+ "27f9775d-cd14-4900-827f-ba00d26e0c67": {
+  "description": "<p>Widerstandsfähige Tasche mit Messer, Feuerzeug, Streichhölzern, Kompass, Isolationsdecke, Nahrungsriegeln, Wasserreinigung und mehr — die Notfalltasche.</p>"
+ },
+ "c49a893a-d445-4aac-bec0-c8501cba4c2c": {
+  "description": "<p>Superhelle, langlebige Taschenlampe; auch auf- oder unterlaufmontierbar an Waffen.</p>"
+ },
+ "44acc4c0-5795-47a4-84fb-bd2374276360": {
+  "description": "<p>Taschenlampe für Restlichtverstärkung — senkt die Sichtmodifikatoren für Restlichtsicht.</p>"
+ },
+ "58ae0574-bf03-45c3-9fee-0322069a3b18": {
+  "description": "<p>Infrarot-Taschenlampe — senkt die Sichtmodifikatoren für Infrarotsicht, für normale Augen unsichtbar.</p>"
+ },
+ "927c8a62-2c67-4121-abeb-235ebde7b90a": {
+  "description": "<p>Neoprenanzug, Maske mit Schnorchel, Atemregler, 2-Stunden-Lufttank und Auftriebsweste. Regler und Tank schützen wie eine Gasmaske gegen Inhalations-Toxine; der Anzug gibt 1 Punkt Resistenz gegen Kälteschaden.</p>"
+ },
+ "59561c08-3269-470d-9d8b-3cde8a8ccbf8": {
+  "description": "<p>Verschießt Enterhaken samt Seil (Reichweiten wie Leichte Armbrust) und zieht ihn per interner Winde zurück. Abfeuern mit Exotische Fernkampfwaffe (7G, DK −2).</p>"
+ },
+ "8adaecd5-0c24-4982-8803-e4459e16589f": {
+  "description": "<p>Robustes Standardseil, trägt bis zu 400 kg.</p>"
+ },
+ "76890101-9f90-41db-a6f0-6f5fd4802896": {
+  "description": "<p>Trägt 400 kg — und zerfällt bei Berührung mit dem Katalysatorstab binnen Sekunden spurlos zu Staub.</p>"
+ },
+ "dff54f55-846d-4017-84e2-dd1f1c29861f": {
+  "description": "<p>Wiederverwendbarer Stab, der Camouflageseil per chemischer Reaktion zu Staub zerfallen lässt.</p>"
+ },
+ "fc0987f2-b3cf-4ba2-8777-0610ed97e90e": {
+  "description": "<p>Fast monofilamentdünne Hochleistungsfaser: trägt 100 kg, ist kaum zu sehen und passt in jede Tasche. Ohne Kletterhandschuhe schneidet sie in die Hände (8K, DK −8).</p>"
+ },
+ "14243f3e-8d05-480d-8e74-b90ee615e6ff": {
+  "description": "<p>Ferngesteuert bewegliches Myomerfaserseil (bis 30 m): windet sich um Hindernisse oder bindet sich selbst fest; 2 m pro Kampfrunde.</p>"
+ },
+ "6b28b36a-416a-4041-9561-558083158d7c": {
+  "description": "<p>DocWagon Standard: Notfallversorgung rund um die Uhr; Reanimation und HTR-Einsatz kosten je 5.000 ¥ extra (plus Kompensation für verletzte/getötete Mitarbeiter).</p><p><em>DocWagon: bewaffnetes Rettungsteam in unter zehn Minuten (sonst kostenlos); Vertrag erfordert Gewebeprobe und beinhaltet einen Vitalmonitor als Armband oder RFID-Implantat.</em></p>"
+ },
+ "c985f952-df28-4b69-a7b7-b24a291cd651": {
+  "description": "<p>DocWagon Gold: eine kostenlose Reanimation pro Jahr, 50 % Rabatt auf HTR-Einsätze, 10 % auf stationäre Behandlung.</p><p><em>DocWagon: bewaffnetes Rettungsteam in unter zehn Minuten (sonst kostenlos); Vertrag erfordert Gewebeprobe und beinhaltet einen Vitalmonitor als Armband oder RFID-Implantat.</em></p>"
+ },
+ "aabed898-177f-413b-aeb6-5b862da67c6b": {
+  "description": "<p>DocWagon Platin: vier kostenlose Reanimationen pro Jahr, kostenlose HTR-Einsätze (Kompensationszahlungen bleiben), 50 % Rabatt auf stationäre Behandlung.</p><p><em>DocWagon: bewaffnetes Rettungsteam in unter zehn Minuten (sonst kostenlos); Vertrag erfordert Gewebeprobe und beinhaltet einen Vitalmonitor als Armband oder RFID-Implantat.</em></p>"
+ },
+ "7c8251b6-b195-4c8f-90f0-c036f8a9146f": {
+  "description": "<p>DocWagon Superplatin: fünf kostenlose Reanimationen pro Jahr, HTR-Einsätze und Mitarbeiter-Kompensation vollständig inklusive.</p><p><em>DocWagon: bewaffnetes Rettungsteam in unter zehn Minuten (sonst kostenlos); Vertrag erfordert Gewebeprobe und beinhaltet einen Vitalmonitor als Armband oder RFID-Implantat.</em></p>"
+ },
+ "2f40c4cd-7582-4358-8752-91c9f94f5b6e": {
+  "description": "<p>Monatliche Nährstoff- und Pflegekosten für Symbionten-Bioware — ohne Unterhalt leidet der Symbiont (und sein Wirt).</p>"
+ },
+ "483ca04a-8522-4d12-96ab-4e21dd9a4300": {
+  "description": "<p>Handelsübliche SimSinn-Aufzeichnung mit deaktivierten Sicherheitsprotokollen: Heldenfantasien, aufgezeichnete Verbrechen, Pornografie — vom Studio bis zur Hinterhofproduktion.</p><p><em>BTL: Geschwindigkeit Sofort · Dauer meist 10 × 1W6 Minuten · Abhängigkeit Psychisch. Chips löschen sich nach einmaliger Nutzung selbst (umgehbar mit Hardware + Logik [Geistig] (10, 1 Stunde)).</em></p>"
+ },
+ "ea044b03-009c-4515-baef-d37b6b1138af": {
+  "description": "<p>Der häufigste BTL der Straße: pure, verstärkte Emotion von Euphorie bis Hass. Nach Ablauf folgt oft ein bis zwei Stunden die Gegenemotion; das RAS-Override ist meist deaktiviert.</p><p><em>BTL: Geschwindigkeit Sofort · Dauer meist 10 × 1W6 Minuten · Abhängigkeit Psychisch. Chips löschen sich nach einmaliger Nutzung selbst (umgehbar mit Hardware + Logik [Geistig] (10, 1 Stunde)).</em></p>"
+ },
+ "2e98e2af-6a0e-4b2f-a573-1766552b4ba4": {
+  "description": "<p>Der gefährlichste BTL: SimSinn plus Talentsoft überschreibt die Persönlichkeit und installiert Verhaltensmuster — vom Popstar-Imitat bis zur „Angestellten\" im Bunraku-Salon.</p><p><em>BTL: Geschwindigkeit Sofort · Dauer meist 10 × 1W6 Minuten · Abhängigkeit Psychisch. Chips löschen sich nach einmaliger Nutzung selbst (umgehbar mit Hardware + Logik [Geistig] (10, 1 Stunde)).</em></p>"
+ },
+ "de2bd382-6339-479d-8120-59dd65bde6e6": {
+  "description": "<p>Sinnesrausch-Chip: ungewöhnliche und intensive Sinneseindrücke bis zur gewollten Synästhesie bei voll aufgedrehten Sinnesleveln.</p><p><em>BTL: Geschwindigkeit Sofort · Dauer meist 10 × 1W6 Minuten · Abhängigkeit Psychisch. Chips löschen sich nach einmaliger Nutzung selbst (umgehbar mit Hardware + Logik [Geistig] (10, 1 Stunde)).</em></p>"
+ },
+ "5977fb0b-b74e-4eb9-b433-9b7c9877b14f": {
+  "description": "<p>Standardholster für Pistolen und Taser — schnell erreichbar, aber sichtbar.</p>"
+ },
+ "f057b962-1439-4f8e-aa35-2e432a1c833d": {
+  "description": "<p>Leicht zugängliches Holster (bis Automatikpistole): senkt den Schwellenwert für das Schnellziehen der geholsterten Waffe um 1.</p>"
+ },
+ "e8e7b222-99da-4a4f-9c4e-8ffa61838017": {
+  "description": "<p>Kleines Holster für Knöchel, Unterarm oder Kreuz (nur Pistolen/Taser): −1 auf den Tarnmodifikator des Gegenstands. <strong>WiFi:</strong> smarte Beschichtung, zusätzlich −1.</p>"
+ },
+ "f77fc093-d5cf-4be6-bfeb-311653ecd64e": {
+  "description": "<p>Schießt farbige Leuchtraketen bis 200 m hoch und erhellt minutenlang einen Häuserblock. Als Waffe: Exotische Fernkampfwaffe, 5K Feuerschaden.</p>"
+ },
+ "ee90d254-cb65-4a03-92e5-abe7037ff5e3": {
+  "description": "<p><strong>Vektor:</strong> Inhalation · <strong>Geschwindigkeit:</strong> 3 Kampfrunden · <strong>Durchdringung:</strong> 0 · <strong>Kraft:</strong> 9</p><p><strong>Wirkung:</strong> Desorientierung (−2 auf alle Handlungen für 10 Minuten), Übelkeit (Verletzungsmodifikatoren 10 Minuten lang verdoppelt; ist die Kraft nach dem Widerstand höher als die Willenskraft, 3 Kampfrunden handlungsunfähig).</p><p>Der Klassiker der Aufruhrbekämpfung: ein Gas, das Magen und Gleichgewichtssinn rebellieren lässt. Verliert nach 2 Minuten Luftkontakt die Wirkung.</p><p><em>Toxinwiderstand: Konstitution + Willenskraft (+ Schutz); jeder Erfolg senkt die Kraft um 1.</em></p>",
+  "effects": [
+   {
+    "name": "Brechreiz-Gas (Desorientierung/Übelkeit)",
+    "img": "icons/svg/poison.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": [
+      {
+       "key": "system.modifiers.global",
+       "type": "add",
+       "value": -2
+      }
+     ]
+    },
+    "duration": {
+     "seconds": 600
+    }
+   }
+  ]
+ },
+ "1445f60b-49e1-45c9-98e4-054a79ca80f8": {
+  "description": "<p><strong>Vektor:</strong> Kontakt, Inhalation · <strong>Geschwindigkeit:</strong> 1 Kampfrunde · <strong>Durchdringung:</strong> 0 · <strong>Kraft:</strong> 8</p><p><strong>Wirkung:</strong> Geistiger Schaden, Desorientierung (−2 auf alle Handlungen für 10 Minuten), Übelkeit (Verletzungsmodifikatoren 10 Minuten lang verdoppelt; ist die Kraft nach dem Widerstand höher als die Willenskraft, 3 Kampfrunden handlungsunfähig).</p><p>Ein Reizstoff für Augen, Haut und Schleimhäute samt Panikreaktion. Waschen mit Wasser und Seife beendet die Übelkeit vorzeitig; an der Luft nach 2 Minuten wirkungslos.</p><p><em>Toxinwiderstand: Konstitution + Willenskraft (+ Schutz); jeder Erfolg senkt die Kraft um 1.</em></p>",
+  "effects": [
+   {
+    "name": "CS-/Tränengas (Desorientierung/Übelkeit)",
+    "img": "icons/svg/poison.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": [
+      {
+       "key": "system.modifiers.global",
+       "type": "add",
+       "value": -2
+      }
+     ]
+    },
+    "duration": {
+     "seconds": 600
+    }
+   }
+  ]
+ },
+ "e90016cf-cf44-4cd2-9343-c0f2a58e1aa2": {
+  "description": "<p><strong>Vektor:</strong> Injektion · <strong>Geschwindigkeit:</strong> Sofort · <strong>Durchdringung:</strong> 0 · <strong>Kraft:</strong> 12</p><p><strong>Wirkung:</strong> Lähmung (ist die Kraft nach dem Widerstand höher als die Reaktion, 1 Stunde gelähmt; sonst −2 auf alle Handlungen für 1 Stunde). Danach 1 Stunde „Wahrheitsserum\": Willenskraft −3 (Minimum 1).</p><p>Ein neuromuskulärer Blocker aus der Tollkirsche: Schwindel, Delirium, Lähmung — und anschließend eine gesprächige Stunde.</p><p><em>Toxinwiderstand: Konstitution + Willenskraft (+ Schutz); jeder Erfolg senkt die Kraft um 1.</em></p>",
+  "effects": [
+   {
+    "name": "Gamma-Skopolamin (Lähmung)",
+    "img": "icons/svg/paralysis.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": []
+    },
+    "duration": {
+     "seconds": 3600
+    }
+   },
+   {
+    "name": "Gamma-Skopolamin (Wahrheitsserum)",
+    "img": "icons/svg/daze.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": [
+      {
+       "key": "system.attributes.willpower",
+       "type": "add",
+       "value": -3
+      }
+     ]
+    },
+    "duration": {
+     "seconds": 3600
+    }
+   }
+  ]
+ },
+ "875bf273-1a0d-4a42-80ab-6547d7a1235a": {
+  "description": "<p><strong>Vektor:</strong> Injektion · <strong>Geschwindigkeit:</strong> Sofort · <strong>Durchdringung:</strong> 0 · <strong>Kraft:</strong> 15</p><p><strong>Wirkung:</strong> Geistiger Schaden.</p><p>Das beliebte Betäubungsmittel für Pfeilpistolen — wirkt schnell, sauber und ohne Nebenwirkungen.</p><p><em>Toxinwiderstand: Konstitution + Willenskraft (+ Schutz); jeder Erfolg senkt die Kraft um 1.</em></p>",
+  "effects": [
+   {
+    "name": "Narcoject",
+    "img": "icons/svg/sleep.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": []
+    }
+   }
+  ]
+ },
+ "24e87c73-22be-480d-bb79-978277672a1d": {
+  "description": "<p><strong>Vektor:</strong> Kontakt, Inhalation · <strong>Geschwindigkeit:</strong> 1 Kampfrunde · <strong>Durchdringung:</strong> 0 · <strong>Kraft:</strong> 15</p><p><strong>Wirkung:</strong> Geistiger Schaden, Desorientierung (−2 auf alle Handlungen für 10 Minuten).</p><p>Farb- und geruchloses Standard-Betäubungsgas für Notfalleinsätze. Neuro-Stun VIII wird nach 10 Minuten Luftkontakt unwirksam.</p><p><em>Toxinwiderstand: Konstitution + Willenskraft (+ Schutz); jeder Erfolg senkt die Kraft um 1.</em></p>",
+  "effects": [
+   {
+    "name": "Neuro-Stun VIII (Desorientierung)",
+    "img": "icons/svg/poison.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": [
+      {
+       "key": "system.modifiers.global",
+       "type": "add",
+       "value": -2
+      }
+     ]
+    },
+    "duration": {
+     "seconds": 600
+    }
+   }
+  ]
+ },
+ "f81d9a2e-5c2d-49ad-93b4-1a7a71439bf3": {
+  "description": "<p><strong>Vektor:</strong> Kontakt, Inhalation · <strong>Geschwindigkeit:</strong> 1 Kampfrunde · <strong>Durchdringung:</strong> 0 · <strong>Kraft:</strong> 15</p><p><strong>Wirkung:</strong> Geistiger Schaden, Desorientierung (−2 auf alle Handlungen für 10 Minuten).</p><p>Die stärker flüchtige Variante des Standard-Betäubungsgases: wird schon nach 1 Minute Luftkontakt unwirksam.</p><p><em>Toxinwiderstand: Konstitution + Willenskraft (+ Schutz); jeder Erfolg senkt die Kraft um 1.</em></p>",
+  "effects": [
+   {
+    "name": "Neuro-Stun IX (Desorientierung)",
+    "img": "icons/svg/poison.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": [
+      {
+       "key": "system.modifiers.global",
+       "type": "add",
+       "value": -2
+      }
+     ]
+    },
+    "duration": {
+     "seconds": 600
+    }
+   }
+  ]
+ },
+ "4ad3f9ea-4ee0-45f8-a57b-ed40c660d0b0": {
+  "description": "<p><strong>Vektor:</strong> Kontakt, Inhalation · <strong>Geschwindigkeit:</strong> 1 Kampfrunde · <strong>Durchdringung:</strong> −2 · <strong>Kraft:</strong> 15</p><p><strong>Wirkung:</strong> Geistiger Schaden, Desorientierung (−2 auf alle Handlungen für 10 Minuten).</p><p>Die militärische Ausbaustufe: Durchdringung −2 gegen Schutzsysteme, nach 1 Minute Luftkontakt unwirksam.</p><p><em>Toxinwiderstand: Konstitution + Willenskraft (+ Schutz); jeder Erfolg senkt die Kraft um 1.</em></p>",
+  "effects": [
+   {
+    "name": "Neuro-Stun X (Desorientierung)",
+    "img": "icons/svg/poison.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": [
+      {
+       "key": "system.modifiers.global",
+       "type": "add",
+       "value": -2
+      }
+     ]
+    },
+    "duration": {
+     "seconds": 600
+    }
+   }
+  ]
+ },
+ "a79225da-7507-4b40-8cc1-867213a3c7d8": {
+  "description": "<p><strong>Vektor:</strong> Kontakt, Inhalation · <strong>Geschwindigkeit:</strong> 1 Kampfrunde · <strong>Durchdringung:</strong> 0 · <strong>Kraft:</strong> 11</p><p><strong>Wirkung:</strong> Geistiger Schaden, Übelkeit (Verletzungsmodifikatoren 10 Minuten lang verdoppelt; ist die Kraft nach dem Widerstand höher als die Willenskraft, 3 Kampfrunden handlungsunfähig).</p><p>CS plus Capsaicin als Flüssigspray zur Selbstverteidigung, oft mit RFID-Chips oder Farbstoff zur späteren Identifizierung versetzt. Brennt höllisch in Augen, Nase und Mund.</p><p><em>Toxinwiderstand: Konstitution + Willenskraft (+ Schutz); jeder Erfolg senkt die Kraft um 1.</em></p>",
+  "effects": [
+   {
+    "name": "Pepper Punch (Übelkeit)",
+    "img": "icons/svg/fire.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": []
+    },
+    "duration": {
+     "seconds": 600
+    }
+   }
+  ]
+ },
+ "189c3bb8-357b-412a-afc4-ce931ea8871d": {
+  "description": "<p><strong>Vektor:</strong> Kontakt, Inhalation · <strong>Geschwindigkeit:</strong> 1 Kampfrunde · <strong>Durchdringung:</strong> −2 · <strong>Kraft:</strong> 12</p><p><strong>Wirkung:</strong> Körperlicher Schaden, Desorientierung (−2 auf alle Handlungen für 10 Minuten), Übelkeit (Verletzungsmodifikatoren 10 Minuten lang verdoppelt; ist die Kraft nach dem Widerstand höher als die Willenskraft, 3 Kampfrunden handlungsunfähig).</p><p>Ein farb- und geruchloses Kampfgas, entwickelt, um chemische Schutzmaßnahmen zu umgehen. Oxidiert nach 10 Minuten Luftkontakt.</p><p><em>Toxinwiderstand: Konstitution + Willenskraft (+ Schutz); jeder Erfolg senkt die Kraft um 1.</em></p>",
+  "effects": [
+   {
+    "name": "Seven-7 (Desorientierung/Übelkeit)",
+    "img": "icons/svg/biohazard.svg",
+    "disabled": false,
+    "system": {
+     "applyTo": "targeted_actor",
+     "changes": [
+      {
+       "key": "system.modifiers.global",
+       "type": "add",
+       "value": -2
+      }
+     ]
+    },
+    "duration": {
+     "seconds": 600
+    }
+   }
+  ]
+ }
+}
