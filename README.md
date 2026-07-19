@@ -89,7 +89,7 @@ Voraussetzungen: das System **Shadowrun 5th Edition** (ab 0.36.0).
 |---|---|
 | Foundry VTT | v13–v14 (verifiziert: 14.364) |
 | Spielsystem | shadowrun5e (ab 0.36.0) |
-| Modulversion | 0.11.0 |
+| Modulversion | 1.0.0 |
 
 ## Entwicklung
 
