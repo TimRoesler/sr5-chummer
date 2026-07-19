@@ -1,0 +1,121 @@
+<div class="cvtt-app cvtt-importer">
+
+<div class="cvtt-stepintro">
+    <i class="fas fa-file-import"></i>
+    <div>
+        <span class="cvtt-stepintro-title">{{localize "CHUMMER.Import.Title"}}</span>
+        <p>{{localize "CHUMMER.Import.Intro"}}</p>
+    </div>
+</div>
+
+{{!-- ========================================================== Dateiwahl --}}
+<div class="cvtt-panel">
+    <h3><i class="fas fa-file-code"></i> {{localize "CHUMMER.Import.File"}}</h3>
+    <div class="cvtt-import-file">
+        <input type="file" accept=".json,application/json">
+        {{#if state.fileName}}
+        <span class="cvtt-badge accent">{{state.fileName}}</span>
+        <button type="button" data-action="reset" data-tooltip="{{localize 'CHUMMER.Import.Reset'}}">
+            <i class="fas fa-xmark"></i>
+        </button>
+        {{/if}}
+    </div>
+</div>
+
+{{#if hasFile}}
+<div class="cvtt-import-body">
+
+    {{#if multi}}
+    <div class="cvtt-panel">
+        <h3><i class="fas fa-users"></i> {{localize "CHUMMER.Import.PickCharacter"}}</h3>
+        <select data-field="character">
+            {{#each characters}}
+            <option value="{{index}}" {{#if selected}}selected{{/if}}>{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    {{/if}}
+
+    {{!-- ======================================================= Vorschau --}}
+    {{#with preview}}
+    <div class="cvtt-panel">
+        <h3><i class="fas fa-id-card"></i> {{name}}</h3>
+        <div class="cvtt-ranges">
+            <span><b>{{localize "CHUMMER.Import.Metatype"}}</b> {{metatype}}</span>
+            <span><b>{{localize "CHUMMER.Import.Special"}}</b> {{special}}</span>
+            <span><b>Karma</b> {{karma}}</span>
+            <span><b>Nuyen</b> {{nuyen}}¥</span>
+        </div>
+        <div class="cvtt-ranges">
+            {{#each counts}}<span><b>{{label}}</b> {{value}}</span>{{/each}}
+        </div>
+    </div>
+    {{/with}}
+
+    {{!-- ============================================================ Ziel --}}
+    <div class="cvtt-panel">
+        <h3><i class="fas fa-bullseye"></i> {{localize "CHUMMER.Import.Target"}}</h3>
+        <select data-field="target">
+            <option value="new" {{#if targetNew}}selected{{/if}}>{{localize "CHUMMER.Import.TargetNew"}}</option>
+            {{#each targets}}
+            <option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}{{#if imported}} ⟳{{/if}}</option>
+            {{/each}}
+        </select>
+        {{#unless targetNew}}
+        <p class="cvtt-hint"><i class="fas fa-circle-info"></i> {{localize "CHUMMER.Import.SyncHint"}}</p>
+        {{/unless}}
+    </div>
+
+    {{!-- ======================================================== Optionen --}}
+    <div class="cvtt-panel">
+        <h3><i class="fas fa-sliders"></i> {{localize "CHUMMER.Import.Options"}}</h3>
+        <label class="cvtt-check">
+            <input type="checkbox" data-field="option" data-option="vehicles" {{#if state.options.vehicles}}checked{{/if}}>
+            {{localize "CHUMMER.Import.OptVehicles"}}
+        </label>
+        <label class="cvtt-check">
+            <input type="checkbox" data-field="option" data-option="mugshot" {{#if state.options.mugshot}}checked{{/if}}>
+            {{localize "CHUMMER.Import.OptMugshot"}}
+        </label>
+        {{#unless targetNew}}
+        <label class="cvtt-check">
+            <input type="checkbox" data-field="option" data-option="updateValues" {{#if state.options.updateValues}}checked{{/if}}>
+            {{localize "CHUMMER.Import.OptValues"}}
+        </label>
+        <label class="cvtt-check">
+            <input type="checkbox" data-field="option" data-option="deleteOrphans" {{#if state.options.deleteOrphans}}checked{{/if}}>
+            {{localize "CHUMMER.Import.OptOrphans"}}
+        </label>
+        {{/unless}}
+    </div>
+
+    {{!-- ======================================================== Ergebnis --}}
+    {{#with result}}
+    <div class="cvtt-panel cvtt-import-result">
+        <h3><i class="fas fa-circle-check"></i> {{localize "CHUMMER.Import.Result"}}</h3>
+        <p>{{localize "CHUMMER.Import.ResultItems" name=actorName items=items catalog=catalog fallback=fallback}}</p>
+        {{#if synced}}
+        <p>{{localize "CHUMMER.Import.ResultSync" created=synced.created updated=synced.updated deleted=synced.deleted}}</p>
+        {{/if}}
+        {{#if vehicles}}<p>{{localize "CHUMMER.Import.ResultVehicles" count=vehicles}}</p>{{/if}}
+        {{#if skipped.length}}
+        <details>
+            <summary>{{localize "CHUMMER.Import.Skipped" count=skipped.length}}</summary>
+            <ul>
+                {{#each skipped}}<li>{{name}} <span class="cvtt-card-note">({{reason}})</span></li>{{/each}}
+            </ul>
+        </details>
+        {{/if}}
+    </div>
+    {{/with}}
+
+    <footer class="cvtt-footer">
+        <button type="button" data-action="import" {{#if state.busy}}disabled{{/if}}>
+            <i class="fas {{#if state.busy}}fa-spinner fa-spin{{else}}fa-file-import{{/if}}"></i>
+            {{#if targetNew}}{{localize "CHUMMER.Import.RunCreate"}}{{else}}{{localize "CHUMMER.Import.RunSync"}}{{/if}}
+        </button>
+    </footer>
+</div>
+{{/if}}
+
+</div>

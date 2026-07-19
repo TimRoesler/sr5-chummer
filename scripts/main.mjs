@@ -10,6 +10,7 @@ import { AdvancementApp } from './advancement.mjs';
 import { PackTranslator } from './packs.mjs';
 import { GruntImporter } from './grunts.mjs';
 import { QuickNpcApp } from './quicknpc.mjs';
+import { ChummerImportApp } from './importer.mjs';
 import { retrofitWorldItems, registerAutoEnrichment, EnrichMenu } from './enrich.mjs';
 import { repairEffectTints } from './repair.mjs';
 
@@ -102,6 +103,7 @@ Hooks.once('init', () => {
         SourceLinks,
         PackTranslator,
         openChargen: () => new ChargenApp().render(true),
+        openImporter: actor => new ChummerImportApp({ actor }).render(true),
         openQuickNpc: () => new QuickNpcApp().render(true),
         openShop: actor => new ShopApp({ actor }).render(true),
         openAdvancement: actor => new AdvancementApp({ actor }).render(true),
@@ -162,6 +164,14 @@ Hooks.on('renderActorDirectory', (app, html) => {
     btn.addEventListener('click', () => new ChargenApp().render(true));
     footer.append(btn);
 
+    // Chummer-JSON-Import (eigener Importer, ersetzt den System-Import).
+    const imp = document.createElement('button');
+    imp.type = 'button';
+    imp.className = 'cvtt-import-button';
+    imp.innerHTML = `<i class="fas fa-file-import"></i> ${game.i18n.localize('CHUMMER.Import.Button')}`;
+    imp.addEventListener('click', () => new ChummerImportApp().render(true));
+    footer.append(imp);
+
     // Schnell-NSC nur für die Spielleitung – Vorlagen sind Gegner-Werte.
     if (game.user.isGM) {
         const quick = document.createElement('button');
@@ -202,6 +212,12 @@ Hooks.on('getHeaderControlsSR5CharacterSheet', (sheet, controls) => {
         label: 'CHUMMER.Advancement',
         action: 'cvttAdvance',
         onClick: () => new AdvancementApp({ actor }).render(true),
+    });
+    controls.push({
+        icon: 'fas fa-file-import',
+        label: 'CHUMMER.Import.Sync',
+        action: 'cvttChummerSync',
+        onClick: () => new ChummerImportApp({ actor }).render(true),
     });
 });
 

@@ -1130,3 +1130,20 @@ a.cvtt-source:hover { opacity: 1; text-shadow: 0 0 6px var(--c-accent-glow); }
     overflow-y: auto;
     min-height: 0;
 }
+
+/* ------------------------------------------------------- Chummer-Import */
+.cvtt-importer { display: flex; flex-direction: column; gap: 8px; }
+.cvtt-importer .cvtt-import-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    min-height: 0;
+}
+.cvtt-import-file { display: flex; align-items: center; gap: 8px; }
+.cvtt-import-file input[type="file"] { flex: 1; }
+.cvtt-import-file button { width: auto; flex: 0 0 auto; }
+.cvtt-importer .cvtt-check { display: flex; align-items: center; gap: 6px; margin: 4px 0; }
+.cvtt-importer .cvtt-footer { display: flex; justify-content: flex-end; padding-top: 4px; }
+.cvtt-importer .cvtt-footer button { width: auto; padding: 6px 16px; }
+.cvtt-import-result ul { margin: 4px 0 0 16px; }

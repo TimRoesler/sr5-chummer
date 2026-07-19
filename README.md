@@ -5,6 +5,8 @@ Foundry VTT für das Shadowrun-5e-System.
 
 ## Funktionen
 
+- **Chummer-Import** (seit v0.9.0): JSON-Exporte der Chummer5a-Desktop-App direkt
+  importieren — als neuer Charakter oder Re-Sync in einen bestehenden
 - Charaktererschaffung mit Prioritätensystem
 - Karma-basierte Steigerung/Aufstieg
 - Ausrüstungs-Shop
@@ -14,6 +16,33 @@ Foundry VTT für das Shadowrun-5e-System.
   eigene deutsche Beschreibungen; Wirk-Items (Drogen, Toxine, Slap-Patches, Granaten)
   zusätzlich ActiveEffects streng nach GRW-Werten (kompatibel mit sr5-dice-flow v2.4:
   Zieleffekte per Bestätigungs-Button, Drogen als Selbstanwendung)
+
+## Chummer-Import (eigener Importer)
+
+Button **„Chummer-Import"** in der Akteurs-Seitenleiste (oder Header-Button
+**„Chummer-Sync"** auf dem Charakterbogen, API: `api.openImporter(actor)`).
+Ersetzt den Charakterimport des Systems:
+
+- Liest die JSON-Exporte der Chummer5a-Desktop-App (BOM-tolerant, deutsche und
+  englische Exporte, Mehrcharakter-Dateien).
+- Items werden per Chummer-GUID (`sourceid`) gegen den GRW-Katalog in `data/`
+  gematcht und laufen durch dieselben Builder wie Shop/Chargen — inklusive
+  Kompendium-Lookup und GRW-Anreicherung. Ohne Katalogtreffer entsteht ein
+  minimales Fallback-Item; integriertes Chummer-Zubehör wird übersprungen.
+- Importiert auch, was der System-Import nicht kann: Kontakte, Wissens- und
+  Sprachfertigkeiten, Initiationsgrad/Metamagien, Tradition (Entzugsattribut),
+  Straßenruf/Schlechter Ruf/Prominenz.
+- **Fahrzeuge** werden als eigene `vehicle`-Actors mit dem Charakter als Fahrer
+  angelegt (inkl. Sensoren, Autosofts, montierter Waffen und Mods).
+- **Portraits** (Mugshots) werden nach `worlds/<welt>/sr5-chummer-mugshots/`
+  hochgeladen und als Actor-/Token-Bild gesetzt.
+- **Re-Sync**: Erneuter Import auf denselben Actor gleicht per
+  `flags.sr5-chummer.sourceId` ab — vorhandene Items bleiben erhalten (Ratings
+  und Mengen werden aktualisiert), neue kommen hinzu, verwaiste können optional
+  entfernt werden. Schaden, Edge-Verbrauch und Munition werden nie angefasst.
+
+Die Parselogik ist Foundry-frei (`scripts/chummer-parse.mjs`) und per Node
+testbar: `node tools/test-import.mjs <ordner-mit-exporten>`.
 
 ## GRW-Anreicherung
 
@@ -58,7 +87,7 @@ Voraussetzungen: das System **Shadowrun 5th Edition** (ab 0.36.0).
 |---|---|
 | Foundry VTT | v13–v14 (verifiziert: 14.364) |
 | Spielsystem | shadowrun5e (ab 0.36.0) |
-| Modulversion | 0.6.0 |
+| Modulversion | 0.9.0 |
 
 ## Entwicklung
 

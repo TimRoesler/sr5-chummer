@@ -46,6 +46,11 @@ function effectCreateData(fx, entryId) {
 /** Item-Erzeugungsdaten anreichern (mutiert und liefert `data`). */
 export async function enrichItemData(data, entry) {
     if (!entry?.id) return data;
+    // Katalog-GUID am Item hinterlegen: Grundlage für ID-basierte Anreicherung
+    // und den Re-Sync des Chummer-Importers.
+    data.flags = foundry.utils.mergeObject(data.flags ?? {}, {
+        [MODULE_ID]: { sourceId: entry.id.toLowerCase() },
+    });
     const info = (await enrichmentData())[entry.id];
     if (!info) return data;
     data.system ??= {};
@@ -80,6 +85,20 @@ async function catalogByName() {
 }
 
 /**
+ * Katalogeintrag eines Items ermitteln: primär über die vom Importer/Shop
+ * gesetzte sourceId-Flag (GUID-genau, umbenennungsfest), sonst per Name.
+ */
+async function catalogEntryFor(item) {
+    const sourceId = item.getFlag?.(MODULE_ID, 'sourceId')
+        ?? item.flags?.[MODULE_ID]?.sourceId;
+    if (sourceId) {
+        const hit = await ChummerData.findById(sourceId);
+        if (hit) return hit.entry;
+    }
+    return (await catalogByName()).get(item.name);
+}
+
+/**
  * Ein existierendes Item-Dokument anreichern.
  * Liefert einen Status für das Log: enriched | partial | skipped | nomatch | error.
  */
@@ -91,7 +110,7 @@ export async function enrichExistingItem(item, { quelle = 'manuell', imKompendiu
             logDebug(`— Kompendium übersprungen: "${item.name}" (${item.pack}) [${quelle}]`);
             return 'skipped';
         }
-        const entry = (await catalogByName()).get(item.name);
+        const entry = await catalogEntryFor(item);
         const info = entry ? (await enrichmentData())[entry.id] : null;
         if (!info) {
             if (GEAR_TYPES.includes(item.type)) {
@@ -192,10 +211,9 @@ export async function retrofitWorldItems({ dryRun = false } = {}) {
     ];
     if (dryRun) {
         const info = await enrichmentData();
-        const byName = await catalogByName();
         const summary = { scanned: documents.length, matched: 0, descriptions: 0, effects: 0 };
         for (const item of documents) {
-            const entry = byName.get(item.name);
+            const entry = await catalogEntryFor(item);
             const enrichment = entry ? info[entry.id] : null;
             if (!enrichment) continue;
             summary.matched++;

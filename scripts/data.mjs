@@ -161,6 +161,31 @@ export class ChummerData {
         return `${value}${legality}`;
     }
 
+    // ------------------------------------------------------- Katalog-Lookup
+
+    static #idIndex = null;
+
+    /**
+     * Katalogeintrag per Chummer-GUID (sourceid) über alle Kataloge.
+     * Liefert { kind, entry } oder null. kind entspricht dem Dateinamen
+     * (weapons | armor | gear | cyberware | bioware | vehicles | lifestyles |
+     * qualities | spells | powers | complexforms).
+     */
+    static async findById(sourceId) {
+        if (!sourceId) return null;
+        if (!this.#idIndex) {
+            const index = new Map();
+            for (const kind of ['weapons', 'armor', 'gear', 'cyberware', 'bioware',
+                'vehicles', 'lifestyles', 'qualities', 'spells', 'powers', 'complexforms']) {
+                for (const entry of await this.load(kind)) {
+                    if (entry.id) index.set(entry.id.toLowerCase(), { kind, entry });
+                }
+            }
+            this.#idIndex = index;
+        }
+        return this.#idIndex.get(sourceId.toLowerCase()) ?? null;
+    }
+
     // ------------------------------------------------------------ Kompendien
 
     static #packIndices = new Map();
