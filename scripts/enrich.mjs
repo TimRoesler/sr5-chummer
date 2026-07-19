@@ -83,6 +83,12 @@ async function catalogByName() {
  */
 export async function enrichExistingItem(item, { quelle = 'manuell' } = {}) {
     try {
+        // Kompendiums-Dokumente überspringen: gesperrte Packs (z. B. world.sr5gear vom
+        // Bulkimporter) sind nicht beschreibbar; beim Kauf aus dem Pack wird ohnehin angereichert.
+        if (item.pack) {
+            logDebug(`— Kompendium übersprungen: "${item.name}" (${item.pack}) [${quelle}]`);
+            return 'skipped';
+        }
         const entry = (await catalogByName()).get(item.name);
         const info = entry ? (await enrichmentData())[entry.id] : null;
         if (!info) {
@@ -104,6 +110,12 @@ export async function enrichExistingItem(item, { quelle = 'manuell' } = {}) {
         if (info.effects?.length) {
             const hasEnriched = item.effects.some(fx => fx.getFlag?.(MODULE_ID, 'enriched'));
             if (hasEnriched) skipped.push('Effekte bereits angereichert');
+            else if (!(item.parent instanceof Actor)) {
+                // Effekte erst auf Actor-Items anlegen: auf Welt-Items sind sie wirkungslos und
+                // bringen Fremdmodule (z. B. autoanimations) zum Absturz. Beim Verschieben auf
+                // einen Charakter feuert createItem erneut und reicht die Effekte nach.
+                skipped.push('Effekte folgen beim Anlegen auf einem Charakter');
+            }
             else {
                 await item.createEmbeddedDocuments('ActiveEffect',
                     info.effects.map(fx => effectCreateData(fx, entry.id)));
@@ -185,7 +197,7 @@ export async function retrofitWorldItems({ dryRun = false } = {}) {
  */
 export function registerAutoEnrichment() {
     Hooks.on('createActor', (actor, _options, userId) => {
-        if (userId !== game.user.id || !actor.isOwner) return;
+        if (userId !== game.user.id || !actor.isOwner || actor.pack) return;
         if (!actor.items?.size) return;
         void enrichBatch([...actor.items], {
             titel: `Neuer Actor "${actor.name}" (Charakterimport?)`,
