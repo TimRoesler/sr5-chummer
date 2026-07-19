@@ -81,11 +81,11 @@ async function catalogByName() {
  * Ein existierendes Item-Dokument anreichern.
  * Liefert einen Status für das Log: enriched | partial | skipped | nomatch | error.
  */
-export async function enrichExistingItem(item, { quelle = 'manuell' } = {}) {
+export async function enrichExistingItem(item, { quelle = 'manuell', imKompendium = false } = {}) {
     try {
-        // Kompendiums-Dokumente überspringen: gesperrte Packs (z. B. world.sr5gear vom
-        // Bulkimporter) sind nicht beschreibbar; beim Kauf aus dem Pack wird ohnehin angereichert.
-        if (item.pack) {
+        // Kompendiums-Dokumente nur im expliziten Kompendiums-Durchlauf anfassen: bei
+        // Auto-Hooks (z. B. Bulkimporter → gesperrtes world.sr5gear) werden sie übersprungen.
+        if (item.pack && !imKompendium) {
             logDebug(`— Kompendium übersprungen: "${item.name}" (${item.pack}) [${quelle}]`);
             return 'skipped';
         }
@@ -110,7 +110,7 @@ export async function enrichExistingItem(item, { quelle = 'manuell' } = {}) {
         if (info.effects?.length) {
             const hasEnriched = item.effects.some(fx => fx.getFlag?.(MODULE_ID, 'enriched'));
             if (hasEnriched) skipped.push('Effekte bereits angereichert');
-            else if (!(item.parent instanceof Actor)) {
+            else if (!(item.parent instanceof Actor) && !imKompendium) {
                 // Effekte erst auf Actor-Items anlegen: auf Welt-Items sind sie wirkungslos und
                 // bringen Fremdmodule (z. B. autoanimations) zum Absturz. Beim Verschieben auf
                 // einen Charakter feuert createItem erneut und reicht die Effekte nach.
@@ -136,12 +136,12 @@ export async function enrichExistingItem(item, { quelle = 'manuell' } = {}) {
 }
 
 /** Eine Item-Sammlung anreichern, mit Konsolen-Gruppe und Zusammenfassung. */
-async function enrichBatch(items, { titel, quelle }) {
+async function enrichBatch(items, { titel, quelle, imKompendium = false }) {
     const summary = { scanned: items.length, matched: 0, descriptions: 0, effects: 0, errors: 0 };
     console.group(`${TAG} | ${titel} (${items.length} Items)`);
     try {
         for (const item of items) {
-            const result = await enrichExistingItem(item, { quelle });
+            const result = await enrichExistingItem(item, { quelle, imKompendium });
             if (result === 'error') summary.errors++;
             else if (typeof result === 'object') {
                 summary.matched++;
@@ -183,8 +183,51 @@ export async function retrofitWorldItems({ dryRun = false } = {}) {
         return summary;
     }
     const summary = await enrichBatch(documents, { titel: 'Welt-Items nachrüsten', quelle: 'Nachrüstung' });
+    const packSummary = await retrofitCompendiums();
+    summary.matched += packSummary.matched;
+    summary.descriptions += packSummary.descriptions;
+    summary.effects += packSummary.effects;
     ui.notifications.info(game.i18n.format('CHUMMER.Enrich.Summary', summary));
     return summary;
+}
+
+/**
+ * Welt-Kompendien (Bulkimporter-Packs wie world.sr5gear) nachrüsten:
+ * gesperrte Packs werden temporär entsperrt und danach wieder gesperrt.
+ * Effekte werden hier auch ohne Actor angelegt — sie wandern beim
+ * Drag & Drop bzw. Kauf mit auf den Charakter.
+ */
+export async function retrofitCompendiums() {
+    const total = { matched: 0, descriptions: 0, effects: 0, errors: 0 };
+    const packs = game.packs.filter(pack =>
+        pack.metadata.packageType === 'world' && pack.documentName === 'Item');
+    for (const pack of packs) {
+        const warGesperrt = pack.locked;
+        try {
+            if (warGesperrt) {
+                log(`Kompendium "${pack.metadata.label}" (${pack.collection}) wird temporär entsperrt.`);
+                await pack.configure({ locked: false });
+            }
+            const documents = await pack.getDocuments();
+            const summary = await enrichBatch(documents, {
+                titel: `Kompendium "${pack.metadata.label}" nachrüsten`,
+                quelle: `Kompendium ${pack.collection}`,
+                imKompendium: true,
+            });
+            total.matched += summary.matched;
+            total.descriptions += summary.descriptions;
+            total.effects += summary.effects;
+            total.errors += summary.errors;
+        } catch (error) {
+            console.error(`${TAG} | ✖ FEHLER im Kompendium "${pack.collection}":`, error);
+            total.errors++;
+        } finally {
+            if (warGesperrt) await pack.configure({ locked: true }).catch(error =>
+                logWarn(`Kompendium "${pack.collection}" konnte nicht wieder gesperrt werden:`, error));
+        }
+    }
+    if (!packs.length) log('Keine Welt-Item-Kompendien gefunden — Kompendiums-Nachrüstung übersprungen.');
+    return total;
 }
 
 /**

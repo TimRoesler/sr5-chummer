@@ -25,6 +25,10 @@ Jeder Vorgang wird ausführlich in der Browser-Konsole protokolliert (F12, Filte
 „sr5-chummer"): angereicherte Items mit Effektliste, übersprungene Items mit Grund und
 Ausrüstungs-Items ohne GRW-Katalogtreffer.
 
+Der Nachrüst-Button erfasst auch die Welt-Kompendien des System-Bulkimporters
+(world.sr5gear u. a.): gesperrte Packs werden temporär entsperrt, angereichert und
+wieder gesperrt — danach tragen auch die Kompendiums-Einträge Beschreibungen und Effekte.
+
 Bereits existierende Welt-Items rüstet der Spielleiter über
 **Moduleinstellungen → GRW-Anreicherung → „Jetzt nachrüsten"** nach — oder per Konsole:
 
