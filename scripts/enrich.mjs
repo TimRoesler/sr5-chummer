@@ -105,10 +105,9 @@ export async function enrichExistingItem(item, { quelle = 'manuell', imKompendiu
         const skipped = [];
         let addedDescription = false;
         let addedEffects = 0;
-        if (info.description) {
-            if (item.system?.description?.value) skipped.push('Beschreibung vorhanden');
-            else { await item.update({ 'system.description.value': info.description }); done.push('Beschreibung'); addedDescription = true; }
-        }
+        const brauchtBeschreibung = info.description && !item.system?.description?.value;
+        if (info.description && !brauchtBeschreibung) skipped.push('Beschreibung vorhanden');
+        let brauchtEffekte = false;
         if (info.effects?.length) {
             const hasEnriched = item.effects.some(fx => fx.getFlag?.(MODULE_ID, 'enriched'));
             if (hasEnriched) skipped.push('Effekte bereits angereichert');
@@ -118,7 +117,30 @@ export async function enrichExistingItem(item, { quelle = 'manuell', imKompendiu
                 // einen Charakter feuert createItem erneut und reicht die Effekte nach.
                 skipped.push('Effekte folgen beim Anlegen auf einem Charakter');
             }
-            else {
+            else brauchtEffekte = true;
+        }
+        if (imKompendium && (brauchtBeschreibung || brauchtEffekte)) {
+            // Kompendium: Item in einem Rutsch mit eingebetteten Effekten neu schreiben.
+            // Eingebettete Erzeugung feuert keine createActiveEffect-Hooks — vermeidet den
+            // autoanimations-Crash (null.token) und spart einen DB-Roundtrip.
+            const data = item.toObject();
+            if (brauchtBeschreibung) {
+                foundry.utils.setProperty(data, 'system.description.value', info.description);
+                done.push('Beschreibung'); addedDescription = true;
+            }
+            if (brauchtEffekte) {
+                data.effects = [...(data.effects ?? []), ...info.effects.map(fx => effectCreateData(fx, entry.id))];
+                done.push(`${info.effects.length} Effekt(e): ${info.effects.map(fx => fx.name).join(', ')}`);
+                addedEffects = info.effects.length;
+            }
+            await Item.deleteDocuments([item.id], { pack: item.pack });
+            await Item.createDocuments([data], { pack: item.pack, keepId: true });
+        } else {
+            if (brauchtBeschreibung) {
+                await item.update({ 'system.description.value': info.description });
+                done.push('Beschreibung'); addedDescription = true;
+            }
+            if (brauchtEffekte) {
                 await item.createEmbeddedDocuments('ActiveEffect',
                     info.effects.map(fx => effectCreateData(fx, entry.id)));
                 done.push(`${info.effects.length} Effekt(e): ${info.effects.map(fx => fx.name).join(', ')}`);
