@@ -11,9 +11,9 @@
  */
 import { ChummerData, MODULE_ID } from './data.mjs';
 
-const ENRICHMENT_FILES = ['enrichment-gear', 'enrichment-weapons', 'enrichment-armor'];
+const ENRICHMENT_FILES = ['enrichment-gear', 'enrichment-weapons', 'enrichment-armor', 'enrichment-qualities'];
 /** Item-Typen, bei denen ein fehlender Katalogtreffer auffällig geloggt wird. */
-const GEAR_TYPES = ['weapon', 'armor', 'equipment', 'ammo'];
+const GEAR_TYPES = ['weapon', 'armor', 'equipment', 'ammo', 'quality'];
 
 const TAG = `${MODULE_ID} | Anreicherung`;
 const log = (...args) => console.info(`${TAG} |`, ...args);
@@ -67,7 +67,7 @@ let byNameCache = null;
 async function catalogByName() {
     if (byNameCache) return byNameCache;
     const byName = new Map();
-    for (const file of ['gear', 'weapons', 'armor']) {
+    for (const file of ['gear', 'weapons', 'armor', 'qualities']) {
         for (const entry of await ChummerData.load(file)) {
             if (entry.name) byName.set(entry.name, entry);
             if (entry.en) byName.set(entry.en, entry);

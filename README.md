@@ -10,7 +10,7 @@ Foundry VTT für das Shadowrun-5e-System.
 - Ausrüstungs-Shop
 - PDF-Quellenverweise
 - Datenbasis: Chummer5a
-- **GRW-Anreicherung**: Alle 490 Items des Grundregelwerks erhalten beim Kauf und Import
+- **GRW-Anreicherung**: Alle 490 Items und 92 Vor-/Nachteile des Grundregelwerks erhalten beim Kauf und Import
   eigene deutsche Beschreibungen; Wirk-Items (Drogen, Toxine, Slap-Patches, Granaten)
   zusätzlich ActiveEffects streng nach GRW-Werten (kompatibel mit sr5-dice-flow v2.4:
   Zieleffekte per Bestätigungs-Button, Drogen als Selbstanwendung)

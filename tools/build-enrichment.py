@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC = Path(__file__).resolve().parent / 'enrichment-src'
 
-TARGETS = {'gear': [], 'weapons': [], 'armor': []}
+TARGETS = {'gear': [], 'weapons': [], 'armor': [], 'qualities': []}
 
 def load_entries(path):
     spec = importlib.util.spec_from_file_location(path.stem, path)

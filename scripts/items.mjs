@@ -92,8 +92,8 @@ export async function purchasedItemData(kind, entry, rating = 0) {
 /** Quality-Item. */
 export async function qualityItemData(q) {
     const comp = await fromCompendium('quality', q);
-    if (comp) return comp;
-    return {
+    if (comp) return enrichItemData(comp, q);
+    return enrichItemData({
         name: ChummerData.nameOf(q),
         type: 'quality',
         system: {
@@ -101,7 +101,7 @@ export async function qualityItemData(q) {
             type: q.category === 'Positive' ? 'positive' : 'negative',
             karma: parseInt(q.karma) || 0,
         },
-    };
+    }, q);
 }
 
 /** Zauber-Item (Fallback bildet die SpellParser-Logik des Systems nach). */
