@@ -265,7 +265,10 @@
     },
     "Enrich": {
       "GmOnly": "Only the GM can enrich existing items.",
-      "Summary": "Core-book enrichment: {matched} items recognized, {descriptions} descriptions added, {effects} effects created ({scanned} scanned)."
+      "Summary": "Core-book enrichment: {matched} items recognized, {descriptions} descriptions added, {effects} effects created ({scanned} scanned).",
+      "Menu": "Core-book enrichment",
+      "MenuLabel": "Enrich now",
+      "MenuHint": "Adds core-book descriptions and effects to all existing world and character items (details in the console log, F12)."
     }
   }
 }

@@ -10,7 +10,7 @@ import { AdvancementApp } from './advancement.mjs';
 import { PackTranslator } from './packs.mjs';
 import { GruntImporter } from './grunts.mjs';
 import { QuickNpcApp } from './quicknpc.mjs';
-import { retrofitWorldItems } from './enrich.mjs';
+import { retrofitWorldItems, registerAutoEnrichment, EnrichMenu } from './enrich.mjs';
 
 Hooks.once('init', () => {
     // Sicherheitsnetz: Modul nur im shadowrun5e-System initialisieren
@@ -47,6 +47,15 @@ Hooks.once('init', () => {
         config: false,
         type: Array,
         default: [],
+    });
+
+    game.settings.registerMenu(MODULE_ID, 'enrichMenu', {
+        name: 'CHUMMER.Enrich.Menu',
+        label: 'CHUMMER.Enrich.MenuLabel',
+        hint: 'CHUMMER.Enrich.MenuHint',
+        icon: 'fas fa-wand-magic-sparkles',
+        type: EnrichMenu,
+        restricted: true,
     });
 
     game.settings.registerMenu(MODULE_ID, 'bookConfigMenu', {
@@ -113,6 +122,9 @@ Hooks.once('ready', async () => {
 
     // Kategorie-Übersetzungen vorladen (synchroner Zugriff via ChummerData.catDe).
     await ChummerData.preloadTranslations();
+
+    // GRW-Anreicherung: automatisch bei Item-/Charakterimporten.
+    registerAutoEnrichment();
 
     if (game.user.isGM) {
         // PDF-Quellen beim ersten Start automatisch vorbelegen.

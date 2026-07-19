@@ -265,7 +265,10 @@
     },
     "Enrich": {
       "GmOnly": "Nur der Spielleiter kann Items nachrüsten.",
-      "Summary": "GRW-Anreicherung: {matched} Items erkannt, {descriptions} Beschreibungen ergänzt, {effects} Effekte angelegt ({scanned} geprüft)."
+      "Summary": "GRW-Anreicherung: {matched} Items erkannt, {descriptions} Beschreibungen ergänzt, {effects} Effekte angelegt ({scanned} geprüft).",
+      "Menu": "GRW-Anreicherung",
+      "MenuLabel": "Jetzt nachrüsten",
+      "MenuHint": "Rüstet alle bestehenden Welt- und Charakter-Items mit GRW-Beschreibungen und -Effekten nach (Details im Konsolen-Log, F12)."
     }
   }
 }

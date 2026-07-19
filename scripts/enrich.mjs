@@ -1,22 +1,36 @@
 /**
  * GRW-Anreicherung: eigene Beschreibungstexte und ActiveEffects (streng nach GRW)
- * für Katalog-Items. Greift beim Kauf/Import (purchasedItemData) und per
- * Nachrüst-Tool für bereits existierende Welt-Items.
+ * für Katalog-Items. Greift beim Kauf/Import (purchasedItemData), automatisch bei
+ * jedem Item-/Charakterimport (createItem-/createActor-Hooks) und per
+ * Nachrüst-Button bzw. api.enrichItems() für bereits existierende Welt-Items.
  *
  * Datenformat (data/enrichment-*.json): { "<katalog-id>": { description, effects[] } }
  * Effekte nutzen das SR5-Systemschema (system.applyTo, system.changes[{key,type,value}]).
+ *
+ * Alle Vorgänge loggen ausführlich in die Browser-Konsole (Filter: "sr5-chummer").
  */
 import { ChummerData, MODULE_ID } from './data.mjs';
 
 const ENRICHMENT_FILES = ['enrichment-gear', 'enrichment-weapons', 'enrichment-armor'];
+/** Item-Typen, bei denen ein fehlender Katalogtreffer auffällig geloggt wird. */
+const GEAR_TYPES = ['weapon', 'armor', 'equipment', 'ammo'];
+
+const TAG = `${MODULE_ID} | Anreicherung`;
+const log = (...args) => console.info(`${TAG} |`, ...args);
+const logDebug = (...args) => console.debug(`${TAG} |`, ...args);
+const logWarn = (...args) => console.warn(`${TAG} |`, ...args);
 
 let merged = null;
 
 export async function enrichmentData() {
     if (merged) return merged;
     const parts = await Promise.all(ENRICHMENT_FILES.map(name =>
-        ChummerData.load(name).catch(() => ({}))));
+        ChummerData.load(name).catch(error => {
+            logWarn(`Datendatei ${name}.json konnte nicht geladen werden:`, error);
+            return {};
+        })));
     merged = Object.assign({}, ...parts);
+    log(`${Object.keys(merged).length} Katalogeinträge mit Anreicherungsdaten geladen.`);
     return merged;
 }
 
@@ -34,18 +48,24 @@ export async function enrichItemData(data, entry) {
     if (!info) return data;
     data.system ??= {};
     data.system.description ??= {};
+    const parts = [];
     if (info.description && !data.system.description.value) {
         data.system.description.value = info.description;
+        parts.push('Beschreibung');
     }
     const alreadyEnriched = (data.effects ?? []).some(fx => fx.flags?.[MODULE_ID]?.enriched);
     if (info.effects?.length && !alreadyEnriched) {
         data.effects = [...(data.effects ?? []), ...info.effects.map(fx => effectCreateData(fx, entry.id))];
+        parts.push(`${info.effects.length} Effekt(e)`);
     }
+    if (parts.length) logDebug(`Kaufdaten angereichert: "${data.name ?? entry.name}" (+${parts.join(', +')})`);
     return data;
 }
 
 /** Name → Katalogeintrag über alle drei Kataloge (deutscher Name und en-Original). */
+let byNameCache = null;
 async function catalogByName() {
+    if (byNameCache) return byNameCache;
     const byName = new Map();
     for (const file of ['gear', 'weapons', 'armor']) {
         for (const entry of await ChummerData.load(file)) {
@@ -53,50 +73,137 @@ async function catalogByName() {
             if (entry.en) byName.set(entry.en, entry);
         }
     }
+    byNameCache = byName;
     return byName;
 }
 
 /**
- * Bestehende Welt-Items nachrüsten (GM): Beschreibung nur, wenn leer;
- * Effekte nur, wenn noch keine angereicherten vorhanden sind.
+ * Ein existierendes Item-Dokument anreichern.
+ * Liefert einen Status für das Log: enriched | partial | skipped | nomatch | error.
  */
+export async function enrichExistingItem(item, { quelle = 'manuell' } = {}) {
+    try {
+        const entry = (await catalogByName()).get(item.name);
+        const info = entry ? (await enrichmentData())[entry.id] : null;
+        if (!info) {
+            if (GEAR_TYPES.includes(item.type)) {
+                log(`✖ kein GRW-Katalogeintrag: "${item.name}" (Typ ${item.type}, ${item.parent?.name ?? 'Welt-Item'}) [${quelle}]`);
+                return 'nomatch';
+            }
+            logDebug(`— ignoriert (Typ ${item.type}): "${item.name}" [${quelle}]`);
+            return 'nomatch';
+        }
+        const done = [];
+        const skipped = [];
+        let addedDescription = false;
+        let addedEffects = 0;
+        if (info.description) {
+            if (item.system?.description?.value) skipped.push('Beschreibung vorhanden');
+            else { await item.update({ 'system.description.value': info.description }); done.push('Beschreibung'); addedDescription = true; }
+        }
+        if (info.effects?.length) {
+            const hasEnriched = item.effects.some(fx => fx.getFlag?.(MODULE_ID, 'enriched'));
+            if (hasEnriched) skipped.push('Effekte bereits angereichert');
+            else {
+                await item.createEmbeddedDocuments('ActiveEffect',
+                    info.effects.map(fx => effectCreateData(fx, entry.id)));
+                done.push(`${info.effects.length} Effekt(e): ${info.effects.map(fx => fx.name).join(', ')}`);
+                addedEffects = info.effects.length;
+            }
+        }
+        if (done.length) {
+            log(`✔ angereichert: "${item.name}" (${item.parent?.name ?? 'Welt-Item'}) → +${done.join(', +')}${skipped.length ? ` (übersprungen: ${skipped.join('; ')})` : ''} [${quelle}]`);
+            return { status: 'enriched', addedDescription, addedEffects };
+        }
+        logDebug(`• unverändert: "${item.name}" — ${skipped.join('; ') || 'nichts zu tun'} [${quelle}]`);
+        return 'skipped';
+    } catch (error) {
+        console.error(`${TAG} | ✖ FEHLER bei "${item?.name}" (${item?.parent?.name ?? 'Welt-Item'}):`, error);
+        return 'error';
+    }
+}
+
+/** Eine Item-Sammlung anreichern, mit Konsolen-Gruppe und Zusammenfassung. */
+async function enrichBatch(items, { titel, quelle }) {
+    const summary = { scanned: items.length, matched: 0, descriptions: 0, effects: 0, errors: 0 };
+    console.group(`${TAG} | ${titel} (${items.length} Items)`);
+    try {
+        for (const item of items) {
+            const result = await enrichExistingItem(item, { quelle });
+            if (result === 'error') summary.errors++;
+            else if (typeof result === 'object') {
+                summary.matched++;
+                if (result.addedDescription) summary.descriptions++;
+                summary.effects += result.addedEffects;
+            } else if (result === 'skipped') summary.matched++;
+        }
+    } finally {
+        log(`Zusammenfassung: ${summary.matched} erkannt, ${summary.descriptions} Beschreibungen, ${summary.effects} Effekte, ${summary.errors} Fehler (${summary.scanned} geprüft).`);
+        console.groupEnd();
+    }
+    return summary;
+}
+
+/** Bestehende Welt-Items nachrüsten (GM). */
 export async function retrofitWorldItems({ dryRun = false } = {}) {
     if (!game.user.isGM) {
         ui.notifications.warn(game.i18n.localize('CHUMMER.Enrich.GmOnly'));
         return null;
     }
-    const info = await enrichmentData();
-    const byName = await catalogByName();
     const documents = [
         ...game.items.contents,
         ...game.actors.contents.flatMap(actor => actor.items.contents),
     ];
-    const summary = { scanned: documents.length, matched: 0, descriptions: 0, effects: 0 };
-    for (const item of documents) {
-        const entry = byName.get(item.name);
-        const enrichment = entry ? info[entry.id] : null;
-        if (!enrichment) continue;
-        summary.matched++;
-        const wantsDescription = enrichment.description && !item.system?.description?.value;
-        const hasEnriched = item.effects.some(fx => fx.getFlag?.(MODULE_ID, 'enriched'));
-        const wantsEffects = enrichment.effects?.length && !hasEnriched;
-        if (dryRun) {
-            if (wantsDescription) summary.descriptions++;
-            if (wantsEffects) summary.effects += enrichment.effects.length;
-            continue;
+    if (dryRun) {
+        const info = await enrichmentData();
+        const byName = await catalogByName();
+        const summary = { scanned: documents.length, matched: 0, descriptions: 0, effects: 0 };
+        for (const item of documents) {
+            const entry = byName.get(item.name);
+            const enrichment = entry ? info[entry.id] : null;
+            if (!enrichment) continue;
+            summary.matched++;
+            if (enrichment.description && !item.system?.description?.value) summary.descriptions++;
+            if (enrichment.effects?.length && !item.effects.some(fx => fx.getFlag?.(MODULE_ID, 'enriched'))) summary.effects += enrichment.effects.length;
         }
-        if (wantsDescription) {
-            await item.update({ 'system.description.value': enrichment.description });
-            summary.descriptions++;
-        }
-        if (wantsEffects) {
-            await item.createEmbeddedDocuments('ActiveEffect',
-                enrichment.effects.map(fx => effectCreateData(fx, entry.id)));
-            summary.effects += enrichment.effects.length;
-        }
+        log('Probelauf:', summary);
+        ui.notifications.info(game.i18n.format('CHUMMER.Enrich.Summary', summary));
+        return summary;
     }
-    const message = game.i18n.format('CHUMMER.Enrich.Summary', summary);
-    ui.notifications.info(message);
-    console.info(`${MODULE_ID} | ${message}`, summary);
+    const summary = await enrichBatch(documents, { titel: 'Welt-Items nachrüsten', quelle: 'Nachrüstung' });
+    ui.notifications.info(game.i18n.format('CHUMMER.Enrich.Summary', summary));
     return summary;
+}
+
+/**
+ * Automatische Anreicherung bei Importen:
+ * - createActor: Chummer-Charakterimport des Systems legt den Actor samt
+ *   eingebetteter Items an — einzelne createItem-Hooks feuern dabei nicht.
+ * - createItem: Items, die auf bestehenden Actors landen (Drag & Drop,
+ *   "Import Chummer Data", Shop legt bereits angereichert an → wird übersprungen).
+ * Läuft nur auf dem Client, der den Import ausgelöst hat.
+ */
+export function registerAutoEnrichment() {
+    Hooks.on('createActor', (actor, _options, userId) => {
+        if (userId !== game.user.id || !actor.isOwner) return;
+        if (!actor.items?.size) return;
+        void enrichBatch([...actor.items], {
+            titel: `Neuer Actor "${actor.name}" (Charakterimport?)`,
+            quelle: 'createActor',
+        });
+    });
+    Hooks.on('createItem', (item, _options, userId) => {
+        if (userId !== game.user.id || !item.isOwner) return;
+        if (item.getFlag?.(MODULE_ID, 'enriched')) return;
+        void enrichExistingItem(item, { quelle: 'createItem' });
+    });
+    log('Auto-Anreicherung aktiv (createActor/createItem).');
+}
+
+/** Einstellungs-"Menü", das statt eines Fensters direkt die Nachrüstung startet. */
+export class EnrichMenu extends foundry.applications.api.ApplicationV2 {
+    render() {
+        void retrofitWorldItems();
+        return this;
+    }
 }

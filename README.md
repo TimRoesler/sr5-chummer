@@ -18,7 +18,15 @@ Foundry VTT für das Shadowrun-5e-System.
 ## GRW-Anreicherung
 
 Neue Käufe (Shop, Charaktererschaffung, Grunt-Import) werden automatisch angereichert.
-Bereits existierende Welt-Items rüstet der Spielleiter per Konsole nach:
+Seit v0.7.1 gilt das auch für **alle Importe**: Der Chummer-Charakterimport des Systems
+(neue Actors samt Items) und einzeln angelegte/importierte Items („Import Chummer Data",
+Drag & Drop) werden über `createActor`-/`createItem`-Hooks automatisch nachgezogen.
+Jeder Vorgang wird ausführlich in der Browser-Konsole protokolliert (F12, Filter
+„sr5-chummer"): angereicherte Items mit Effektliste, übersprungene Items mit Grund und
+Ausrüstungs-Items ohne GRW-Katalogtreffer.
+
+Bereits existierende Welt-Items rüstet der Spielleiter über
+**Moduleinstellungen → GRW-Anreicherung → „Jetzt nachrüsten"** nach — oder per Konsole:
 
 ```js
 game.modules.get('sr5-chummer').api.enrichItems()          // anwenden
