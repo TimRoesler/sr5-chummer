@@ -197,7 +197,14 @@ export class ChummerImportApp extends HandlebarsApplicationMixin(ApplicationV2) 
             // Fahrzeuge als eigene Actors, mit dem Charakter als Fahrer.
             let createdVehicles = 0;
             for (const { data: v, skillPlan: vehicleSkillPlan } of vehicles) {
-                if (this.#vehicleExists(actor, v)) continue;
+                const existingVehicle = this.#findVehicle(actor, v);
+                if (existingVehicle) {
+                    // Bereits vorhanden (frühere Import-/Sync-Läufe): Autosoft-
+                    // Ratings trotzdem nachziehen, damit Re-Syncs Fixes wie die
+                    // Zielerfassung-Zuordnung auch auf Bestandsdrohnen anwenden.
+                    await applyVehicleSkillPlan(existingVehicle, vehicleSkillPlan);
+                    continue;
+                }
                 v.system.driver = actor.id;
                 v.folder = actor.folder?.id ?? null;
                 const vehicleActor = await Actor.create(v);
@@ -232,10 +239,10 @@ export class ChummerImportApp extends HandlebarsApplicationMixin(ApplicationV2) 
         }
     }
 
-    /** Gibt es bereits ein Fahrzeug dieses Fahrers mit derselben sourceId? */
-    #vehicleExists(actor, vehicleData) {
+    /** Bereits vorhandenes Fahrzeug dieses Fahrers mit derselben sourceId (sonst Name), falls es existiert. */
+    #findVehicle(actor, vehicleData) {
         const sourceId = vehicleData.flags?.[MODULE_ID]?.sourceId;
-        return game.actors.some(a => a.type === 'vehicle'
+        return game.actors.find(a => a.type === 'vehicle'
             && a.system?.driver === actor.id
             && (sourceId
                 ? a.getFlag(MODULE_ID, 'sourceId') === sourceId
