@@ -382,21 +382,32 @@ export function vehicleActorFromCatalog(entry) {
 const AUTOSOFT_SKILL_BY_NAME_EN = [
     [/clearsight/i, 'perception'],
     [/stealth/i, 'sneaking'],
-    [/targeting/i, 'gunnery'],
 ];
 
 /**
  * Autosoft-Ratings des Fahrzeugs auf die (vom System injizierten) aktiven
  * Skill-Items übertragen: höchste gefundene Stufe je Fertigkeit gewinnt.
+ *
+ * '[Weapon] Targeting'-Autosofts (SR5#267) hängen an einer bestimmten
+ * montierten Waffe (Chummer trägt sie im `extra`-Feld ein) und ersetzen
+ * DEREN Fertigkeit — bei Fernkampfwaffen Gunnery, bei Nahkampfwaffen
+ * (z. B. der Ares Duelist mit Schwert) Blades. Pauschal auf "gunnery" zu
+ * mappen (wie bis v1.0.1) ignoriert Nahkampf-Drohnen komplett und
+ * überschreibt bei mehreren Waffen die falsche Waffe mit dem Höchstwert.
  */
 function buildVehicleSkillPlan(v) {
     const ratings = {};
+    const bump = (skillId, rating) => { ratings[skillId] = Math.max(ratings[skillId] ?? 0, rating); };
+
     for (const g of v.gears) {
         if (g.category !== 'Autosofts') continue;
+        if (/targeting/i.test(g.nameEn)) {
+            const weapon = v.weapons.find(w => w.name === g.extra || w.nameEn === g.extra);
+            bump(weapon?.type === 'Melee' ? 'blades' : 'gunnery', g.rating);
+            continue;
+        }
         const hit = AUTOSOFT_SKILL_BY_NAME_EN.find(([re]) => re.test(g.nameEn));
-        if (!hit) continue;
-        const [, skillId] = hit;
-        ratings[skillId] = Math.max(ratings[skillId] ?? 0, g.rating);
+        if (hit) bump(hit[1], g.rating);
     }
     return Object.entries(ratings).map(([skillId, rating]) => ({ skillId, rating }));
 }
