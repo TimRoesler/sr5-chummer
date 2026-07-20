@@ -203,9 +203,17 @@ export class ChummerImportApp extends HandlebarsApplicationMixin(ApplicationV2) 
                     // Ratings trotzdem nachziehen, damit Re-Syncs Fixes wie die
                     // Zielerfassung-Zuordnung auch auf Bestandsdrohnen anwenden.
                     await applyVehicleSkillPlan(existingVehicle, vehicleSkillPlan);
+                    // Alt-Importe reparieren: driver muss eine UUID sein (das
+                    // System löst ihn per fromUuidSync auf) und das Token soll
+                    // mit dem Actor verbunden sein, damit Syncs auf platzierte
+                    // Token durchschlagen.
+                    const patch = {};
+                    if (existingVehicle.system?.driver !== actor.uuid) patch['system.driver'] = actor.uuid;
+                    if (existingVehicle.prototypeToken?.actorLink !== true) patch['prototypeToken.actorLink'] = true;
+                    if (Object.keys(patch).length) await existingVehicle.update(patch);
                     continue;
                 }
-                v.system.driver = actor.id;
+                v.system.driver = actor.uuid;
                 v.folder = actor.folder?.id ?? null;
                 const vehicleActor = await Actor.create(v);
                 // Autosoft-Ratings (Clearsight/Stealth/Targeting) auf die vom
@@ -242,8 +250,12 @@ export class ChummerImportApp extends HandlebarsApplicationMixin(ApplicationV2) 
     /** Bereits vorhandenes Fahrzeug dieses Fahrers mit derselben sourceId (sonst Name), falls es existiert. */
     #findVehicle(actor, vehicleData) {
         const sourceId = vehicleData.flags?.[MODULE_ID]?.sourceId;
+        // driver kann eine UUID (neu) oder eine reine Actor-ID (Alt-Importe vor
+        // v1.0.4) sein — beide akzeptieren, damit Bestandsfahrzeuge gematcht
+        // und anschließend auf die UUID repariert werden.
+        const isDriver = a => a.system?.driver === actor.uuid || a.system?.driver === actor.id;
         return game.actors.find(a => a.type === 'vehicle'
-            && a.system?.driver === actor.id
+            && isDriver(a)
             && (sourceId
                 ? a.getFlag(MODULE_ID, 'sourceId') === sourceId
                 : a.name === vehicleData.name));

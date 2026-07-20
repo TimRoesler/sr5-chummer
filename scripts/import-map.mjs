@@ -368,7 +368,7 @@ export function vehicleActorFromCatalog(entry) {
             availability: String(entry.avail ?? ''),
             description: { source: entry.page ? `${entry.source} ${entry.page}` : (entry.source ?? '') },
         },
-        prototypeToken: { disposition: CONST.TOKEN_DISPOSITIONS.FRIENDLY },
+        prototypeToken: { actorLink: true, disposition: CONST.TOKEN_DISPOSITIONS.FRIENDLY },
         flags: { [MODULE_ID]: { ...(entry.id ? { sourceId: entry.id.toLowerCase() } : {}) } },
     };
 }
@@ -487,7 +487,7 @@ async function buildVehicle(v, report) {
             cost: v.cost,
             availability: v.avail,
         },
-        prototypeToken: { disposition: CONST.TOKEN_DISPOSITIONS.FRIENDLY },
+        prototypeToken: { actorLink: true, disposition: CONST.TOKEN_DISPOSITIONS.FRIENDLY },
         flags: { [MODULE_ID]: { ...(v.sourceId ? { sourceId: v.sourceId } : {}) } },
     };
     return { data, skillPlan };
