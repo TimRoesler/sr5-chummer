@@ -12,7 +12,7 @@
  */
 import { MODULE_ID } from './data.mjs';
 import { parseChummerFile } from './chummer-parse.mjs';
-import { buildImport, applySkillPlan } from './import-map.mjs';
+import { buildImport, applySkillPlan, applyVehicleSkillPlan } from './import-map.mjs';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -196,11 +196,14 @@ export class ChummerImportApp extends HandlebarsApplicationMixin(ApplicationV2) 
 
             // Fahrzeuge als eigene Actors, mit dem Charakter als Fahrer.
             let createdVehicles = 0;
-            for (const v of vehicles) {
+            for (const { data: v, skillPlan: vehicleSkillPlan } of vehicles) {
                 if (this.#vehicleExists(actor, v)) continue;
                 v.system.driver = actor.id;
                 v.folder = actor.folder?.id ?? null;
-                await Actor.create(v);
+                const vehicleActor = await Actor.create(v);
+                // Autosoft-Ratings (Clearsight/Stealth/Targeting) auf die vom
+                // System injizierten Skill-Items schreiben.
+                await applyVehicleSkillPlan(vehicleActor, vehicleSkillPlan);
                 createdVehicles++;
             }
 

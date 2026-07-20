@@ -266,6 +266,8 @@ export async function buildImport(norm, options = {}) {
         for (const v of norm.vehicles) vehicles.push(await buildVehicle(v, report));
         report.vehicles = vehicles.length;
     }
+    // vehicles: [{ data, skillPlan }] — data ist die Actor.create()-Vorlage,
+    // skillPlan wird nach der Erzeugung per applyVehicleSkillPlan geschrieben.
 
     return { actorData, vehicles, skillPlan, report };
 }
@@ -371,6 +373,57 @@ export function vehicleActorFromCatalog(entry) {
     };
 }
 
+/**
+ * Autosofts mit eindeutiger, vom Fahrzeugtyp unabhängiger Fertigkeit
+ * (SR5#269 'Pilot Programs'). Manövrieren/Ausweichen bräuchten die
+ * Fahrzeugart (Boden/Luft/Wasser/...), die der Chummer-Export nicht liefert
+ * — daher hier bewusst ausgeklammert (siehe TESTPLAN "Bekannte Grenzen").
+ */
+const AUTOSOFT_SKILL_BY_NAME_EN = [
+    [/clearsight/i, 'perception'],
+    [/stealth/i, 'sneaking'],
+    [/targeting/i, 'gunnery'],
+];
+
+/**
+ * Autosoft-Ratings des Fahrzeugs auf die (vom System injizierten) aktiven
+ * Skill-Items übertragen: höchste gefundene Stufe je Fertigkeit gewinnt.
+ */
+function buildVehicleSkillPlan(v) {
+    const ratings = {};
+    for (const g of v.gears) {
+        if (g.category !== 'Autosofts') continue;
+        const hit = AUTOSOFT_SKILL_BY_NAME_EN.find(([re]) => re.test(g.nameEn));
+        if (!hit) continue;
+        const [, skillId] = hit;
+        ratings[skillId] = Math.max(ratings[skillId] ?? 0, g.rating);
+    }
+    return Object.entries(ratings).map(([skillId, rating]) => ({ skillId, rating }));
+}
+
+/**
+ * Autosoft-Skill-Ratings auf die vorhandenen aktiven Skill-Items des
+ * Fahrzeug-Actors schreiben (analog applySkillPlan, aber ohne Anlegen
+ * fehlender Skills — Fahrzeuge erhalten das volle Skillset vom System).
+ */
+export async function applyVehicleSkillPlan(actor, skillPlan) {
+    if (!skillPlan?.length) return;
+    // Wie SkillNamingFlow.nameToKey im System: Name -> Schlüssel, mit dem
+    // das injizierte Skillset (englische Namen) eindeutig zu finden ist.
+    const nameToKey = name => (name ?? '').trim().replace(/[\s-]+/g, '_').toLowerCase();
+    const activeSkills = actor.items.filter(i =>
+        i.type === 'skill' && (i.system?.skill?.category ?? 'active') === 'active');
+
+    const updates = [];
+    for (const plan of skillPlan) {
+        const item = activeSkills.find(i => nameToKey(i.name) === plan.skillId);
+        if (!item) continue;
+        if ((item.system?.skill?.rating ?? 0) >= plan.rating) continue;
+        updates.push({ _id: item.id, 'system.skill.rating': plan.rating });
+    }
+    if (updates.length) await actor.updateEmbeddedDocuments('Item', updates);
+}
+
 /** Fahrzeug-Actor-Daten (system.driver setzt der Aufrufer nach Erzeugung). */
 async function buildVehicle(v, report) {
     const split = value => {
@@ -399,7 +452,8 @@ async function buildVehicle(v, report) {
 
     const hit = await ChummerData.findById(v.sourceId);
     const category = v.category ?? '';
-    return {
+    const skillPlan = buildVehicleSkillPlan(v);
+    const data = {
         name: displayName(v, hit?.entry),
         type: 'vehicle',
         items,
@@ -425,4 +479,5 @@ async function buildVehicle(v, report) {
         prototypeToken: { disposition: CONST.TOKEN_DISPOSITIONS.FRIENDLY },
         flags: { [MODULE_ID]: { ...(v.sourceId ? { sourceId: v.sourceId } : {}) } },
     };
+    return { data, skillPlan };
 }
