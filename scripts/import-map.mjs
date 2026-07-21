@@ -12,7 +12,7 @@ import { ChummerData, MODULE_ID } from './data.mjs';
 import {
     purchasedItemData, qualityItemData, spellItemData, complexFormItemData,
     adeptPowerItemData, skillItemData, contactItemData, metamagicItemData,
-    knowledgeSkillItemData, sourceString,
+    knowledgeSkillItemData, sourceString, armorModItemData,
 } from './items.mjs';
 
 /** Dateiname des Katalogs → items.mjs-Einkaufsart. */
@@ -111,7 +111,11 @@ export async function buildImport(norm, options = {}) {
     }
 
     // ---------------------------------------------------------- Qualitäten
+    const seenQualities = new Set();
     for (const q of norm.qualities) {
+        const key = q.name; // deduplicate by quality name
+        if (seenQualities.has(key)) continue;
+        seenQualities.add(key);
         const hit = await ChummerData.findById(q.sourceId);
         const entry = hit?.entry ?? {
             name: q.name, en: q.nameEn,
@@ -167,12 +171,38 @@ export async function buildImport(norm, options = {}) {
         ].filter(Boolean);
         if (extras.length) appendDescription(data, `<p><strong>Zubehör:</strong> ${extras.join(', ')}</p>`);
         items.push(data);
+        // Process underbarrel weapons as separate items
+        for (const ub of w.underbarrel) {
+            const ubData = await catalogItem(ub, 'weapon', report);
+            items.push(ubData);
+        }
     }
 
     // ----------------------------------------------------------- Panzerung
     for (const a of norm.armors) {
-        items.push(await catalogItem(a, 'armor', report));
-        for (const mod of a.mods) items.push(await catalogItem(mod, 'gear', report));
+        const armorData = await catalogItem(a, 'armor', report);
+        // Rüstungsmods sind KEINE eigenständigen Ausrüstungs-Items, sondern
+        // werden als modification-Items in die Rüstung eingebettet (Anzeige im
+        // Panzerungs-Modifikations-Tab, wirken über getEquippedMods/ArmorPrep).
+        const nested = [];
+        for (const mod of a.mods) {
+            const entry = {
+                name: mod.name, en: mod.nameEn, cost: 0, avail: '',
+                source: mod.source, page: mod.page, rating: mod.rating,
+            };
+            const modData = await armorModItemData(entry, mod.rating);
+            modData.name = displayName(mod, null);
+            modData._id = foundry.utils.randomID();
+            tagSource(modData, mod);
+            report.add(modData, null);
+            nested.push(modData);
+        }
+        if (nested.length) {
+            armorData.flags = foundry.utils.mergeObject(armorData.flags ?? {}, {
+                shadowrun5e: { embeddedItems: nested },
+            });
+        }
+        items.push(armorData);
     }
 
     // ---------------------------------------------------------------- Gear

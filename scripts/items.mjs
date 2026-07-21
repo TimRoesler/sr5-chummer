@@ -89,6 +89,30 @@ export async function purchasedItemData(kind, entry, rating = 0) {
     return enrichItemData({ name: ChummerData.nameOf(entry), type, system }, entry);
 }
 
+/**
+ * Rüstungsmodifikation als eingebettetes `modification`-Item.
+ * Wird nicht als eigenständiges Ausrüstungs-Item angelegt, sondern über
+ * flags.shadowrun5e.embeddedItems in die Rüstung gehängt (system.type='armor',
+ * aktiviert → getEquippedMods()/ArmorPrep greifen, Anzeige im Panzerungs-Tab).
+ */
+export async function armorModItemData(entry, rating = 0) {
+    const comp = await fromCompendium('modification', entry, rating);
+    if (comp) {
+        comp.system ??= {};
+        comp.system.type = 'armor';
+        comp.system.technology = { ...(comp.system.technology ?? {}), equipped: true };
+        return enrichItemData(comp, entry);
+    }
+
+    const system = {
+        ...baseDescription(entry),
+        ...technology(entry, rating),
+        type: 'armor',
+    };
+    system.technology.equipped = true;
+    return enrichItemData({ name: ChummerData.nameOf(entry), type: 'modification', system }, entry);
+}
+
 /** Quality-Item. */
 export async function qualityItemData(q) {
     const comp = await fromCompendium('quality', q);

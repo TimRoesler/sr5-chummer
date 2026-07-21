@@ -225,6 +225,7 @@ export class ChummerData {
             magic: ['sr5magic'],
             vehicle: ['sr5drone'],
             skill: ['sr5e-skills'],
+            modification: ['sr5modification'],
         }[kind] ?? [];
         return this.findInPack(packs, ...names);
     }
