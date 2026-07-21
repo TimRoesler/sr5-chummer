@@ -206,11 +206,42 @@ export async function buildImport(norm, options = {}) {
     }
 
     // ---------------------------------------------------------------- Gear
+    // Kind-Gear (Verbesserungen/Zubehör in Brille, Ohrstöpsel, Kommlink …) wird
+    // NICHT als eigenständiges Ausrüstungs-Item angelegt — das SR5-System kann
+    // Ausrüstung nicht klickbar verschachteln (nur Waffen/Rüstung/Ware). Die
+    // Kinder werden stattdessen rekursiv in die Beschreibung des Elternteils
+    // gefaltet und sind so beim Aufklappen des Items im Sheet sichtbar.
+    const gearByGuid = new Map();
+    for (const g of norm.gears) if (g.guid) gearByGuid.set(g.guid, g);
+    // Eigenständig bleibende Gear-Typen: solche mit eigener Funktion, die man im
+    // Sheet anklickt (SINs zum Verifizieren, Kommlinks/Geräte mit Matrix-Werten,
+    // Programme). Reine Verbesserungen/Zubehör werden in den Elternteil gefaltet.
+    const standalone = (g) =>
+        !g.parentGuid || !gearByGuid.has(g.parentGuid) || g.isSin || g.isCommlink || g.isProgram;
+    const childrenOf = new Map();
     for (const g of norm.gears) {
-        const hit = await ChummerData.findById(g.sourceId);
-        if (!hit && g.depth > 0) {
-            // Chummer-interne Kind-Einträge (Kommlink-Funktionalität usw.)
-            report.skip(g.name, 'integriertes Zubehör ohne Katalogeintrag');
+        // Nur einfaltbare Kinder in die Eltern-Beschreibung aufnehmen;
+        // eigenständige Kinder werden weiter unten als eigene Items angelegt.
+        if (standalone(g) || !gearByGuid.has(g.parentGuid)) continue;
+        if (!childrenOf.has(g.parentGuid)) childrenOf.set(g.parentGuid, []);
+        childrenOf.get(g.parentGuid).push(g);
+    }
+    const gearLabel = (g) => {
+        let name = g.name || g.nameEn || '?';
+        if (g.rating > 0) name += ` (Stufe ${g.rating})`;
+        if (g.qty > 1) name += ` ×${g.qty}`;
+        return name;
+    };
+    const renderContains = (guid) => {
+        const kids = childrenOf.get(guid);
+        if (!kids?.length) return '';
+        return `<ul>${kids.map(k => `<li>${gearLabel(k)}${renderContains(k.guid)}</li>`).join('')}</ul>`;
+    };
+
+    for (const g of norm.gears) {
+        // Einfaltbare Kinder sind bereits über die Eltern-Beschreibung abgebildet.
+        if (!standalone(g)) {
+            report.skip(g.name, 'in Elternobjekt eingebettet');
             continue;
         }
         const data = await catalogItem(g, 'gear', report);
@@ -219,6 +250,8 @@ export async function buildImport(norm, options = {}) {
             data.system.technology = foundry.utils.mergeObject(
                 data.system.technology ?? {}, { quantity: g.qty }, { inplace: false });
         }
+        const contains = renderContains(g.guid);
+        if (contains) appendDescription(data, `<p><strong>Enthält:</strong></p>${contains}`);
         items.push(data);
     }
 

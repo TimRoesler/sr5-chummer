@@ -90,9 +90,9 @@ function baseItem(node) {
 }
 
 /** Gear-Knoten rekursiv einsammeln (children werden flachgezogen). */
-function collectGear(node, out, depth = 0) {
+function collectGear(node, out, depth = 0, parentGuid = null) {
     for (const g of asList(node)) {
-        out.push({
+        const item = {
             ...baseItem(g),
             qty: Math.max(1, int(g.qty ?? 1)),
             isAmmo: bool(g.isammo),
@@ -100,8 +100,12 @@ function collectGear(node, out, depth = 0) {
             isCommlink: bool(g.iscommlink),
             isProgram: bool(g.isprogram),
             depth,
-        });
-        if (g.children?.gear && depth < 6) collectGear(g.children.gear, out, depth + 1);
+            parentGuid,
+        };
+        out.push(item);
+        // Kind-Gear (Zubehör/Verbesserungen in Brille, Kommlink usw.) behält den
+        // Bezug zum Elternteil, damit der Importer es dort einbetten kann.
+        if (g.children?.gear && depth < 6) collectGear(g.children.gear, out, depth + 1, item.guid);
     }
 }
 
