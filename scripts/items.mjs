@@ -140,15 +140,27 @@ export async function spellItemData(s) {
     const type = s.type === 'P' ? 'physical' : 'mana';
     const drain = /^F/.test(s.dv ?? '') ? (parseInt((s.dv ?? '').substring(1)) || 0) : 0;
 
-    return {
-        name: ChummerData.nameOf(s),
-        type: 'spell',
-        system: {
-            ...baseDescription(s),
-            category, type, range, duration, drain,
-            action: { type: 'varies', attribute: 'magic', skill: 'spellcasting' },
-        },
-    };
+    const action = { type: 'varies', attribute: 'magic', skill: 'spellcasting' };
+    const system = { ...baseDescription(s), category, type, range, duration, drain, action };
+
+    // Kampfzauber: Direkt/Indirekt aus dem Descriptor ableiten (Systemparser-Logik nachbilden).
+    // dice-flow verzweigt die Schadenswiderstands-Stufe über system.combat.type; die passende
+    // Gegenprobe (Ausweichen vs. Widerstand) kommt aus action.opposed.
+    if (category === 'combat') {
+        const indirect = /indirect/i.test(s.descriptor ?? '');
+        system.combat = { type: indirect ? 'indirect' : 'direct' };
+        const damageType = /s/i.test(s.damage ?? '') ? 'stun' : 'physical';
+        action.damage = { type: { base: damageType, value: damageType } };
+        if (indirect) {
+            action.opposed = { type: 'defense' };
+        } else if (type === 'mana') {
+            action.opposed = { type: 'soak', attribute: 'willpower' };
+        } else {
+            action.opposed = { type: 'soak', attribute: 'body' };
+        }
+    }
+
+    return { name: ChummerData.nameOf(s), type: 'spell', system };
 }
 
 /** Komplexe Form. */
